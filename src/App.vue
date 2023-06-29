@@ -1,11 +1,11 @@
 <script setup lang="ts">
-
+import HeaderComponent from './components/layout/HeaderComponent.vue';
+import MainComponent from './components/layout/MainComponent.vue';
+import FooterComponent from './components/layout/FooterComponent.vue';
 </script>
 
 <template>
-  <nav>
-    <router-link to="/">Home</router-link>
-    <router-link to="/profile">Profile</router-link>
-  </nav>
-  <router-view />
+  <HeaderComponent />
+  <MainComponent />
+  <FooterComponent />
 </template>

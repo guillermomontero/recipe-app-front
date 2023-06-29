@@ -6,6 +6,7 @@
     title: string
     description: string
     cookingTime: number
+    img: string
   }
 
   defineProps({
@@ -15,8 +16,10 @@
 
 <template>
   <article class="recipe-card">
-    <h3>{{ recipe.title }}</h3>
-    <p>{{ recipe.description }}</p>
-    <span>{{ recipe.cookingTime }}</span>
+    <div class="recipe-card__info">
+      <h4>{{ recipe.title }}</h4>
+      <p>{{ recipe.description }}</p>
+      <span>{{ recipe.cookingTime }}</span>
+    </div>
   </article>
 </template>

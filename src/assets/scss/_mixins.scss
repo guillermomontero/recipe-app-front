@@ -1,0 +1,21 @@
+@mixin borderRadiusTheme() {
+  border-radius: 5px;
+}
+
+@mixin borderRadiusTopTheme() {
+  border-radius: 5px 5px 0 0;
+}
+
+@mixin buttonTheme($bcColor: $orange, $bcColorHover: $orange-dark) {
+  @include borderRadiusTheme();
+  background: $bcColor;
+  color: $gray;
+  border: none;
+  cursor: pointer;
+  font: inherit;
+  transition: all ease 0.3s;
+
+  &:hover {
+    background: $bcColorHover;
+  }
+}

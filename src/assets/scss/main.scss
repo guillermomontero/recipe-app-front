@@ -1,2 +1,13 @@
+@import '_fonts';
+@import '_colors';
+@import 'mixins';
 @import 'general';
 @import 'grid';
+@import 'buttons';
+
+// Components
+@import './components/layout/header-component';
+@import './components/layout/main-component';
+@import './components/layout/footer-component';
+
+@import './components/recipe-card';

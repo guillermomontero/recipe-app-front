@@ -1,0 +1,22 @@
+.recipe-card {
+  width: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: flex-start;
+  background: $gray-light;
+  padding: 1em;
+  overflow: hidden;
+  background: #C04848;  /* fallback for old browsers */
+  background: linear-gradient(rgba(240, 160, 75, 0.8), rgba(189, 127, 61, 0.8)), url("/images/imagen-comida.jpg"); 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  @include borderRadiusTheme();
+  
+  &__info {
+    color: $white;
+    // background: $white;
+    padding: 0.5em;
+    @include borderRadiusTheme();
+  }
+}

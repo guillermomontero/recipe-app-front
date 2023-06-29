@@ -1,0 +1,15 @@
+.btn {
+  @include buttonTheme();
+
+  &__sm {
+    padding: 0.5em 1em;
+  }
+
+  &__md {
+    padding: 0.8em 1.6em;
+  }
+
+  &__lg {
+    padding: 1em 2em;
+  }
+}
