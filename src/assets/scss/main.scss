@@ -2,6 +2,7 @@
 @import '_colors';
 @import 'mixins';
 @import 'general';
+@import 'variables';
 @import 'grid';
 @import 'buttons';
 
@@ -10,4 +11,5 @@
 @import './components/layout/main-component';
 @import './components/layout/footer-component';
 
+@import './components/filter-bar';
 @import './components/recipe-card';

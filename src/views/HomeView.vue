@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import FilterBar from '../components/home/FilterBar.vue';
 import RecipeCard from '../components/home/RecipeCard.vue';
+
 const recipes = [
   { id: 1, title: 'Recipe 1', description: 'Recipe 1 description', cookingTime: 120, img: '/images/imagen-comida.jpg' },
   { id: 2, title: 'Recipe 2', description: 'Recipe 2 description', cookingTime: 220, img: '/images/imagen-comida.jpg' },
@@ -13,6 +15,7 @@ const recipes = [
 </script>
 
 <template>
+  <FilterBar />
   <section class="grid-home">
     <template v-for="(r, index) in recipes" :key="r.id">
       <RecipeCard :recipe="r" :class="`grid-home__box-${index}`" />

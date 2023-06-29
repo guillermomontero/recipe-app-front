@@ -1,0 +1,62 @@
+.filter-bar {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: flex-start;
+
+  &__icon {
+    display: flex;
+    flex-flow: column wrap;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+
+    svg {
+      width: $icon-width;
+      fill: $dark;
+      transition: all ease 0.3s;
+
+      &:hover {
+        fill: $orange-dark;
+      }
+    }
+  }
+
+  &__labels {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+
+    &--label {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      justify-content: space-between;
+      min-width: 100px;
+      text-align: center;
+      background: $dark;
+      color: $white;
+      padding: 4px 6px;
+      margin: 0 0.2em 0 0;
+      cursor: pointer;
+      transition: all ease 0.3s;
+      @include borderRadiusTheme(20px);
+
+      p {
+        font-size: 0.8rem;
+        margin: 0 0.5em 0 0;
+      }
+
+      svg {
+        width: $icon-width;
+        fill: $white;
+      }
+
+      &:hover {
+        background: $orange-dark;
+      }
+    }
+  }
+}

@@ -1,5 +1,5 @@
-@mixin borderRadiusTheme() {
-  border-radius: 5px;
+@mixin borderRadiusTheme($size: 5px) {
+  border-radius: $size;
 }
 
 @mixin borderRadiusTopTheme() {
