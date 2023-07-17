@@ -3,15 +3,13 @@ import { ref, watch } from 'vue';
 import { useAuthStore } from '../store/auth';
 
 interface User {
-  email: string,
-  password: string
+  email: string
 }
 
 const store = useAuthStore();
 const loginMessage = ref<string>('');
 const user = ref<User>({
-  email: '',
-  password: ''
+  email: ''
 });
 
 
@@ -23,12 +21,11 @@ watch(loginMessage, (newQuestion) => {
   }
 });
 
-const login = async () => {
+const sendMail = async () => {
   if (!validateForm()) return;
 
   const payload = {
-    email: user.value.email,
-    password: user.value.password
+    email: user.value.email
   };
 
   await store.login(payload);
@@ -36,7 +33,7 @@ const login = async () => {
 
 // Validate form
 const validateForm = () => {
-  if (!user.value.email || !user.value.password) {
+  if (!user.value.email) {
     loginMessage.value = 'Los datos introducidos son incorrectos';
     return false;
   }
@@ -62,19 +59,14 @@ const hasEmailFormat = (searchString: string = '') => {
       <div class="login__logo">
         
       </div>
-      <form class="login__form" @submit.prevent="login">
+      <form class="login__form" @submit.prevent="sendMail">
         <input type="email" placeholder="Email" name="email" id="form-email" v-model="user.email" class="login__form--input">
-        <input type="password" placeholder="Password" name="password" id="form-password" v-model="user.password" class="login__form--input">
 
-        <button type="submit" class="login__form--button">Entrar</button>
+        <button type="submit" class="login__form--button">Recuperar</button>
         <div v-if="loginMessage" class="login__message">
           {{ loginMessage }}
         </div>
       </form>
-      <div class="login__links">
-        <router-link to="/forgot-password">Forgot password?</router-link>
-        <router-link to="/register">Register</router-link>
-      </div>
     </section>
   </main>
 </template>

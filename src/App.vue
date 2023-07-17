@@ -13,7 +13,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <HeaderComponent />
+  <HeaderComponent v-if="store.logged" />
   <MainComponent />
-  <FooterComponent />
+  <FooterComponent v-if="store.logged" />
 </template>
