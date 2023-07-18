@@ -6,10 +6,10 @@
   border-radius: 5px 5px 0 0;
 }
 
-@mixin buttonTheme($bcColor: $orange, $bcColorHover: $orange-dark) {
+@mixin buttonTheme($bcColor: $orange-dark, $bcColorHover: $orange-semi, $btnColor: $blue-dark) {
   @include borderRadiusTheme();
   background: $bcColor;
-  color: $gray;
+  color: $btnColor;
   border: none;
   cursor: pointer;
   font: inherit;

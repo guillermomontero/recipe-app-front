@@ -1,13 +1,28 @@
 import { defineStore } from 'pinia';
 import router from '../router';
-import { apiAuth } from '../config/api/auth';
+import { apiLogin } from '../config/api/auth';
+
+interface IUser {
+  _id: string,
+  name: string,
+  lastName: string,
+  email: string,
+  telephone: number,
+  premium: boolean,
+  birthDate: Date,
+  imageProfile: string,
+  location: object,
+  entryDate: Date,
+  lastSession: Date,
+  role: number,
+};
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     logged: false,
     token: '',
     tokenExpires: 0,
-    user: {},
+    user: <IUser>({})
   }),
 
   getters: {
@@ -23,9 +38,9 @@ export const useAuthStore = defineStore('auth', {
       router.push('/');
     },
 
-    async login(payload: Object = {}) {
+    async login(payload: object = {}) {
       try {
-        const response = await apiAuth(payload);
+        const response = await apiLogin(payload);
         this.logged = true;
         this.token = response.token.token;
         this.tokenExpires = response.token.expiresIn;
@@ -43,7 +58,7 @@ export const useAuthStore = defineStore('auth', {
       this.logged = false;
       this.token = '';
       this.tokenExpires = 0;
-      this.user = {};
+      this.user = <IUser>({});
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       router.push('/login');

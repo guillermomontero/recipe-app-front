@@ -36,6 +36,36 @@ const routes: Array<RouteRecordRaw> = [
     name: 'profile',
     component: () => import('../views/ProfileView.vue'),
     beforeEnter: requireAuth,
+  },
+  {
+    path: '/recipes',
+    name: 'recipes',
+    component: () => import('../views/RecipesView.vue'),
+    beforeEnter: requireAuth,
+  },
+  {
+    path: '/recipe',
+    name: 'recipe',
+    component: () => import('../views/RecipeView.vue'),
+    beforeEnter: requireAuth,
+  },
+  {
+    path: '/my-recipes',
+    name: 'my-recipes',
+    component: () => import('../views/MyRecipesView.vue'),
+    beforeEnter: requireAuth,
+  },
+  {
+    path: '/new-recipe',
+    name: 'new-recipe',
+    component: () => import('../views/NewRecipeView.vue'),
+    beforeEnter: requireAuth,
+  },
+  {
+    path: '/configuration',
+    name: 'configuration',
+    component: () => import('../views/ConfigurationView.vue'),
+    beforeEnter: requireAuth,
   }
 ];
 

@@ -7,9 +7,9 @@
 :root {
   font-family: 'Poppins', sans-serif;
   font-size: 18px;
-  line-height: 24px;
+  line-height: 26px;
   font-weight: 400;
-  color: $dark;
+  color: $blue-dark;
 }
 
 h1 { font-size: 3rem; line-height: 4rem; }
@@ -24,12 +24,23 @@ p { font-size: 1rem; line-height: 1.5rem; }
 a {
   font-size: 1rem;
   line-height: 1.5rem;
-  color: $orange;
+  color: $orange-dark;
   text-decoration: none;
   transition: all ease 0.3s;
 
   &:hover {
-    color: $orange-dark;
+    color: $orange-semi;
+  }
+}
+
+input, button {
+  font-size: 1rem;
+  font-family:'Poppins', sans-serif;
+  
+  &:focus-visible {
+    outline-color: $blue-dark;
+    outline-style: auto;
+    outline-width: 1px;
   }
 }
 

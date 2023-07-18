@@ -8,12 +8,12 @@ import { useAuthStore } from './store/auth';
 const store = useAuthStore();
 
 onMounted(() => {
-  if (localStorage.getItem('token')) store.userLogged(localStorage.getItem('token'), localStorage.getItem('tokenExpires'), localStorage.getItem('user'));
+  if (localStorage.getItem('token')) store.userLogged(localStorage.getItem('token') || '', Number(localStorage.getItem('tokenExpires')) || 0, localStorage.getItem('user') || '');
 })
 </script>
 
 <template>
-  <HeaderComponent v-if="store.logged" />
+  <HeaderComponent />
   <MainComponent />
-  <FooterComponent v-if="store.logged" />
+  <FooterComponent />
 </template>

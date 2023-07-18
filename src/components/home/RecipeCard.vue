@@ -19,7 +19,7 @@
     <div class="recipe-card__info">
       <h4>{{ recipe.title }}</h4>
       <p>{{ recipe.description }}</p>
-      <span>{{ recipe.cookingTime }}</span>
+      <span>{{ recipe.cookingTime }} min.</span>
     </div>
   </article>
 </template>
