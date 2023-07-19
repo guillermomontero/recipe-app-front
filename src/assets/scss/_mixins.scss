@@ -14,6 +14,7 @@
   cursor: pointer;
   font: inherit;
   transition: all ease 0.3s;
+  min-width: 120px;
 
   &:hover {
     background: $bcColorHover;

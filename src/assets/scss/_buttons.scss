@@ -1,15 +1,35 @@
 .btn {
   @include buttonTheme();
 
-  &__sm {
+  &--xs {
+    padding: 0.2em 0.6em;
+  }
+
+  &--sm {
     padding: 0.5em 1em;
   }
 
-  &__md {
+  &--md {
     padding: 0.8em 1.6em;
   }
 
-  &__lg {
+  &--lg {
     padding: 1em 2em;
+  }
+
+  &--edit {
+    background: $blue-extra-light;
+
+    &:hover {
+      background: $yellow-recipe-semi
+    }
+  }
+
+  &--delete {
+    background: $blue-extra-light;
+
+    &:hover {
+      background: $red-recipe-semi
+    }
   }
 }

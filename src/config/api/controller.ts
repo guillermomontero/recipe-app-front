@@ -25,11 +25,12 @@ export const apiCallPOST = async (url: string = '', data: Object = {}) => {
 
   try {
     const response = await fetch(`${apiUrl}${url}`, options);
+    if (!response.ok) throw new Error(`${response.status} - ${response.statusText}`);
     const data = await response.json();
 
-    return data;
-  } catch (err) {
-    return err;
+    return data
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };
 
@@ -46,11 +47,12 @@ export const apiCallGET = async (url: string = '') => {
 
   try {
     const response = await fetch(`${apiUrl}${url}`, options);
+    if (!response.ok) throw new Error(`${response.status} - ${response.statusText}`);
     const data = await response.json();
 
-    return data;
-  } catch (err) {
-    return err;
+    return data
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };
 
@@ -69,11 +71,12 @@ export const apiCallPUT = async (url: string = '', data: Object = {}) => {
 
   try {
     const response = await fetch(`${apiUrl}${url}`, options);
+    if (!response.ok) throw new Error(`${response.status} - ${response.statusText}`);
     const data = await response.json();
 
-    return data;
-  } catch (err) {
-    return err;
+    return data
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };
 
@@ -91,10 +94,11 @@ export const apiCallDELETE = async (url: string = '') => {
 
   try {
     const response = await fetch(`${apiUrl}${url}`, options);
+    if (!response.ok) throw new Error(`${response.status} - ${response.statusText}`);
     const data = await response.json();
 
-    return data;
-  } catch (err) {
-    return err;
+    return data
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 };

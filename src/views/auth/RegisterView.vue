@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
-import { apiCreateUser } from "../config/api/user";
-import router from '../router';
+import { apiCreateUser } from "../../config/api/user";
+import router from '../../router';
 
 interface User {
   name: string,

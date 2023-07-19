@@ -9,6 +9,14 @@ const requireAuth = (to, from, next) => {
   else next('/login')
 }
 
+const requireAuthAdmin = (to, from, next) => {
+  const authStore = useAuthStore();
+  const isAdmin = authStore.user.role === 1;
+
+  if (isAdmin) next();
+  else next('/')
+}
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
@@ -19,53 +27,59 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('../views/LoginView.vue')
+    component: () => import('../views/auth/LoginView.vue')
   },
   {
     path: '/register',
     name: 'register',
-    component: () => import('../views/RegisterView.vue')
+    component: () => import('../views/auth/RegisterView.vue')
   },
   {
     path: '/forgot-password',
     name: 'forgot-password',
-    component: () => import('../views/ForgotPasswordView.vue')
+    component: () => import('../views/auth/ForgotPasswordView.vue')
   },
   {
     path: '/profile',
     name: 'profile',
-    component: () => import('../views/ProfileView.vue'),
+    component: () => import('../views/user/ProfileView.vue'),
     beforeEnter: requireAuth,
   },
   {
     path: '/recipes',
     name: 'recipes',
-    component: () => import('../views/RecipesView.vue'),
+    component: () => import('../views/recipe/RecipesView.vue'),
     beforeEnter: requireAuth,
   },
   {
     path: '/recipe',
     name: 'recipe',
-    component: () => import('../views/RecipeView.vue'),
+    component: () => import('../views/recipe/RecipeView.vue'),
     beforeEnter: requireAuth,
   },
   {
     path: '/my-recipes',
     name: 'my-recipes',
-    component: () => import('../views/MyRecipesView.vue'),
+    component: () => import('../views/user/MyRecipesView.vue'),
     beforeEnter: requireAuth,
   },
   {
     path: '/new-recipe',
     name: 'new-recipe',
-    component: () => import('../views/NewRecipeView.vue'),
+    component: () => import('../views/recipe/NewRecipeView.vue'),
     beforeEnter: requireAuth,
   },
   {
     path: '/configuration',
     name: 'configuration',
-    component: () => import('../views/ConfigurationView.vue'),
+    component: () => import('../views/config/ConfigurationView.vue'),
     beforeEnter: requireAuth,
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('../views/admin/AdminView.vue'),
+    beforeEnter: requireAuthAdmin,
   }
 ];
 
