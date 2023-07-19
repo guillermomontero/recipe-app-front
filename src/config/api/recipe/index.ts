@@ -23,3 +23,23 @@ export const apiEditRecipe = async (payload: Object = {}) => {
 export const apiGetMyRecipes = async (id: string = '') => {
   return await apiCallGET(`/recipes/getMyRecipes/${id}`);
 };
+
+export const apiGetLatestRecipes = async () => {
+  return await apiCallGET('/recipes/getLatestRecipes');
+};
+
+export const apiGetBestRecipes = async () => {
+  return await apiCallGET('/recipes/getBestRecipes');
+};
+
+export const apiGetWorstRecipes = async () => {
+  return await apiCallGET('/recipes/getWorstRecipes');
+};
+
+export const apiDoLikeRecipe = async (payload: Object = {}) => {
+  return await apiCallPUT('/recipes/doLikeRecipe', payload);
+};
+
+export const apiDoUnlikeRecipe = async (payload: Object = {}) => {
+  return await apiCallPUT('/recipes/doUnlikeRecipe', payload);
+};

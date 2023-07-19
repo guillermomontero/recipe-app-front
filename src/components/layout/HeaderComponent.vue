@@ -30,7 +30,7 @@ const signOut = () => {
       </div>
       <div class="header__actions--menu">
         <div class="header__actions--menu--avatar" @click="storeLayout.triggerMenu(!storeLayout.isMenuActive)">
-          GM
+          <img :src="storeAuth.user.imageProfile" :alt="storeAuth.user.name">
         </div>
         <nav class="header__actions--menu--nav" v-if="storeLayout.isMenuActive">
           <button @click="goToPage('/')" class="header__actions--menu--nav--link">Home</button>

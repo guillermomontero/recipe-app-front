@@ -144,3 +144,54 @@ input, button {
 .py-3 { padding-top: 3em!important; padding-bottom: 3em !important; }
 .py-4 { padding-top: 4em!important; padding-bottom: 4em !important; }
 .py-5 { padding-top: 5em!important; padding-bottom: 5em !important; }
+
+// To organize
+.page-title {
+  width: 100%;
+}
+
+.articles {
+  width: 100%;
+
+  &__article {
+    width: 100%;
+    padding: 1em;
+    margin: 1em 0;
+    border: 2px solid $blue-dark;
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: flex-start;
+    justify-content: center;
+
+    &--title {
+      font-weight: bold;
+      font-size: 1.6rem;
+    }
+
+    &--description {
+      margin: 1em 0 0 0;
+    }
+
+    &--rating {
+      position: absolute;
+      top: 1em;
+      right: 1em;
+      z-index: inherit;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      justify-content: flex-end;
+
+      &--likes {
+        svg {
+          width: 20px;
+          cursor: pointer;
+          fill: $error;
+          stroke: $error;
+        }
+      }
+    }
+  }
+}

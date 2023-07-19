@@ -1,21 +1,21 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
-import { apiGetAllRecipes } from "../config/api/recipe";
+import { apiGetLatestRecipes } from "../config/api/recipe";
 import FilterBar from '../components/home/FilterBar.vue';
 import RecipeCard from '../components/home/RecipeCard.vue';
 
 const recipes = ref([]);
 
-const getAllRecipes = async () => {
+const getLatestRecipes = async () => {
   try {
-    recipes.value = await apiGetAllRecipes();
+    recipes.value = await apiGetLatestRecipes();
   } catch (error) {
     console.log(error)
   }
 };
 
 onMounted(() => {
-  getAllRecipes();
+  getLatestRecipes();
 });
 </script>
 
