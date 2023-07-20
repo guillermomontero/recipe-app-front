@@ -66,7 +66,7 @@ onMounted(() => {
     <h1>My recipes</h1>
   </div>
   <section class="articles">
-    <article class="articles__article" v-for="(recipe, index) in recipes" :key="recipe._id" @click="editRecipe(recipe)">
+    <article class="articles__article" v-for="(recipe, index) in recipes" :key="recipe._id">
       <div class="articles__article--title">
         {{ recipe.title }}
       </div>
@@ -80,6 +80,7 @@ onMounted(() => {
         </div>
       </div>
       <div class="articles__article--actions">
+        <button class="btn btn--xs btn--edit mr-1" @click="editRecipe(recipe)">Edit</button>
         <button class="btn btn--xs btn--delete" @click="deleteRecipe(recipe)">Delete</button>
       </div>
     </article>

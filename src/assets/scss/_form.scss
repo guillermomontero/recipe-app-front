@@ -13,7 +13,6 @@
   }
 
   &__col {
-    flex: 1 1 auto;
     display: flex;
     flex-flow: column nowrap;
     align-items: flex-start;
@@ -21,11 +20,52 @@
 
   &__input {
     width: 100%;
-    padding: 0.5EM 1em;
+    padding: 0.5em 1em;
   }
 
   &__textarea {
     width: 100%;
     padding: 1em;
+  }
+}
+
+label {
+  font-size: 0.8rem;
+}
+
+.form-extras {
+  &__ingredients {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: flex-start;
+
+    &--ingredient {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      background: $yellow-recipe-semi;
+      border-radius: 5px;
+      padding: 6px 10px;
+      
+      span {
+        font-size: 0.6rem;
+        margin: 0 1em 0 0;
+      }
+
+      svg {
+        width: 20px;
+        fill: $blue-dark;
+        cursor: pointer;
+
+        &:hover {
+          fill: $blue-semi;
+        }
+      }
+
+      &:not(:last-child) {
+        margin: 0 1em 0 0;
+      }
+    }
   }
 }

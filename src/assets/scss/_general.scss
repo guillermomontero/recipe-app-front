@@ -10,6 +10,26 @@
   line-height: 26px;
   font-weight: 400;
   color: $blue-dark;
+
+  /* width */
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  /* Track */
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px $blue-light;
+  }
+  
+  /* Handle */
+  &::-webkit-scrollbar-thumb {
+    background: $blue-dark;
+  }
+
+  /* Handle on hover */
+  &::-webkit-scrollbar-thumb:hover {
+    background: $blue-semi; 
+  }
 }
 
 h1 { font-size: 3rem; line-height: 4rem; }
@@ -34,6 +54,7 @@ a {
 }
 
 input, button, textarea, select {
+  cursor: pointer;
   font-size: 1rem;
   font-family:'Poppins', sans-serif;
   
@@ -184,11 +205,6 @@ select {
     min-height: 120px;
     transition: all ease 0.3s;
     cursor: pointer;
-
-    &:hover {
-      background: $blue-dark;
-      color: $white;
-    }
 
     &--title {
       font-weight: bold;
