@@ -66,7 +66,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/new-recipe',
     name: 'new-recipe',
-    component: () => import('../views/recipe/NewRecipeView.vue'),
+    component: () => import('../views/recipe/CreateEditRecipeView.vue'),
     beforeEnter: requireAuth,
   },
   {

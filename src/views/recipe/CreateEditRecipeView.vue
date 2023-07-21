@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue';
-import { apiCreateRecipe } from "../../config/api/recipe";
+import { useRoute,LocationQueryValue } from 'vue-router';
+import { apiCreateRecipe, apiGetRecipe, apiEditRecipe } from "../../config/api/recipe";
 import { apiGetAllTemperatureCategories } from "../../config/api/temperature-category";
 import { apiGetAllCategories } from '../../config/api/category';
 import { apiGetAllCountries } from "../../config/api/country";
@@ -10,10 +11,8 @@ import router from '../../router';
 import BaseMultiSelect from '../../components/base/BaseMultiSelect.vue';
 import ModalIngredients from '../../components/recipe/ModalIngredients.vue';
 
-
-const store = useAuthStore();
-
 interface IRecipe {
+  _id?: string,
   title: string,
   description: string,
   ingredients: object[],
@@ -25,20 +24,37 @@ interface IRecipe {
   origin: string,
   draft: boolean,
   photo: string
-}
+};
 
 interface IObject {
   label: string,
   value: string,
-}
+};
 
+interface IObjectAPI {
+  name: string,
+  value: string,
+  countryCode?: string
+};
+
+interface ICategory {
+  label: string,
+  value: number,
+  selected: boolean
+};
+
+const route = useRoute();
+const store = useAuthStore();
+
+const mode = ref<string>('create');
 const newRecipeMessage = ref<string>('');
 const temperatureCategories = ref<IObject[]>([]);
 const countries = ref<IObject[]>([]);
-const categories = ref<IObject[]>([]);
+const categories = ref<ICategory[]>([]);
 const unitTimes = ref<IObject[]>([]);
 const showModalIngredients = ref<boolean>(false)
 const recipe = ref<IRecipe>({
+  _id: '',
   title: '',
   description: '',
   ingredients: [],
@@ -52,7 +68,6 @@ const recipe = ref<IRecipe>({
   draft: false,
 });
 
-
 watch(newRecipeMessage, (newQuestion) => {
   if (newQuestion) {
     setTimeout(() => {
@@ -64,7 +79,7 @@ watch(newRecipeMessage, (newQuestion) => {
 const getAllTemperatureCategories = async() => {
   try {
     const response = await apiGetAllTemperatureCategories();
-    temperatureCategories.value = response.map(tc => ({ label: tc.name, value: tc.value }));
+    temperatureCategories.value = response.map((tc: IObjectAPI) => ({ label: tc.name, value: tc.value }));
   } catch (error) {
     console.log(error);
   }
@@ -73,7 +88,7 @@ const getAllTemperatureCategories = async() => {
 const getAllCountries = async() => {
   try {
     const response = await apiGetAllCountries();
-    countries.value = response.map(c => ({ label: c.name, value: c.countryCode }));
+    countries.value = response.map((c: IObjectAPI) => ({ label: c.name, value: c.countryCode }));
   } catch (error) {
     console.log(error);
   }
@@ -82,7 +97,7 @@ const getAllCountries = async() => {
 const getAllCategories = async() => {
   try {
     const response = await apiGetAllCategories();
-    categories.value = response.map(c => ({ label: c.name, value: c.value, selected: false }));
+    categories.value = response.map((c: IObjectAPI) => ({ label: c.name, value: c.value, selected: false }));
   } catch (error) {
     console.log(error);
   }
@@ -91,7 +106,31 @@ const getAllCategories = async() => {
 const getAllUnitTimes = async() => {
   try {
     const response = await apiGetAllUnitTimes();
-    unitTimes.value = response.map(u => ({ label: u.name, value: u.value }));
+    unitTimes.value = response.map((u: IObjectAPI) => ({ label: u.name, value: u.value }));
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const fillDataToEdit = async (id: LocationQueryValue = '') => {
+  try {
+    const response = await apiGetRecipe(String(id));
+    recipe.value._id = response._id;
+    recipe.value.title = response.title;
+    recipe.value.description = response.description;
+    recipe.value.ingredients = response.ingredients;
+    recipe.value.steps = response.steps;
+    recipe.value.cookingTime = response.cookingTime;
+    recipe.value.unitTime = response.unitTime;
+    recipe.value.temperatureCategory = response.temperatureCategory;
+    recipe.value.categories = response.categories;
+    recipe.value.origin = response.origin;
+    recipe.value.photo = response.photo;
+    recipe.value.draft = response.draft;
+
+    categories.value.forEach((c: ICategory)  => {
+      if (recipe.value.categories.indexOf(c.value) !== -1) c.selected = true;
+    });
   } catch (error) {
     console.log(error);
   }
@@ -107,7 +146,12 @@ const deleteIngredient = (index: number = 0) => {
   recipe.value.ingredients.splice(index, 1);
 };
 
-const closeModalIngredients = (): void => { showModalIngredients.value = false; }
+const closeModalIngredients = (): void => { showModalIngredients.value = false; };
+
+const acceptHandler = () => {
+  if (mode.value === 'create') createRecipe();
+  if (mode.value === 'edit') editRecipe();
+}
 
 const createRecipe = async () => {
   if (!validateForm()) return;
@@ -115,7 +159,7 @@ const createRecipe = async () => {
   const payload = {
     title: recipe.value.title,
     description: recipe.value.description,
-    ingredients: recipe.value.ingredients, // Modal
+    ingredients: recipe.value.ingredients,
     steps: recipe.value.steps,
     cookingTime: recipe.value.cookingTime,
     unitTime: recipe.value.unitTime,
@@ -129,6 +173,32 @@ const createRecipe = async () => {
 
   try {
     await apiCreateRecipe(payload);
+    router.push('/my-recipes');
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const editRecipe = async () => {
+  if (!validateForm()) return;
+
+  const payload = {
+    _id: recipe.value._id,
+    title: recipe.value.title,
+    description: recipe.value.description,
+    ingredients: recipe.value.ingredients,
+    steps: recipe.value.steps,
+    cookingTime: recipe.value.cookingTime,
+    unitTime: recipe.value.unitTime,
+    temperatureCategory: recipe.value.temperatureCategory,
+    categories: recipe.value.categories,
+    origin: recipe.value.origin,
+    draft: recipe.value.draft,
+    photo: recipe.value.photo
+  };
+
+  try {
+    await apiEditRecipe(payload);
     router.push('/my-recipes');
   } catch (error) {
     console.log(error);
@@ -156,28 +226,33 @@ onMounted(async () => {
     getAllCategories(),
     getAllUnitTimes()
   ]);
+
+  if (route.query.m === 'edit' && route.query.id !== '0') {
+    mode.value = 'edit';
+    fillDataToEdit(route.query.id);
+  }
 });
 
 </script>
 
 <template>
-  <form class="form" @submit.prevent="createRecipe" autocomplete="off">
+  <form class="form" @submit.prevent="acceptHandler" autocomplete="off">
     <div class="form__row">
       <div class="form__col w-100">
-        <label for="recipeTitle">Title</label>
-        <input type="text" maxlength="50" name="recipeTitle" id="recipeTitle" v-model="recipe.title" class="form__input">
+        <label for="titleRecipe">Title</label>
+        <input type="text" maxlength="50" name="titleRecipe" id="titleRecipe" v-model="recipe.title" class="form__input">
       </div>
     </div>
     <div class="form__row">
       <div class="form__col w-100">
-        <label for="recipeDescription">Description</label>
-        <input type="text" maxlength="100" name="recipeDescription" id="recipeDescription" v-model="recipe.description" class="form__input">
+        <label for="descriptionRecipe">Description</label>
+        <input type="text" maxlength="100" name="descriptionRecipe" id="descriptionRecipe" v-model="recipe.description" class="form__input">
       </div>
     </div>
     <div class="form__row">
       <div class="form__col w-20 mr-2">
-        <label for="recipeCookingTime">Cooking time</label>
-        <input type="number" min="0" name="recipeCookingTime" id="recipeCookingTime" v-model="recipe.cookingTime" class="form__input" autocomplete="new-password">
+        <label for="cookingTimeRecipe">Cooking time</label>
+        <input type="number" min="0" name="cookingTimeRecipe" id="cookingTimeRecipe" v-model="recipe.cookingTime" class="form__input" autocomplete="new-password">
       </div>
       <div class="form__col w-20">
         <label for="unitTimeRecipe">Unit time</label>
@@ -220,8 +295,8 @@ onMounted(async () => {
     </div>
     <div class="form__row">
       <div class="form__col w-100">
-        <label for="recipeSteps">Steps</label>
-        <textarea maxlength="1000" name="Steps" id="recipeSteps" cols="30" rows="10" v-model="recipe.steps" class="form__input"></textarea>
+        <label for="stepsRecipe">Steps</label>
+        <textarea maxlength="1000" name="Steps" id="stepsRecipe" cols="30" rows="10" v-model="recipe.steps" class="form__input"></textarea>
       </div>
     </div>
     <!-- <div class="form__row">
@@ -229,7 +304,7 @@ onMounted(async () => {
       <input type="file" placeholder="Photo" name="photoOrigin" id="photoOrigin" class="form__input">
     </div> -->
     
-    <button type="submit" class="btn btn--md">Create</button>
+    <button type="submit" class="btn btn--md">{{ mode === 'create' ? 'Create' : 'Edit' }}</button>
 
     <div v-if="newRecipeMessage" class="new-recipe__message">
       {{ newRecipeMessage }}

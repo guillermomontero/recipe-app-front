@@ -14,9 +14,14 @@ const props = defineProps<{
 
 const emit = defineEmits(['selected-values']);
 
-watch(() => props.BMSData, (first, second) => {
+watch(() => props.BMSData, (first) => {
   filterList.value = first;
-});
+  filterList.value.forEach((item: Data) => {
+    if (item.selected && selectedValues.value.indexOf(item.value) === -1) {
+      selectedValues.value.push(item.value);
+    }
+  });
+}, { deep: true });
 
 const selectedValues = ref<number[]>([]);
 const filterList = ref<object[]>([]);
@@ -24,7 +29,7 @@ const textValue = ref<string>('');
 const showOptions = ref<boolean>(false);
 
 const selectedValuesComp = computed(() => {
-  const textArray = [];
+  const textArray: string[] = [];
 
   selectedValues.value.forEach(element => {
     textArray.push(props.BMSData.find(item => item.value === element).label);
@@ -75,9 +80,9 @@ onUnmounted(() => {
     <input v-if="showOptions" type="text" name="baseInputText" id="baseInputText" v-model="textValue" class="multi-select__input" @input="filterOptions" autofocus="autofocus">
     <input v-else type="text" name="textComputed" id="textComputed" v-model="selectedValuesComp" class="multi-select__input">
     <div class="multi-select__items" :class="{ 'multi-select__items--show': showOptions }">
-      <div class="multi-select__items--add-new">+ Add</div>
+      <!-- TODO <div class="multi-select__items--add-new">+ Add</div> -->
       <div v-for="(item, index) in filterList" :key="index" class="multi-select__items--options">
-        <input type="checkbox" name="baseInputCheckbox" :id="`baseInputCheckbox-${index}`" @click="checkValue(item.value)" v-model="item.selected">
+        <input type="checkbox" :name="`baseInputCheckbox-${index}`" :id="`baseInputCheckbox-${index}`" @click="checkValue(item.value)" v-model="item.selected">
         <label :for="`baseInputCheckbox-${index}`">{{ item.label }}</label>
       </div>
     </div>

@@ -8,7 +8,7 @@ export const apiCreateRecipe = async (payload: Object = {}) => {
   return await apiCallPOST('/recipes/createRecipe', payload);
 };
 
-export const apiGetRecipe = async (id: number = 0) => {
+export const apiGetRecipe = async (id: string = '') => {
   return await apiCallGET(`/recipes/getRecipe/${id}`);
 };
 
@@ -17,7 +17,7 @@ export const apiDeleteRecipe = async (id: number = 0) => {
 };
 
 export const apiEditRecipe = async (payload: Object = {}) => {
-  return await apiCallPUT('/recipes/editRecipe/:id', payload);
+  return await apiCallPUT('/recipes/editRecipe', payload);
 };
 
 export const apiGetMyRecipes = async (id: string = '') => {

@@ -2,6 +2,7 @@
 import { onMounted, ref } from "vue";
 import { apiGetMyRecipes, apiDoLikeRecipe, apiDoUnlikeRecipe,apiDeleteRecipe } from "../../config/api/recipe";
 import { useAuthStore } from '../../store/auth';
+import router from "../../router";
 
 const store = useAuthStore();
 
@@ -44,7 +45,7 @@ const unlikeRecipe = async (recipe: object = {}) => {
 };
 
 const editRecipe = (recipe: object = {}) => {
-  console.log(recipe);
+  router.push(`/new-recipe?m=edit&id=${recipe._id}`);
 };
 
 const deleteRecipe = async (recipe: object = {}) => {

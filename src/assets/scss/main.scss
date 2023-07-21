@@ -6,16 +6,15 @@
 @import 'grid';
 @import 'form';
 @import 'buttons';
+@import './modal';
 
 // Components
 @import './components/layout/header-component';
 @import './components/layout/main-component';
 @import './components/layout/footer-component';
-
-@import './components/filter-bar';
-@import './components/recipe-card';
-@import './components/base-multi-select';
-@import './components/modal';
+@import './components/base/base-multi-select';
+@import './components/home/filter-bar';
+@import './components/home/recipe-card';
 
 // Views
 @import './views/login';
