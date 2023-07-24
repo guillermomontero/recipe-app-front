@@ -76,14 +76,16 @@ onUnmounted(() => {
 
 <template>
   <div class="multi-select" id="multi-select">
-    <label for="baseInputText">{{ BMSLabel }}</label>
-    <input v-if="showOptions" type="text" name="baseInputText" id="baseInputText" v-model="textValue" class="multi-select__input" @input="filterOptions" autofocus="autofocus">
-    <input v-else type="text" name="textComputed" id="textComputed" v-model="selectedValuesComp" class="multi-select__input">
+    <input v-if="showOptions" type="text" placeholder=" " id="baseInputText" v-model="textValue" class="multi-select__input" @input="filterOptions" autofocus="autofocus">
+    <input v-else type="text" placeholder=" " id="textComputed" v-model="selectedValuesComp" class="multi-select__input">
+    <label for="baseInputText" class="multi-select__label">{{ BMSLabel }}</label>
     <div class="multi-select__items" :class="{ 'multi-select__items--show': showOptions }">
       <!-- TODO <div class="multi-select__items--add-new">+ Add</div> -->
       <div v-for="(item, index) in filterList" :key="index" class="multi-select__items--options">
-        <input type="checkbox" :name="`baseInputCheckbox-${index}`" :id="`baseInputCheckbox-${index}`" @click="checkValue(item.value)" v-model="item.selected">
-        <label :for="`baseInputCheckbox-${index}`">{{ item.label }}</label>
+        <div class="checkbox">
+          <input type="checkbox" :name="`baseInputCheckbox-${index}`" :id="`baseInputCheckbox-${index}`" @click="checkValue(item.value)" v-model="item.selected">
+          <label :for="`baseInputCheckbox-${index}`">{{ item.label }}</label>
+        </div>
       </div>
     </div>
   </div>

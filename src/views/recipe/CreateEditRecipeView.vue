@@ -18,7 +18,7 @@ interface IRecipe {
   ingredients: object[],
   steps: string,
   cookingTime: number,
-  unitTime: string,
+  unitTime: number,
   temperatureCategory: number,
   categories: number[],
   origin: string,
@@ -27,6 +27,11 @@ interface IRecipe {
 };
 
 interface IObject {
+  label: string,
+  value: number,
+};
+
+interface IObjectCountry {
   label: string,
   value: string,
 };
@@ -49,7 +54,7 @@ const store = useAuthStore();
 const mode = ref<string>('create');
 const newRecipeMessage = ref<string>('');
 const temperatureCategories = ref<IObject[]>([]);
-const countries = ref<IObject[]>([]);
+const countries = ref<IObjectCountry[]>([]);
 const categories = ref<ICategory[]>([]);
 const unitTimes = ref<IObject[]>([]);
 const showModalIngredients = ref<boolean>(false)
@@ -60,7 +65,7 @@ const recipe = ref<IRecipe>({
   ingredients: [],
   steps: '',
   cookingTime: 0,
-  unitTime: 'min',
+  unitTime: 0,
   temperatureCategory: 0,
   categories: [],
   origin: '',
@@ -239,49 +244,50 @@ onMounted(async () => {
   <form class="form" @submit.prevent="acceptHandler" autocomplete="off">
     <div class="form__row">
       <div class="form__col w-100">
-        <label for="titleRecipe">Title</label>
-        <input type="text" maxlength="50" name="titleRecipe" id="titleRecipe" v-model="recipe.title" class="form__input">
+        <input type="text" maxlength="50" placeholder=" " id="titleRecipe" v-model="recipe.title" class="form__input">
+        <label for="titleRecipe" class="form__label">Title</label>
       </div>
     </div>
     <div class="form__row">
       <div class="form__col w-100">
-        <label for="descriptionRecipe">Description</label>
-        <input type="text" maxlength="100" name="descriptionRecipe" id="descriptionRecipe" v-model="recipe.description" class="form__input">
+        <input type="text" maxlength="100" placeholder=" " id="descriptionRecipe" v-model="recipe.description" class="form__input">
+        <label for="descriptionRecipe" class="form__label">Description</label>
       </div>
     </div>
     <div class="form__row">
       <div class="form__col w-20 mr-2">
-        <label for="cookingTimeRecipe">Cooking time</label>
-        <input type="number" min="0" name="cookingTimeRecipe" id="cookingTimeRecipe" v-model="recipe.cookingTime" class="form__input" autocomplete="new-password">
+        <input type="number" min="0" placeholder=" " id="cookingTimeRecipe" v-model="recipe.cookingTime" class="form__input" autocomplete="new-password">
+        <label for="cookingTimeRecipe" class="form__label">Cooking time</label>
       </div>
       <div class="form__col w-20">
-        <label for="unitTimeRecipe">Unit time</label>
-        <select name="unitTimeRecipe" id="unitTimeRecipe" v-model="recipe.unitTime">
+        <select placeholder=" " name="unitTimeRecipe" id="unitTimeRecipe" v-model="recipe.unitTime" class="form__input">
+          <option disabled value="0" hidden>Choose here</option>
           <option v-for="u in unitTimes" :key="u.value" :value="u.value">{{ u.label }}</option>
         </select>
+        <label for="unitTimeRecipe" class="form__label">Unit time</label>
       </div>
     </div>
     <div class="form__row">
       <div class="form__col w-20 mr-2">
-        <label for="temperatureCategoryRecipe">Temperature</label>
-        <select name="temperatureCategory" id="temperatureCategoryRecipe" v-model="recipe.temperatureCategory">
+        <select placeholder=" " id="temperatureCategoryRecipe" v-model="recipe.temperatureCategory" class="form__input">
+          <option disabled value="0" hidden>Choose here</option>
           <option v-for="tc in temperatureCategories" :key="tc.value" :value="tc.value">{{ tc.label }}</option>
         </select>
+        <label for="temperatureCategoryRecipe" class="form__label">Temperature</label>
       </div>
       <div class="form__col w-40 mr-2">
         <BaseMultiSelect :BMSData="categories" :BMSLabel="'Categories'" @selected-values="updateSelectedCategories" />
       </div>
       <div class="form__col w-40">
-        <label for="countriesRecipe">Country</label>
-        <select name="countries" id="countriesRecipe" v-model="recipe.origin">
+        <select placeholder=" " id="countriesRecipe" v-model="recipe.origin" class="form__input">
+          <option disabled value="" hidden>Choose here</option>
           <option v-for="c in countries" :key="c.value" :value="c.value">{{ c.label }}</option>
         </select>
+        <label for="countriesRecipe" class="form__label">Country</label>
       </div>
     </div>
     <div class="form__row">
-      <div class="form__col w-100">
-        <button class="btn btn--md btn--edit" @click.prevent="addIngredients">Add ingredients</button>
-      </div>
+      <button class="btn btn--md btn--edit" @click.prevent="addIngredients">Add ingredients</button>
     </div>
     <div class="form__row" v-if="recipe.ingredients.length">
       <div class="form__col w-100">
@@ -295,8 +301,8 @@ onMounted(async () => {
     </div>
     <div class="form__row">
       <div class="form__col w-100">
-        <label for="stepsRecipe">Steps</label>
-        <textarea maxlength="1000" name="Steps" id="stepsRecipe" cols="30" rows="10" v-model="recipe.steps" class="form__input"></textarea>
+        <textarea maxlength="1000" placeholder=" " id="stepsRecipe" cols="30" rows="10" v-model="recipe.steps" class="form__input"></textarea>
+        <label for="stepsRecipe" class="form__label">Steps</label>
       </div>
     </div>
     <!-- <div class="form__row">

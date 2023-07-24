@@ -16,6 +16,10 @@ const signOut = () => {
   storeAuth.logout();
 }
 
+window.addEventListener('click', (e) => {
+  if (!document.getElementById('menuTrigger')?.contains(e.target)) storeLayout.triggerMenu(false);
+});
+
 </script>
 
 <template>
@@ -28,7 +32,7 @@ const signOut = () => {
       <div v-if="$route.path !== '/new-recipe'" class="header__actions--button mr-1">
         <button class="btn btn--md" @click="goToPage('/new-recipe?m=create&id=0')">+ New recipe</button>
       </div>
-      <div class="header__actions--menu">
+      <div class="header__actions--menu" id="menuTrigger">
         <div class="header__actions--menu--avatar" @click="storeLayout.triggerMenu(!storeLayout.isMenuActive)">
           <img :src="storeAuth.user.imageProfile" :alt="storeAuth.user.name">
         </div>
