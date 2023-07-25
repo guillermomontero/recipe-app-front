@@ -1,6 +1,9 @@
 import { useAuthStore } from '../../store/auth';
+import { useSpinnerStore } from '../../store/spinner';
 
 const apiUrl: string = 'http://localhost:3000/api/v1';
+
+let spinnerCounter = 0;
 
 const getTokenRole = () => {
   const authStore = useAuthStore();
@@ -10,7 +13,21 @@ const getTokenRole = () => {
   return { token, role };
 };
 
+const setSpinner = (value: boolean = false) => {
+  const spinnerStore = useSpinnerStore();
+
+  if (value) {
+    if (spinnerCounter === 0) spinnerStore.switchSpinner(value);
+    spinnerCounter += 1;
+  } else {
+    spinnerCounter -= 1;
+    if (spinnerCounter === 0) spinnerStore.switchSpinner(value);
+  }
+};
+
 export const apiCallPOST = async (url: string = '', data: Object = {}) => {
+  setSpinner(true);
+
   const params = getTokenRole();
   
   const options: Object = {
@@ -31,10 +48,14 @@ export const apiCallPOST = async (url: string = '', data: Object = {}) => {
     return data
   } catch (error: any) {
     throw new Error(error.message);
+  } finally {
+    setSpinner(false);
   }
 };
 
 export const apiCallGET = async (url: string = '') => {
+  setSpinner(true);
+
   const params = getTokenRole();
 
   const options: Object = {
@@ -53,10 +74,14 @@ export const apiCallGET = async (url: string = '') => {
     return data
   } catch (error: any) {
     throw new Error(error.message);
+  } finally {
+    setSpinner(false);
   }
 };
 
 export const apiCallPUT = async (url: string = '', data: Object = {}) => {
+  setSpinner(true);
+
   const params = getTokenRole();
 
   const options: Object = {
@@ -77,10 +102,14 @@ export const apiCallPUT = async (url: string = '', data: Object = {}) => {
     return data
   } catch (error: any) {
     throw new Error(error.message);
+  } finally {
+    setSpinner(false);
   }
 };
 
 export const apiCallDELETE = async (url: string = '') => {
+  setSpinner(true);
+
   const params = getTokenRole();
 
   const options: Object = {
@@ -100,5 +129,7 @@ export const apiCallDELETE = async (url: string = '') => {
     return data
   } catch (error: any) {
     throw new Error(error.message);
+  } finally {
+    setSpinner(false);
   }
 };
