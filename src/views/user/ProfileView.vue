@@ -2,7 +2,9 @@
 import { onMounted, ref } from 'vue';
 import { useAuthStore } from '../../store/auth';
 import { apiGetUser } from "../../config/api/user";
+import { formatDateToInput, formatDateFront } from '../../config/utils/dates';
 import ModalEditProfile from '../../components/user/ModalEditProfile.vue';
+import ModalWebCam from '../../components/user/ModalWebCam.vue';
 
 interface Location {
   address: string,
@@ -13,8 +15,10 @@ interface Location {
 }
 
 interface IUser {
+  _id: string,
   name: string,
   lastName: string,
+  email: string,
   birthDate: string,
   imageProfile: string,
   location: Location,
@@ -24,9 +28,12 @@ interface IUser {
 const store = useAuthStore();
 
 const showModalEditProfile = ref<boolean>(false);
+const showModalWebCam = ref<boolean>(false);
 const user = ref<IUser>({
+  _id: '',
   name: '',
   lastName: '',
+  email: '',
   birthDate: '',
   imageProfile: '',
   location: {
@@ -42,9 +49,11 @@ const user = ref<IUser>({
 const getUserData = async () => {
   try {
     const response = await apiGetUser(store.user._id);
+    user.value._id = response._id;
     user.value.name = response.name;
     user.value.lastName = response.lastName;
-    user.value.birthDate = response.birthDate;
+    user.value.email = response.email;
+    user.value.birthDate = formatDateToInput(response.birthDate);
     user.value.imageProfile = response.imageProfile;
     user.value.location = response.location;
     user.value.telephone = response.telephone;
@@ -63,22 +72,62 @@ const closeModalEditProfile = (refresh: boolean = false) => {
   if (refresh) getUserData();
 };
 
+const openModalWebcam = () => {
+  showModalWebCam.value = true;
+};
+
+const closeModalWebcam = () => {
+  showModalWebCam.value = false;
+};
+
 onMounted(() => {
   getUserData();
 })
 </script>
 
 <template>
-  <h1>Profile view</h1>
-  <img :src="user.imageProfile" alt="">
-
-  <p>{{ user.name }}</p>
-  <p>{{ user.lastName }}</p>
-  <p>{{ user.birthDate }}</p>
-  <p>{{ user.telephone }}</p>
-  <p>{{ user.location.address }}, {{ user.location.city }}, {{ user.location.state }}, {{ user.location.postCode }}, {{ user.location.country }}</p>
-
-  <button @click="editProfile">Edit</button>
+  <div class="page-title">
+    <h3>Profile</h3>
+    <button class="btn btn--xs btn--edit" @click="editProfile">Edit</button>
+  </div>
+  <section class="profile mt-2">
+    <div class="profile__principal">
+      <div class="profile__principal--photo">
+        <img :src="user.imageProfile" alt="">
+        <div class="profile__principal--photo--buttons">
+          <button class="btn btn--xs btn--delete mr-1" @click.prevent="openModalWebcam">🗑️</button>
+          <button class="btn btn--xs btn--edit" @click.prevent="openModalWebcam">✏️ Edit</button>
+        </div>
+      </div>
+      <div class="profile__principal--data">
+        <div class="profile__principal--data--row">
+          <h1>{{ user.name }}&nbsp;&nbsp;{{ user.lastName }}</h1>
+        </div>
+        <div class="profile__principal--data--row">
+          📮 {{ user.email }}
+        </div>
+        <div class="profile__principal--data--row">
+          📱 {{ user.telephone }}
+        </div>
+        <div class="profile__principal--data--row">
+          <p>🎂 {{ formatDateFront(user.birthDate) }}</p>
+        </div>
+        <div class="profile__principal--data--row mt-2">
+          📌 Location
+        </div>
+        <div class="profile__principal--data--row">
+          {{ user.location.address }}
+        </div>
+        <div class="profile__principal--data--row">
+          {{ user.location.city }} ({{ user.location.postCode }})
+        </div>
+        <div class="profile__principal--data--row">
+          {{ user.location.state }}, {{ user.location.country }}
+        </div>
+      </div>
+    </div>
+  </section>
 
   <ModalEditProfile v-if="showModalEditProfile" :userData="user" @close="closeModalEditProfile" />
+  <ModalWebCam v-if="showModalWebCam" @close="closeModalWebcam" />
 </template>

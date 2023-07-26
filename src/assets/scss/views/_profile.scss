@@ -1,0 +1,49 @@
+.profile {
+  width: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+
+  &__principal {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: space-between;
+
+    &--photo {
+      width: 300px;
+      height: 300px;
+      border-radius: 5px;
+      overflow: hidden;
+      position: relative;
+
+      &--buttons {
+        position: absolute;
+        bottom: 1em;
+        right: 1em;
+        z-index: inherit;
+      }
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+    }
+
+    &--data {
+      width: calc(100% - 350px);
+      display: flex;
+      flex-flow: column wrap;
+      align-items: center;
+
+      &--row {
+        width: 100%;
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+  }
+}

@@ -64,9 +64,9 @@ onMounted(() => {
 
 <template>
   <div class="page-title">
-    <h1>My recipes</h1>
+    <h3>My recipes</h3>
   </div>
-  <section class="articles">
+  <section class="articles mt-2">
     <article class="articles__article" v-for="(recipe, index) in recipes" :key="recipe._id">
       <div class="articles__article--title">
         {{ recipe.title }}
