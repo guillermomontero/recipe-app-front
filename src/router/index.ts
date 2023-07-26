@@ -72,7 +72,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/configuration',
     name: 'configuration',
-    component: () => import('../views/config/ConfigurationView.vue'),
+    component: () => import('../views/configuration/ConfigurationView.vue'),
     beforeEnter: requireAuth,
   },
   {

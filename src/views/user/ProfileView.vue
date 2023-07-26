@@ -72,11 +72,11 @@ const closeModalEditProfile = (refresh: boolean = false) => {
   if (refresh) getUserData();
 };
 
-const openModalWebcam = () => {
+const openModalWebCam = () => {
   showModalWebCam.value = true;
 };
 
-const closeModalWebcam = () => {
+const closeModalWebCam = () => {
   showModalWebCam.value = false;
 };
 
@@ -95,8 +95,8 @@ onMounted(() => {
       <div class="profile__principal--photo">
         <img :src="user.imageProfile" alt="">
         <div class="profile__principal--photo--buttons">
-          <button class="btn btn--xs btn--delete mr-1" @click.prevent="openModalWebcam">🗑️</button>
-          <button class="btn btn--xs btn--edit" @click.prevent="openModalWebcam">✏️ Edit</button>
+          <button class="btn btn--xs btn--delete mr-1" @click.prevent="openModalWebCam">🗑️</button>
+          <button class="btn btn--xs btn--edit" @click.prevent="openModalWebCam">✏️ Edit</button>
         </div>
       </div>
       <div class="profile__principal--data">
@@ -129,5 +129,5 @@ onMounted(() => {
   </section>
 
   <ModalEditProfile v-if="showModalEditProfile" :userData="user" @close="closeModalEditProfile" />
-  <ModalWebCam v-if="showModalWebCam" @close="closeModalWebcam" />
+  <ModalWebCam v-if="showModalWebCam" @close="closeModalWebCam" />
 </template>
