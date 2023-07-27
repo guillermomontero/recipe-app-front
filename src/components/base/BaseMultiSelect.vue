@@ -1,22 +1,22 @@
 <script setup lang="ts">
 import { ref, computed, watch, onUnmounted } from "vue";
 
-interface Data {
+interface IData {
   label: string,
   value: number,
   selected: boolean
 };
 
 const props = defineProps<{
-  BMSData: Data[],
+  BMSData: IData[],
   BMSLabel: String
 }>();
 
-const emit = defineEmits(['selected-values']);
+const emit = defineEmits(['selected-values', 'add-new-item']);
 
 watch(() => props.BMSData, (first) => {
   filterList.value = first;
-  filterList.value.forEach((item: Data) => {
+  filterList.value.forEach((item: IData) => {
     if (item.selected && selectedValues.value.indexOf(item.value) === -1) {
       selectedValues.value.push(item.value);
     }
@@ -57,6 +57,10 @@ const checkValue = (val: number = 0): void => {
   emit('selected-values', selectedValues.value);
 };
 
+const addNewItem = (text: string = '') => {
+  emit('add-new-item', text);
+};
+
 window.addEventListener('click', (e) => {
   if (document.getElementById('multi-select')?.contains(e.target)) {
     showOptions.value = true;
@@ -80,9 +84,9 @@ onUnmounted(() => {
     <input v-else type="text" placeholder=" " id="textComputed" v-model="selectedValuesComp" class="multi-select__input">
     <label for="baseInputText" class="multi-select__label">{{ BMSLabel }}</label>
     <div class="multi-select__items" :class="{ 'multi-select__items--show': showOptions }">
-      <!-- TODO <div class="multi-select__items--add-new">+ Add</div> -->
+      <div class="multi-select__items--add-new" @click.prevent="addNewItem(textValue)">+ Add</div>
       <div v-for="(item, index) in filterList" :key="index" class="multi-select__items--options">
-        <div class="checkbox">
+        <div class="form__checkbox">
           <input type="checkbox" :name="`baseInputCheckbox-${index}`" :id="`baseInputCheckbox-${index}`" @click="checkValue(item.value)" v-model="item.selected">
           <label :for="`baseInputCheckbox-${index}`">{{ item.label }}</label>
         </div>

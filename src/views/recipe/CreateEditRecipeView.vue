@@ -3,7 +3,7 @@ import { onMounted, ref, watch } from 'vue';
 import { useRoute,LocationQueryValue } from 'vue-router';
 import { apiCreateRecipe, apiGetRecipe, apiEditRecipe } from "../../config/api/recipe";
 import { apiGetAllTemperatureCategories } from "../../config/api/temperature-category";
-import { apiGetAllCategories } from '../../config/api/category';
+import { apiGetAllCategories, apiCreateCategory } from '../../config/api/category';
 import { apiGetAllCountries } from "../../config/api/country";
 import { apiGetAllUnitTimes } from "../../config/api/unit-time";
 import { useAuthStore } from '../../store/auth';
@@ -252,7 +252,19 @@ const validateForm = () => {
 
 const updateSelectedCategories = (categories: number[] = []) => {
   recipe.value.categories = categories;
-}
+};
+
+const addNewCategory = async (text: string = '') => {
+  const payload = { name: text };
+
+  try {
+    const response = await apiCreateCategory(payload);
+    categories.value.push({ label: response.name, value: response.value, selected: true });
+    recipe.value.categories.push(response.value);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 onMounted(async () => {
   await Promise.all([
@@ -306,7 +318,7 @@ onMounted(async () => {
         <label for="temperatureCategoryRecipe" class="form__label">Temperature</label>
       </div>
       <div class="form__col w-40 mr-2">
-        <BaseMultiSelect :BMSData="categories" :BMSLabel="'Categories'" @selected-values="updateSelectedCategories" />
+        <BaseMultiSelect :BMSData="categories" :BMSLabel="'Categories'" @add-new-item="addNewCategory" @selected-values="updateSelectedCategories" />
       </div>
       <div class="form__col w-40">
         <select placeholder=" " id="countriesRecipe" v-model="recipe.origin" class="form__input">
