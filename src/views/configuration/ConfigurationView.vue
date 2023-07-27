@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useAuthStore } from '../../store/auth';
-import { apiGetUser } from "../../config/api/user";
+import { apiGetUser, apiDeleteUser, apiChangePreferences, apiChangePlan } from '../../config/api/user';
 import { formatDateToInput, formatDateFront } from '../../config/utils/dates';
 import ModalEditEmail from '../../components/configuration/ModalEditEmail.vue';
 import ModalEditPassword from '../../components/configuration/ModalEditPassword.vue';
@@ -51,6 +51,22 @@ const getUserData = async () => {
   }
 };
 
+const changePreferences = async () => {
+  const payload = {
+    _id: store.user._id,
+    allowEmail: user.value.allowEmail,
+    notifications: user.value.notifications
+  };
+
+  try {
+    const response = await apiChangePreferences(payload);
+    store.updateUser(response.userDB, response.token.token, response.token.expiresIn);
+    getUserData();
+  } catch (error) {
+    console.log(error)
+  }
+};
+
 const editEmail = () => {
   showModalEditEmail.value = true;
 };
@@ -61,12 +77,41 @@ const closeModalEditEmail = (refresh: boolean = false) => {
   if (refresh) getUserData();
 };
 
-const openModalEditPassword = () => {
+const editPassword = () => {
   showModalEditPassword.value = true;
 };
 
 const closeModalEditPassword = () => {
   showModalEditPassword.value = false;
+};
+
+const changePlan = async () => {
+  const payload = {
+    _id: store.user._id,
+    premium: !user.value.premium,
+  };
+
+  try {
+    const response = await apiChangePlan(payload);
+    store.updateUser(response.userDB, response.token.token, response.token.expiresIn);
+    getUserData();
+  } catch (error) {
+    console.log(error)
+  }
+};
+
+const deleteAccount = async () => {
+  const payload = {
+    _id: store.user._id,
+    active: false,
+  };
+
+  try {
+    await apiDeleteUser(payload);
+    store.logout();
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 onMounted(() => {
@@ -78,39 +123,52 @@ onMounted(() => {
   <div class="page-title">
     <h3>Configuration</h3>
   </div>
-  <form class="form mt-2" @submit.prevent="register" autocomplete="off">
-    <div class="form__row">
-      <div class="form__checkbox">
-        <input type="checkbox" id="allowEmail" v-model="user.allowEmail">
-        <label for="allowEmail">Allow emails</label>
+  <section class="configuration mt-2" autocomplete="off">
+    <article class="configuration__box">
+      <div class="configuration__box--row">
+        <div class="form__checkbox">
+          <input type="checkbox" id="allowEmail" v-model="user.allowEmail" @change="changePreferences">
+          <label for="allowEmail">Allow to receive emails</label>
+        </div>
       </div>
-    </div>
-    <div class="form__row">
-      <div class="form__checkbox">
-        <input type="checkbox" id="notifications" v-model="user.notifications.notifications">
-        <label for="notifications">Allow notifications</label>
+      <div class="configuration__box--row">
+        <div class="form__checkbox">
+          <input type="checkbox" id="notifications" v-model="user.notifications.notifications" @change="changePreferences">
+          <label for="notifications">Allow push notifications</label>
+        </div>
       </div>
-    </div>
-    <div class="form__row">
-      <div class="form__checkbox">
-        <input type="checkbox" id="notifyVersion" v-model="user.notifications.notifyVersion">
-        <label for="notifyVersion">Allow notification if a new version is available</label>
+      <div class="configuration__box--row">
+        <div class="form__checkbox">
+          <input type="checkbox" id="notifyVersion" v-model="user.notifications.notifyVersion" @change="changePreferences">
+          <label for="notifyVersion">Notify me when a new version is available</label>
+        </div>
       </div>
-    </div>
-  </form>
-  <section class="configuration mt-2">
-    <div class="configuration__row">
-      <p>Email: {{ user.email }}</p>
-      <button class="btn btn--xs btn--edit">Change email</button>
-      <button class="btn btn--xs btn--edit">Change password</button>
-    </div>
-    <div class="configuration__row">
-      <p>Account created at {{ formatDateFront(user.entryDate) }}</p>
-      <p>Last session in {{ formatDateFront(user.lastSession) }}</p>
-    </div>
-    <div class="configuration__row">
-      <p>User plan: {{ user.premium ? 'Premium' : 'Basic user' }}</p>
-    </div>
+    </article>
+    <article class="configuration__box">
+      <div class="configuration__box--align-right configuration__box--row">
+        <p class="configuration__box--row--p">Account created at {{ formatDateFront(user.entryDate) }}</p>
+        <p class="configuration__box--row--p">Last session on {{ formatDateFront(user.lastSession) }}</p>
+        <p class="configuration__box--row--p">{{ user.premium ? '👑 Premium' : '🧢 Basic user' }}</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="configuration configuration__border-y mt-1">
+    <article class="configuration__box">
+      <div class="configuration__box--buttons">
+        <button class="btn btn--xs btn--edit mr-2" @click.prevent="editEmail">📮 Change email</button>
+        <button class="btn btn--xs btn--edit" @click.prevent="editPassword">🔐 Change password</button>
+      </div>
+    </article>
+  </section>
+
+  <section class="configuration configuration__border-b mt-1">
+    <article class="configuration__box">
+      <div class="configuration__box--buttons">
+        <button class="btn btn--xs btn--edit mr-2" @click.prevent="changePlan">{{ user.premium ? '🧢 Downgrade plan' : '👑 Upgrade plan' }}</button>
+        <button class="btn btn--xs btn--edit" @click.prevent="deleteAccount">🗑️ Delete account</button>
+      </div>
+    </article>
   </section>
 
   <ModalEditEmail v-if="showModalEditEmail" @close="closeModalEditEmail" />

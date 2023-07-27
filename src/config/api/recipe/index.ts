@@ -12,7 +12,7 @@ export const apiGetRecipe = async (id: string = '') => {
   return await apiCallGET(`/recipes/getRecipe/${id}`);
 };
 
-export const apiDeleteRecipe = async (id: number = 0) => {
+export const apiDeleteRecipe = async (id: string = '') => {
   return await apiCallDELETE(`/recipes/deleteRecipe/${id}`);
 };
 

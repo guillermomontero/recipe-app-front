@@ -10,7 +10,7 @@ interface User {
 const store = useAuthStore();
 const loginMessage = ref<string>('');
 const user = ref<User>({
-  email: 'guillermo@gumodev.com',
+  email: 'gumodev@gumodev.com',
   password: '123456'
 });
 

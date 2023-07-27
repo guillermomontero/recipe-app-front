@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { apiGetAllUnitTypes } from "../../config/api/unit-type";
+import { apiGetAllWeightTypes } from "../../config/api/weight-type";
 
 interface IIngredient {
   name: string,
@@ -19,12 +19,12 @@ const unitTypes = ref<IObject[]>([]);
 const ingredient = ref<IIngredient>({
   name: '',
   amount: 0,
-  type: ''
+  type: 'Milliliters'
 });
 
-const getAllUnitTypes = async() => {
+const getAllWeightTypes = async() => {
   try {
-    const response = await apiGetAllUnitTypes();
+    const response = await apiGetAllWeightTypes();
     unitTypes.value = response.map(u => ({ label: u.name, value: u.value }));
   } catch (error) {
     console.log(error);
@@ -36,14 +36,14 @@ const addIngredient = () => {
   ingredient.value = {
     name: '',
     amount: 0,
-    type: ''
+    type: 'Milliliters'
   }
 };
 
 const close = () => { emit('close') };
 
 onMounted(() => {
-  getAllUnitTypes();
+  getAllWeightTypes();
 });
 </script>
 
@@ -56,21 +56,21 @@ onMounted(() => {
       <form class="form" @submit.prevent="addIngredient" autocomplete="off">
         <div class="form__row">
           <div class="form__col w-100">
-            <label for="ingredientName">Name</label>
-            <input type="text" maxlength="50" name="ingredientName" id="ingredientName" v-model="ingredient.name" class="form__input">
+            <input type="text" maxlength="50" placeholder=" " name="ingredientName" id="ingredientName" v-model="ingredient.name" class="form__input">
+            <label for="ingredientName" class="form__label">Name</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-100">
-            <label for="ingredientAmount">Amount</label>
-            <input type="number" min="0" name="ingredientAmount" id="ingredientAmount" v-model="ingredient.amount" class="form__input">
+            <input type="number" min="0" placeholder=" " name="ingredientAmount" id="ingredientAmount" v-model="ingredient.amount" class="form__input">
+            <label for="ingredientAmount" class="form__label">Amount</label>
           </div>
         </div>
         <div class="form__col w-100">
-          <label for="ingredientType">Type</label>
-          <select name="ingredientType" id="ingredientType" v-model="ingredient.type">
+          <select placeholder=" " name="ingredientType" id="ingredientType" v-model="ingredient.type" class="form__input">
             <option v-for="u in unitTypes" :key="u.value" :value="u.label">{{ u.label }}</option>
           </select>
+          <label for="ingredientType" class="form__label">Type</label>
         </div>
         <button type="submit" class="btn btn--md mt-2">Add</button>
       </form>

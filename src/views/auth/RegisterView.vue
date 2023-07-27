@@ -134,7 +134,7 @@ const hasEmailFormat = (searchString: string = '') => {
         </div>
       </div>
       <div class="form__row">
-        <div class="form__checkbox">
+        <div class="form__checkbox my-1">
           <input type="checkbox" id="acceptTerms" v-model="user.acceptTerms">
           <label for="acceptTerms">Accept terms and conditions</label>
         </div>

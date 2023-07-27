@@ -153,9 +153,13 @@ const deleteIngredient = (index: number = 0) => {
 
 const closeModalIngredients = (): void => { showModalIngredients.value = false; };
 
-const acceptHandler = () => {
-  if (mode.value === 'create') createRecipe();
-  if (mode.value === 'edit') editRecipe();
+const acceptHandler = (type: number = 1) => {
+  if (type === 1) {
+    if (mode.value === 'create') createRecipe();
+    if (mode.value === 'edit') editRecipe();
+  } else {
+    saveDraftRecipe();
+  }
 }
 
 const createRecipe = async () => {
@@ -198,12 +202,38 @@ const editRecipe = async () => {
     temperatureCategory: recipe.value.temperatureCategory,
     categories: recipe.value.categories,
     origin: recipe.value.origin,
-    draft: recipe.value.draft,
+    draft: false,
     photo: recipe.value.photo
   };
 
   try {
     await apiEditRecipe(payload);
+    router.push('/my-recipes');
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const saveDraftRecipe = async () => {
+  if (!validateForm()) return;
+
+  const payload = {
+    title: recipe.value.title,
+    description: recipe.value.description,
+    ingredients: recipe.value.ingredients,
+    steps: recipe.value.steps,
+    cookingTime: recipe.value.cookingTime,
+    unitTime: recipe.value.unitTime,
+    temperatureCategory: recipe.value.temperatureCategory,
+    categories: recipe.value.categories,
+    origin: recipe.value.origin,
+    draft: true,
+    author: store.user._id,
+    photo: recipe.value.photo
+  };
+
+  try {
+    await apiCreateRecipe(payload);
     router.push('/my-recipes');
   } catch (error) {
     console.log(error);
@@ -241,7 +271,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <form class="form" @submit.prevent="acceptHandler" autocomplete="off">
+  <form class="form" autocomplete="off">
     <div class="form__row">
       <div class="form__col w-100">
         <input type="text" maxlength="50" placeholder=" " id="titleRecipe" v-model="recipe.title" class="form__input">
@@ -290,7 +320,7 @@ onMounted(async () => {
       <button class="btn btn--md btn--edit" @click.prevent="addIngredients">Add ingredients</button>
     </div>
     <div class="form__row" v-if="recipe.ingredients.length">
-      <div class="form__col w-100">
+      <div class="form__col w-100 mb-0">
         <div class="form-extras__ingredients">
           <div v-for="(ingredient, index) in recipe.ingredients" :key="index" class="form-extras__ingredients--ingredient">
             <span class="mr-1">{{ ingredient.name }} ({{ ingredient.amount }} {{ ingredient.type }})</span>
@@ -300,7 +330,7 @@ onMounted(async () => {
       </div>
     </div>
     <div class="form__row">
-      <div class="form__col w-100">
+      <div class="form__col w-100" style="height: 250px;">
         <textarea maxlength="1000" placeholder=" " id="stepsRecipe" cols="30" rows="10" v-model="recipe.steps" class="form__input"></textarea>
         <label for="stepsRecipe" class="form__label">Steps</label>
       </div>
@@ -309,8 +339,13 @@ onMounted(async () => {
       <label for="photoOrigin">Photo</label>
       <input type="file" placeholder="Photo" name="photoOrigin" id="photoOrigin" class="form__input">
     </div> -->
+
+    <div>
+      <button class="btn btn--md btn--edit mr-2" @click.prevent="acceptHandler(1)">{{ mode === 'create' ? 'Create' : 'Edit' }}</button>
+      <button v-if="mode === 'create' || recipe.draft" class="btn btn--md btn--edit" @click.prevent="acceptHandler(2)">Draft</button>
+    </div>
     
-    <button type="submit" class="btn btn--md">{{ mode === 'create' ? 'Create' : 'Edit' }}</button>
+    
 
     <div v-if="newRecipeMessage" class="new-recipe__message">
       {{ newRecipeMessage }}

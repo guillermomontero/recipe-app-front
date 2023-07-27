@@ -30,6 +30,15 @@ export const useAuthStore = defineStore('auth', {
   },
 
   actions: {
+    updateUser(user: IUser, token: string = '', tokenExpires: number = 0) {
+      this.user = user;
+      this.token = token;
+      this.tokenExpires = tokenExpires;
+      localStorage.setItem('token', token);
+      localStorage.setItem('tokenExpires', tokenExpires.toString());
+      localStorage.setItem('user', JSON.stringify(user));
+    },
+
     userLogged(token: string = '', tokenExpires: number = 0, user: string = '') {
       this.logged = true;
       this.token = token;
