@@ -3,6 +3,7 @@
   display: flex;
   flex-flow: column wrap;
   align-items: flex-start;
+  justify-content: flex-end;
   background: $blue-extra-light;
   padding: 1em;
   overflow: hidden;
@@ -15,6 +16,63 @@
   &__info {
     color: $white;
     padding: 0.5em;
+    height: 100%;
     @include borderRadiusTheme();
+    position: relative;
+    display: flex;
+    flex-flow: column wrap;
+    align-items: flex-start;
+    justify-content: flex-end;
+
+    &--cooking {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: inherit;
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+      justify-content: flex-start;
+
+      &--temperature {
+        border-radius: 10px 0 0 10px;
+        overflow: hidden;
+        width: 40px;
+        height: 20px;
+
+        &--hot {
+          background: red;
+        }
+
+        &--cold {
+          background: blue;
+        }
+
+        &--warm {
+          background: orange;
+        }
+      }
+
+      &--timing {
+        width: 50px;
+        height: 20px;
+        background: $white;
+        color: $blue-dark;
+        font-size: 0.6rem;
+        text-align: center;
+        line-height: 22px;
+      }
+
+      &--origin {
+        width: 50px;
+        height: 20px;
+        background: $info;
+        border-radius: 0 10px 10px 0;
+        color: $blue-dark;
+        font-size: 0.6rem;
+        text-align: center;
+        line-height: 22px;
+      }
+    }
   }
 }
