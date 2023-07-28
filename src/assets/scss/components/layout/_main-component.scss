@@ -1,0 +1,18 @@
+.main {
+  max-width: 1440px;
+  min-height: 100vh;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0 auto;
+  padding: 1em 2em;
+
+  &__auth {
+    justify-content: center;
+  }
+
+  @media (min-width: 1440px) {
+    padding: 1em 0;
+  }
+}

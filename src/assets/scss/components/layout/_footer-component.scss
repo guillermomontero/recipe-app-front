@@ -1,0 +1,11 @@
+.footer {
+  margin: 0 auto;
+  padding: 1em 2em;
+  max-width: 1440px;
+  background: $blue-dark;
+  @include borderRadiusTopTheme();
+
+  @media (min-width: 1440px) {
+    padding: 1em 0;
+  }
+}

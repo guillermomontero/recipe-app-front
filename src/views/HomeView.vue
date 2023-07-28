@@ -1,21 +1,68 @@
 <script setup lang="ts">
+import { onMounted, ref } from "vue";
+import { apiGetLatestRecipes } from "../config/api/recipe";
+import { apiGetAllCountries } from '../config/api/country';
+import { apiGetAllCategories } from '../config/api/category';
+import FilterBar from '../components/home/FilterBar.vue';
 import RecipeCard from '../components/home/RecipeCard.vue';
-const recipes = [
-  { id: 1, title: 'Recipe 1', description: 'Recipe 1 description', cookingTime: 120 },
-  { id: 2, title: 'Recipe 2', description: 'Recipe 2 description', cookingTime: 220 },
-  { id: 3, title: 'Recipe 3', description: 'Recipe 3 description', cookingTime: 320 },
-  { id: 4, title: 'Recipe 4', description: 'Recipe 4 description', cookingTime: 420 },
-  { id: 5, title: 'Recipe 5', description: 'Recipe 5 description', cookingTime: 520 },
-  { id: 6, title: 'Recipe 6', description: 'Recipe 6 description', cookingTime: 620 },
-  { id: 7, title: 'Recipe 7', description: 'Recipe 7 description', cookingTime: 720 },
-  { id: 8, title: 'Recipe 8', description: 'Recipe 8 description', cookingTime: 820 },
-];
+
+interface ICountry {
+  _id: number,
+  name: string,
+  alpha2: string,
+  countryCode: string
+}
+
+interface ICategory {
+  name?: string,
+  label: string,
+  value: number
+};
+
+const countries = ref<ICountry[]>([]);
+const categories = ref<ICategory[]>([]);
+const recipes = ref([]);
+
+const getAllCountries = async () => {
+  try {
+    const response = await apiGetAllCountries();
+    countries.value = response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getAllCategories = async() => {
+  try {
+    const response = await apiGetAllCategories();
+    categories.value = response.map((c: ICategory) => ({ label: c.name, value: c.value, selected: false }));
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const getLatestRecipes = async () => {
+  try {
+    recipes.value = await apiGetLatestRecipes();
+  } catch (error) {
+    console.log(error)
+  }
+};
+
+onMounted(() => {
+  Promise.all([
+    getAllCountries(),
+    getAllCategories(),
+    getLatestRecipes()
+  ]);
+});
 </script>
 
 <template>
+  <FilterBar />
   <section class="grid-home">
-    <template v-for="r in recipes" :key="r.id">
-      <RecipeCard :recipe="r" />
+    <template v-for="(r, index) in recipes" :key="r.id">
+      <RecipeCard :countries="countries" :categories="categories" :recipe="r" :class="`grid-home__box-${index}`" />
     </template>
   </section>
 </template>

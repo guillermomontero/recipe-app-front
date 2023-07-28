@@ -1,0 +1,85 @@
+.modal {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
+  background: $blue-dark-op;
+
+  &__container {
+    background: $white;
+    border-radius: 5px;
+    padding: 2em;
+    position: relative;
+
+    &--close {
+      cursor: pointer;
+      position: absolute;
+      top: 1em;
+      right: 1em;
+      z-index: inherit;
+
+      svg {
+        width: 20px;
+        fill: $blue-dark;
+
+        &:hover {
+          fill: $blue-semi;
+        }
+      }
+    }
+
+    &--wrap {
+      width: 100%;
+      display: flex;
+      flex-flow: row wrap;
+      align-items: flex-start;
+      justify-content: space-between;
+
+      &--article {
+        display: flex;
+        flex-flow: column wrap;
+        align-items: center;
+        justify-content: flex-start;
+        position: relative;
+
+        button {
+          position: absolute;
+          bottom: 1em;
+          right: 1em;
+          z-index: inherit;
+        }
+      }
+
+      &--buttons {
+        width: 100%;
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+        justify-content: center;
+        padding: 1em 0 0 0 ;
+        border-top: solid 1px $blue-extra-light;
+      }
+    }
+  }
+
+  & .video-wrap {
+    width: 300px;
+    border-radius: 5px;
+    overflow: hidden;
+
+    & video {
+      vertical-align: middle;
+    }
+  }
+
+  & .webcam-picture {
+    background: $blue-light;
+  }
+}

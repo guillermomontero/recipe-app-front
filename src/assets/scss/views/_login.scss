@@ -1,0 +1,33 @@
+.login {
+  width: 100%;
+  background: $blue-extra-light;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  padding: 1em;
+
+  &__logo {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 50px;
+      height: auto;
+      fill: $blue-dark;
+      margin: 0 0.4em 0 0;
+    }
+  }
+
+  @media (min-width: 590px) {
+    width: 50%;
+  }
+
+  @media (min-width: 1085px) {
+    width: 40%;
+    margin: 2em;
+  }
+}
