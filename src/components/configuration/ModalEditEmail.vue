@@ -38,17 +38,17 @@ const editMail = async () => {
 
 const validateForm = () => {
   if (email.value.newEmail === '') {
-    validateMessage.value = 'Invalid email';
+    validateMessage.value = $t('emailIntroducidoIncorrecto');
     return false;
   }
 
   if (email.value.newEmailConfirm === '') {
-    validateMessage.value = 'Invalid email';
+    validateMessage.value = $t('emailIntroducidoIncorrecto');
     return false;
   }
 
   if (email.value.newEmail !== email.value.newEmailConfirm) {
-    validateMessage.value = 'The emails don\'t match';
+    validateMessage.value = $t('emailsNoCoinciden');
     return false;
   }
 
@@ -76,17 +76,17 @@ watch(validateMessage, (newQuestion) => {
         <div class="form__row">
           <div class="form__col w-100">
             <input type="email" placeholder=" " id="newEmail" v-model="email.newEmail" class="form__input" autocomplete="new-email">
-            <label for="newEmail" class="form__label">New password</label>
+            <label for="newEmail" class="form__label">{{ $t('nuevaContrasena') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-100">
             <input type="email" placeholder=" " id="newEmailConfirm" v-model="email.newEmailConfirm" class="form__input" autocomplete="new-email">
-            <label for="newEmailConfirm" class="form__label">Confirm new password</label>
+            <label for="newEmailConfirm" class="form__label">{{ $t('confirmarNuevaContrasena') }}</label>
           </div>
         </div>
         <div v-if="validateMessage" class="form__message">{{ validateMessage }}</div>
-        <button class="btn btn--md mt-1" @click.prevent="editMail">Save</button>
+        <button class="btn btn--md mt-1" @click.prevent="editMail">{{ $t('guardar') }}</button>
       </form>
     </article>
   </section>

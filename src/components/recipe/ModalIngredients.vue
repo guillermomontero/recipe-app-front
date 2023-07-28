@@ -57,22 +57,22 @@ onMounted(() => {
         <div class="form__row">
           <div class="form__col w-100">
             <input type="text" maxlength="50" placeholder=" " name="ingredientName" id="ingredientName" v-model="ingredient.name" class="form__input">
-            <label for="ingredientName" class="form__label">Name</label>
+            <label for="ingredientName" class="form__label">{{ $t('nombre') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-100">
             <input type="number" min="0" placeholder=" " name="ingredientAmount" id="ingredientAmount" v-model="ingredient.amount" class="form__input">
-            <label for="ingredientAmount" class="form__label">Amount</label>
+            <label for="ingredientAmount" class="form__label">{{ $t('cantidad') }}</label>
           </div>
         </div>
         <div class="form__col w-100">
           <select placeholder=" " name="ingredientType" id="ingredientType" v-model="ingredient.type" class="form__input">
             <option v-for="u in unitTypes" :key="u.value" :value="u.label">{{ u.label }}</option>
           </select>
-          <label for="ingredientType" class="form__label">Type</label>
+          <label for="ingredientType" class="form__label">{{ $t('tipo') }}</label>
         </div>
-        <button type="submit" class="btn btn--md mt-2">Add</button>
+        <button type="submit" class="btn btn--md mt-2">{{ $t('anadir') }}</button>
       </form>
     </article>
   </section>

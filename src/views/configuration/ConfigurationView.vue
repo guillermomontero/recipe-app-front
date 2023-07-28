@@ -121,34 +121,34 @@ onMounted(() => {
 
 <template>
   <div class="page-title">
-    <h3>Configuration</h3>
+    <h3>{{ $t('configuracion') }}</h3>
   </div>
   <section class="configuration mt-2" autocomplete="off">
     <article class="configuration__box">
       <div class="configuration__box--row">
         <div class="form__checkbox">
           <input type="checkbox" id="allowEmail" v-model="user.allowEmail" @change="changePreferences">
-          <label for="allowEmail">Allow to receive emails</label>
+          <label for="allowEmail">{{ $t('quieroRecibirEmails') }}</label>
         </div>
       </div>
       <div class="configuration__box--row">
         <div class="form__checkbox">
           <input type="checkbox" id="notifications" v-model="user.notifications.notifications" @change="changePreferences">
-          <label for="notifications">Allow push notifications</label>
+          <label for="notifications">{{ $t('permitirNotificacionesPush') }}</label>
         </div>
       </div>
       <div class="configuration__box--row">
         <div class="form__checkbox">
           <input type="checkbox" id="notifyVersion" v-model="user.notifications.notifyVersion" @change="changePreferences">
-          <label for="notifyVersion">Notify me when a new version is available</label>
+          <label for="notifyVersion">{{ $t('notificarmeVersionDisponible') }}</label>
         </div>
       </div>
     </article>
     <article class="configuration__box">
       <div class="configuration__box--align-right configuration__box--row">
-        <p class="configuration__box--row--p">Account created at {{ formatDateFront(user.entryDate) }}</p>
-        <p class="configuration__box--row--p">Last session on {{ formatDateFront(user.lastSession) }}</p>
-        <p class="configuration__box--row--p">{{ user.premium ? '👑 Premium' : '🧢 Basic user' }}</p>
+        <p class="configuration__box--row--p">{{ $t('cuentaCreadaEl') }} {{ formatDateFront(user.entryDate) }}</p>
+        <p class="configuration__box--row--p">{{ $t('ultimaSesionEl') }} {{ formatDateFront(user.lastSession) }}</p>
+        <p class="configuration__box--row--p">{{ user.premium ? `👑 ${$t('premium')}` : `🧢 ${$t('basico')}` }}</p>
       </div>
     </article>
   </section>
@@ -156,8 +156,8 @@ onMounted(() => {
   <section class="configuration configuration__border-y mt-1">
     <article class="configuration__box">
       <div class="configuration__box--buttons">
-        <button class="btn btn--xs btn--edit mr-2" @click.prevent="editEmail">📮 Change email</button>
-        <button class="btn btn--xs btn--edit" @click.prevent="editPassword">🔐 Change password</button>
+        <button class="btn btn--xs btn--edit mr-2" @click.prevent="editEmail">📮 {{ $t('cambiarEmail') }}</button>
+        <button class="btn btn--xs btn--edit" @click.prevent="editPassword">🔐 {{ $t('cambiarPassword') }}</button>
       </div>
     </article>
   </section>
@@ -165,8 +165,8 @@ onMounted(() => {
   <section class="configuration configuration__border-b mt-1">
     <article class="configuration__box">
       <div class="configuration__box--buttons">
-        <button class="btn btn--xs btn--edit mr-2" @click.prevent="changePlan">{{ user.premium ? '🧢 Downgrade plan' : '👑 Upgrade plan' }}</button>
-        <button class="btn btn--xs btn--edit" @click.prevent="deleteAccount">🗑️ Delete account</button>
+        <button class="btn btn--xs btn--edit mr-2" @click.prevent="changePlan">{{ user.premium ? `🧢 ${$t('cancelarPremium')}` : `👑 ${$t('hacersePremium')}` }}</button>
+        <button class="btn btn--xs btn--edit" @click.prevent="deleteAccount">🗑️ {{ $t('eliminarCuenta') }}</button>
       </div>
     </article>
   </section>

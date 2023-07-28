@@ -34,12 +34,12 @@ const sendMail = async () => {
 // Validate form
 const validateForm = () => {
   if (!user.value.email) {
-    loginMessage.value = 'Los datos introducidos son incorrectos';
+    loginMessage.value = $t('datosIntroducidosIncorrectos');
     return false;
   }
 
   if (!hasEmailFormat(user.value.email)) {
-    loginMessage.value = 'El email introducido no es correcto';
+    loginMessage.value = $t('emailIntroducidoIncorrecto');
     return false;
   }
 
@@ -63,10 +63,10 @@ const hasEmailFormat = (searchString: string = '') => {
       <div class="form__row">
         <div class="form__col w-100">
           <input type="email" placeholder=" " id="form-email" v-model="user.email" class="form__input" autocomplete="off">
-          <label for="form-email" class="form__label">Email</label>
+          <label for="form-email" class="form__label">{{ $t('email') }}</label>
         </div>
       </div>
-      <button type="submit" class="form__button">Recuperar</button>
+      <button type="submit" class="form__button">{{ $t('recuperar') }}</button>
       <div v-if="loginMessage" class="form__message">
         {{ loginMessage }}
       </div>

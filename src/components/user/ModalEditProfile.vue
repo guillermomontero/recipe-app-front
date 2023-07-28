@@ -69,50 +69,50 @@ onMounted(() => {
         <div class="form__row">
           <div class="form__col w-50 mr-1">
             <input type="text" maxlength="50" placeholder=" " id="userName" v-model="user.name" class="form__input">
-            <label for="userName" class="form__label">Name</label>
+            <label for="userName" class="form__label">{{ $t('nombre') }}</label>
           </div>
           <div class="form__col w-50">
             <input type="text" maxlength="50" placeholder=" " id="userLastname" v-model="user.lastName" class="form__input">
-            <label for="userLastname" class="form__label">Lastname</label>
+            <label for="userLastname" class="form__label">{{ $t('apellido') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-50 mr-1">
             <input type="date" placeholder=" " id="userBirthdate" v-model="user.birthDate" class="form__input">
-            <label for="userBirthdate" class="form__label">Birthdate</label>
+            <label for="userBirthdate" class="form__label">{{ $t('cumpleanos') }}</label>
           </div>
           <div class="form__col w-50">
             <input type="number" min="0" placeholder=" " id="userTelephone" v-model="user.telephone" class="form__input">
-            <label for="userTelephone" class="form__label">Telephone</label>
+            <label for="userTelephone" class="form__label">{{ $t('telefono') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-100">
             <input type="text" placeholder=" " id="userAddress" v-model="user.location.address" class="form__input">
-            <label for="userAddress" class="form__label">Address</label>
+            <label for="userAddress" class="form__label">{{ $t('direccion') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-50 mr-1">
             <input type="text" maxlength="50" placeholder=" " id="userCity" v-model="user.location.city" class="form__input">
-            <label for="userCity" class="form__label">City</label>
+            <label for="userCity" class="form__label">{{ $t('ciudad') }}</label>
           </div>
           <div class="form__col w-50">
             <input type="text" maxlength="50" placeholder=" " id="userState" v-model="user.location.state" class="form__input">
-            <label for="userState" class="form__label">State</label>
+            <label for="userState" class="form__label">{{ $t('provincia') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-50 mr-1">
             <input type="number" min="0" placeholder=" " id="userPostCode" v-model="user.location.postCode" class="form__input">
-            <label for="userPostCode" class="form__label">Post code</label>
+            <label for="userPostCode" class="form__label">{{ $t('codigoPostal') }}</label>
           </div>
           <div class="form__col w-50">
             <input type="text" maxlength="50" placeholder=" " id="userCountry" v-model="user.location.country" class="form__input">
-            <label for="userCountry" class="form__label">Country</label>
+            <label for="userCountry" class="form__label">{{ $t('pais') }}</label>
           </div>
         </div>
-        <button class="btn btn--md mt-1" @click.prevent="editProfile">Save</button>
+        <button class="btn btn--md mt-1" @click.prevent="editProfile">{{ $t('guardar') }}</button>
       </form>
     </article>
   </section>

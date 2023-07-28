@@ -73,14 +73,14 @@ onMounted(() => {
       <div class="modal__container--wrap mt-2">
         <article class="modal__container--wrap--article">
           <video id="video" playsinline autoplay></video>
-          <button class="btn btn--xs btn--edit mt-1" ref="snap" @click="makePicture">📸 Hacer foto</button>
+          <button class="btn btn--xs btn--edit mt-1" ref="snap" @click="makePicture">📸 {{ $t('hacerFoto') }}</button>
         </article>
         <article class="modal__container--wrap--article">
           <canvas id="canvas" class="webcam-picture" width="300" height="300"></canvas>
         </article>
         <article class="modal__container--wrap--buttons mt-2">
-          <button class="btn btn--xs btn--delete mr-1" @click="close">Cancelar</button>
-          <a class="btn  btn--xs btn--edit" id="download" download="downloadImage.jpg" href="#" target="_blank">Download</a>
+          <button class="btn btn--xs btn--delete mr-1" @click="close">{{ $t('cancelar') }}</button>
+          <a class="btn  btn--xs btn--edit" id="download" download="downloadImage.jpg" href="#" target="_blank">{{ $t('descargar') }}</a>
         </article>
       </div>
     </article>

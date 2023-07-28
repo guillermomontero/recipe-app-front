@@ -41,22 +41,22 @@ const editPassword = async () => {
 
 const validateForm = () => {
   if (pass.value.password === '') {
-    validateMessage.value = 'Invalid password';
+    validateMessage.value = $t('contrasenaIntroducidaIncorrecta');
     return false;
   }
 
   if (pass.value.newPassword === '') {
-    validateMessage.value = 'Invalid password';
+    validateMessage.value = $t('contrasenaIntroducidaIncorrecta');
     return false;
   }
 
   if (pass.value.newPasswordConfirm === '') {
-    validateMessage.value = 'Invalid password';
+    validateMessage.value = $t('contrasenaIntroducidaIncorrecta');
     return false;
   }
 
   if (pass.value.newPassword !== pass.value.newPasswordConfirm) {
-    validateMessage.value = 'The passwords don\'t match';
+    validateMessage.value = $t('contrasenasNoCoinciden');
     return false;
   }
 
@@ -84,23 +84,23 @@ watch(validateMessage, (newQuestion) => {
         <div class="form__row">
           <div class="form__col w-100">
             <input type="password" placeholder=" " id="currentPassword" v-model="pass.password" class="form__input" autocomplete="new-password">
-            <label for="currentPassword" class="form__label">Current password</label>
+            <label for="currentPassword" class="form__label">{{ $t('contrasenaActual') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-100">
             <input type="password" placeholder=" " id="newPassword" v-model="pass.newPassword" class="form__input" autocomplete="new-password">
-            <label for="newPassword" class="form__label">New password</label>
+            <label for="newPassword" class="form__label">{{ $t('nuevaContrasena') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-100">
             <input type="password" placeholder=" " id="newPasswordConfirm" v-model="pass.newPasswordConfirm" class="form__input" autocomplete="new-password">
-            <label for="newPasswordConfirm" class="form__label">Confirm new password</label>
+            <label for="newPasswordConfirm" class="form__label">{{ $t('confirmarNuevaContrasena') }}</label>
           </div>
         </div>
         <div v-if="validateMessage" class="form__message">{{ validateMessage }}</div>
-        <button class="btn btn--md mt-1" @click.prevent="editPassword">Save</button>
+        <button class="btn btn--md mt-1" @click.prevent="editPassword">{{ $t('guardar') }}</button>
       </form>
     </article>
   </section>

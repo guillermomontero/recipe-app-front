@@ -243,7 +243,7 @@ const saveDraftRecipe = async () => {
 // Validate form
 const validateForm = () => {
   if (!recipe.value.title || typeof recipe.value.title !== 'string') {
-    newRecipeMessage.value = 'Introcuzca un título correcto';
+    newRecipeMessage.value = $t('introduzcaTituloCorrecto');
     return false;
   }
 
@@ -287,49 +287,49 @@ onMounted(async () => {
     <div class="form__row">
       <div class="form__col w-100">
         <input type="text" maxlength="50" placeholder=" " id="titleRecipe" v-model="recipe.title" class="form__input">
-        <label for="titleRecipe" class="form__label">Title</label>
+        <label for="titleRecipe" class="form__label">{{ $t('titulo') }}</label>
       </div>
     </div>
     <div class="form__row">
       <div class="form__col w-100">
         <input type="text" maxlength="100" placeholder=" " id="descriptionRecipe" v-model="recipe.description" class="form__input">
-        <label for="descriptionRecipe" class="form__label">Description</label>
+        <label for="descriptionRecipe" class="form__label">{{ $t('descripcion') }}</label>
       </div>
     </div>
     <div class="form__row">
       <div class="form__col w-20 mr-2">
         <input type="number" min="0" placeholder=" " id="cookingTimeRecipe" v-model="recipe.cookingTime" class="form__input" autocomplete="new-password">
-        <label for="cookingTimeRecipe" class="form__label">Cooking time</label>
+        <label for="cookingTimeRecipe" class="form__label">{{ $t('tiempoDeCocinado') }}</label>
       </div>
       <div class="form__col w-20">
         <select placeholder=" " name="unitTimeRecipe" id="unitTimeRecipe" v-model="recipe.unitTime" class="form__input">
-          <option disabled value="0" hidden>Choose here</option>
+          <option disabled value="0" hidden>{{ $t('selecciona') }}</option>
           <option v-for="u in unitTimes" :key="u.value" :value="u.value">{{ u.label }}</option>
         </select>
-        <label for="unitTimeRecipe" class="form__label">Unit time</label>
+        <label for="unitTimeRecipe" class="form__label">{{ $t('unidadDeTiempo') }}</label>
       </div>
     </div>
     <div class="form__row">
       <div class="form__col w-20 mr-2">
         <select placeholder=" " id="temperatureCategoryRecipe" v-model="recipe.temperatureCategory" class="form__input">
-          <option disabled value="0" hidden>Choose here</option>
+          <option disabled value="0" hidden>{{ $t('selecciona') }}</option>
           <option v-for="tc in temperatureCategories" :key="tc.value" :value="tc.value">{{ tc.label }}</option>
         </select>
-        <label for="temperatureCategoryRecipe" class="form__label">Temperature</label>
+        <label for="temperatureCategoryRecipe" class="form__label">{{ $t('temperatura') }}</label>
       </div>
       <div class="form__col w-40 mr-2">
         <BaseMultiSelect :BMSData="categories" :BMSLabel="'Categories'" @add-new-item="addNewCategory" @selected-values="updateSelectedCategories" />
       </div>
       <div class="form__col w-40">
         <select placeholder=" " id="countriesRecipe" v-model="recipe.origin" class="form__input">
-          <option disabled value="" hidden>Choose here</option>
+          <option disabled value="" hidden>{{ $t('selecciona') }}</option>
           <option v-for="c in countries" :key="c.value" :value="c.value">{{ c.label }}</option>
         </select>
-        <label for="countriesRecipe" class="form__label">Country</label>
+        <label for="countriesRecipe" class="form__label">{{ $t('pais') }}</label>
       </div>
     </div>
     <div class="form__row">
-      <button class="btn btn--md btn--edit" @click.prevent="addIngredients">Add ingredients</button>
+      <button class="btn btn--md btn--edit" @click.prevent="addIngredients">{{ $t('anadeIngredientes') }}</button>
     </div>
     <div class="form__row" v-if="recipe.ingredients.length">
       <div class="form__col w-100 mb-0">
@@ -344,20 +344,18 @@ onMounted(async () => {
     <div class="form__row">
       <div class="form__col w-100" style="height: 250px;">
         <textarea maxlength="1000" placeholder=" " id="stepsRecipe" cols="30" rows="10" v-model="recipe.steps" class="form__input"></textarea>
-        <label for="stepsRecipe" class="form__label">Steps</label>
+        <label for="stepsRecipe" class="form__label">{{ $t('pasos') }}</label>
       </div>
     </div>
     <!-- <div class="form__row">
-      <label for="photoOrigin">Photo</label>
+      <label for="photoOrigin">{{ $t('foto') }}</label>
       <input type="file" placeholder="Photo" name="photoOrigin" id="photoOrigin" class="form__input">
     </div> -->
 
     <div>
-      <button class="btn btn--md btn--edit mr-2" @click.prevent="acceptHandler(1)">{{ mode === 'create' ? 'Create' : 'Edit' }}</button>
-      <button v-if="mode === 'create' || recipe.draft" class="btn btn--md btn--edit" @click.prevent="acceptHandler(2)">Draft</button>
+      <button class="btn btn--md btn--edit mr-2" @click.prevent="acceptHandler(1)">{{ mode === 'create' ? $t('crear') : $t('editar') }}</button>
+      <button v-if="mode === 'create' || recipe.draft" class="btn btn--md btn--edit" @click.prevent="acceptHandler(2)">{{ $t('borrador') }}</button>
     </div>
-    
-    
 
     <div v-if="newRecipeMessage" class="new-recipe__message">
       {{ newRecipeMessage }}

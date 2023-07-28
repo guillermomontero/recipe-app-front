@@ -84,7 +84,7 @@ onUnmounted(() => {
     <input v-else type="text" placeholder=" " id="textComputed" v-model="selectedValuesComp" class="multi-select__input">
     <label for="baseInputText" class="multi-select__label">{{ BMSLabel }}</label>
     <div class="multi-select__items" :class="{ 'multi-select__items--show': showOptions }">
-      <div class="multi-select__items--add-new" @click.prevent="addNewItem(textValue)">+ Add</div>
+      <div class="multi-select__items--add-new" @click.prevent="addNewItem(textValue)">+ {{ $t('anadir') }}</div>
       <div v-for="(item, index) in filterList" :key="index" class="multi-select__items--options">
         <div class="form__checkbox">
           <input type="checkbox" :name="`baseInputCheckbox-${index}`" :id="`baseInputCheckbox-${index}`" @click="checkValue(item.value)" v-model="item.selected">

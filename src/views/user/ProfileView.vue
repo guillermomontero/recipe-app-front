@@ -87,8 +87,8 @@ onMounted(() => {
 
 <template>
   <div class="page-title">
-    <h3>Profile</h3>
-    <button class="btn btn--xs btn--edit" @click="editProfile">Edit</button>
+    <h3>{{ $t('perfil') }}</h3>
+    <button class="btn btn--xs btn--edit" @click="editProfile">{{ $t('editar') }}</button>
   </div>
   <section class="profile mt-2">
     <div class="profile__principal">
@@ -96,7 +96,7 @@ onMounted(() => {
         <img :src="user.imageProfile" alt="">
         <div class="profile__principal--photo--buttons">
           <button class="btn btn--xs btn--delete mr-1" @click.prevent="openModalWebCam">🗑️</button>
-          <button class="btn btn--xs btn--edit" @click.prevent="openModalWebCam">✏️ Edit</button>
+          <button class="btn btn--xs btn--edit" @click.prevent="openModalWebCam">✏️ {{ $t('editar') }}</button>
         </div>
       </div>
       <div class="profile__principal--data">
@@ -113,7 +113,7 @@ onMounted(() => {
           <p>🎂 {{ formatDateFront(user.birthDate) }}</p>
         </div>
         <div class="profile__principal--data--row mt-2">
-          📌 Location
+          📌 {{ $t('localizacion') }}
         </div>
         <div class="profile__principal--data--row">
           {{ user.location.address }}

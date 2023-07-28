@@ -37,12 +37,12 @@ const login = async () => {
 // Validate form
 const validateForm = () => {
   if (!user.value.email || !user.value.password) {
-    loginMessage.value = 'Los datos introducidos son incorrectos';
+    loginMessage.value = $t('datrosIntroducidosIncorrectos');
     return false;
   }
 
   if (!hasEmailFormat(user.value.email)) {
-    loginMessage.value = 'El email introducido no es correcto';
+    loginMessage.value = $t('emailIntroducidoIncorrecto')');
     return false;
   }
 
@@ -66,23 +66,23 @@ const hasEmailFormat = (searchString: string = '') => {
       <div class="form__row">
         <div class="form__col w-100">
           <input type="email" placeholder=" " id="form-email" v-model="user.email" class="form__input" autocomplete="off">
-          <label for="form-email" class="form__label">Email</label>
+          <label for="form-email" class="form__label">{{ $t('email') }}</label>
         </div>
       </div>
       <div class="form__row">
         <div class="form__col w-100">
           <input type="password" placeholder=" " id="form-password" v-model="user.password" class="form__input" autocomplete="new-password">
-          <label for="form-password" class="form__label">Password</label>
+          <label for="form-password" class="form__label">{{ $t('contrasena') }}</label>
         </div>
       </div>
-      <button type="submit" class="form__button">Entrar</button>
+      <button type="submit" class="form__button">{{ $t('entrar') }}</button>
       <div v-if="loginMessage" class="form__message">
         {{ loginMessage }}
       </div>
     </form>
     <div class="form__links">
-      <router-link to="/forgot-password">Forgot password?</router-link>
-      <router-link to="/register">Register</router-link>
+      <router-link to="/forgot-password">{{ $t('olvidoSuContrasena') }}</router-link>
+      <router-link to="/register">{{ $t('registrarse') }}</router-link>
     </div>
   </section>
 </template>

@@ -71,7 +71,7 @@ onMounted(() => {
 
 <template>
   <div class="page-title">
-    <h3>My recipes</h3>
+    <h3>{{ $t('misRecetas') }}</h3>
   </div>
   <section class="articles mt-2">
     <article class="articles__article" v-for="recipe in recipes" :key="recipe._id">
@@ -88,8 +88,8 @@ onMounted(() => {
         </div>
       </div>
       <div class="articles__article--actions">
-        <button class="btn btn--xs btn--edit mr-1" @click.prevent="editRecipe(recipe)">Edit</button>
-        <button class="btn btn--xs btn--delete" @click.prevent="deleteRecipe(recipe)">Delete</button>
+        <button class="btn btn--xs btn--edit mr-1" @click.prevent="editRecipe(recipe)">{{ $t('editar') }}</button>
+        <button class="btn btn--xs btn--delete" @click.prevent="deleteRecipe(recipe)">{{ $t('eliminar') }}</button>
       </div>
     </article>
   </section>

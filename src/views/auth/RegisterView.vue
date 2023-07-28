@@ -52,37 +52,37 @@ const register = async () => {
 // Validate form
 const validateForm = () => {
   if (!user.value.name || typeof user.value.name !== 'string') {
-    loginMessage.value = 'Introcuzca un nombre correcto';
+    loginMessage.value = $t('nombreIntroducidoIncorrecto');
     return false;
   }
 
   if (!user.value.lastName || typeof user.value.lastName !== 'string') {
-    loginMessage.value = 'Los datos introducidos son incorrectos';
+    loginMessage.value = $t('datosIntroducidosIncorrectos');
     return false;
   }
 
   if (!user.value.email || !user.value.password) {
-    loginMessage.value = 'Los datos introducidos son incorrectos';
+    loginMessage.value = $t('datosIntroducidosIncorrectos');
     return false;
   }
 
   if (!hasEmailFormat(user.value.email)) {
-    loginMessage.value = 'El email introducido no es correcto';
+    loginMessage.value = $t('emailIntroducidoIncorrecto');
     return false;
   }
 
   if (!user.value.password) {
-    loginMessage.value = 'La contraseña no es correcta';
+    loginMessage.value = $t('contrasenaIntroducidaIncorrecta');
     return false;
   }
 
   if (user.value.password !== user.value.passwordRepeat) {
-    loginMessage.value = 'Las contraseñas no coinciden';
+    loginMessage.value = $t('contrasenasNoCoinciden');
     return false;
   }
 
   if (!user.value.acceptTerms) {
-    loginMessage.value = 'Debe accertar las condiciones';
+    loginMessage.value = $t('debeAceptarLasCondiciones');
     return false;
   }
 
@@ -106,40 +106,40 @@ const hasEmailFormat = (searchString: string = '') => {
       <div class="form__row">
         <div class="form__col w-100">
           <input type="text" placeholder=" " maxlength="50" id="form-name" v-model="user.name" class="form__input" autocomplete="off">
-          <label for="form-name" class="form__label">Name</label>
+          <label for="form-name" class="form__label">{{ $t('nombre') }}</label>
         </div>
       </div>
       <div class="form__row">
         <div class="form__col w-100">
           <input type="text" placeholder=" " maxlength="100" id="form-lastname" v-model="user.lastName" class="form__input" autocomplete="off">
-          <label for="form-lastname" class="form__label">Lastname</label>
+          <label for="form-lastname" class="form__label">{{ $t('apellido') }}</label>
         </div>
       </div>
       <div class="form__row">
         <div class="form__col w-100">
           <input type="email" placeholder=" " id="form-email" v-model="user.email" class="form__input" autocomplete="off">
-          <label for="form-email" class="form__label">Email</label>
+          <label for="form-email" class="form__label">{{ $t('email') }}</label>
         </div>
       </div>
       <div class="form__row">
         <div class="form__col w-100">
           <input type="password" placeholder=" " id="form-password" v-model="user.password" class="form__input" autocomplete="new-password">
-          <label for="form-password" class="form__label">Password</label>
+          <label for="form-password" class="form__label">{{ $t('contrasena') }}</label>
         </div>
       </div>
       <div class="form__row">
         <div class="form__col w-100">
           <input type="password" placeholder=" " id="form-password-repeat" v-model="user.passwordRepeat" class="form__input" autocomplete="new-password">
-          <label for="form-password-repeat" class="form__label">Password repeat</label>
+          <label for="form-password-repeat" class="form__label">{{ $t('confirmPassword') }}</label>
         </div>
       </div>
       <div class="form__row">
         <div class="form__checkbox my-1">
           <input type="checkbox" id="acceptTerms" v-model="user.acceptTerms">
-          <label for="acceptTerms">Accept terms and conditions</label>
+          <label for="acceptTerms">{{ $t('aceptarTerminosCondiciones') }}</label>
         </div>
       </div>
-      <button type="submit" class="form__button">Register</button>
+      <button type="submit" class="form__button">{{ $t('registrarse') }}</button>
       <div v-if="loginMessage" class="form__message">
         {{ loginMessage }}
       </div>
