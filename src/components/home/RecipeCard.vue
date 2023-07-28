@@ -1,6 +1,5 @@
 <script setup lang="ts">
   import { onMounted, ref, PropType } from 'vue';
-  import { apiGetAllCountries } from '../../config/api/country';
 
   interface IRecipe {
     _id: number,
@@ -27,20 +26,19 @@
     countryCode: string
   }
 
-  defineProps({
+  interface ICategory {
+    name?: string,
+    label: string,
+    value: number
+  };
+
+  const props = defineProps({
+    countries: { type: Array as PropType<ICountry[]>, required: true },
+    categories: { type: Array as PropType<ICategory[]>, required: true },
     recipe: { type: Object as PropType<IRecipe>, required: true }
   });
 
-  const countries = ref<ICountry[]>([]);
-
-  const getAllCountries = async () => {
-    try {
-      const response = await apiGetAllCountries();
-      countries.value = response;
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const recipeCategories = ref<string[]>([]);
 
   const getClassTemperature = (temperature: number) => {
     switch (temperature) {
@@ -69,11 +67,11 @@
   };
 
   const getOrigin = (origin: string) => {
-    return countries.value.find(country => country.countryCode === origin)?.alpha2;
-  }
+    return props.countries.find(country => country.countryCode === origin)?.alpha2;
+  };
 
   onMounted(() => {
-    getAllCountries();
+    recipeCategories.value = props.categories.filter((c:ICategory) => props.recipe.categories.includes(c.value)).map((c:ICategory) => c.label);
   });
 </script>
 
@@ -86,16 +84,14 @@
         <div class="recipe-card__info--cooking--origin">{{ getOrigin(recipe.origin) }}</div>
       </div>
       <div class="recipe-card__info--likes">
-        <p>💚 {{ recipe.likes }}</p>
+        <span>❤️ {{ recipe.likes }}</span>
       </div>
       <div class="recipe-card__info--categories">
-        <p>{{ recipe.categories[0] }}</p>
-        <p>{{ recipe.categories[1] }}</p>
+        <span v-for="category in recipeCategories" :key="category">{{ category }}</span>
       </div>
       <span>{{ recipe.author.name }} {{ recipe.author.lastName }}</span>
       <h4>{{ recipe.title }}</h4>
       <p>{{ recipe.description }}</p>
-      <span>{{ recipe.cookingTime }} min.</span>
     </div>
   </article>
 </template>
