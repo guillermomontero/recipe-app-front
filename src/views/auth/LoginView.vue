@@ -42,7 +42,7 @@ const validateForm = () => {
   }
 
   if (!hasEmailFormat(user.value.email)) {
-    loginMessage.value = $t('emailIntroducidoIncorrecto')');
+    loginMessage.value = $t('emailIntroducidoIncorrecto');
     return false;
   }
 

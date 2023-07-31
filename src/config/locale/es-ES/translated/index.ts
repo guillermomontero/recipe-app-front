@@ -70,4 +70,6 @@ export default {
   hacerFoto: 'Hacer foto',
   cancelar: 'Cancelar',
   descargar: 'Descargar',
+  cancelarPremium: 'Cancelar premium',
+  cambiarPassword: 'Cambiar contraseña',
 };

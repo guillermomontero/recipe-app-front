@@ -13,13 +13,42 @@ interface IRecipe {
 
 const store = useAuthStore();
 
+const limitInit = 10;
+const hasPagination = ref<boolean>(false);
+const pagination = ref(0);
+const pageActive = ref(1);
+const pages = ref([]);
 const recipes = ref<IRecipe[]>([]);
 
-const getMyRecipes = async () => {
+const getMyRecipes = async (skip: number = 0, limit: number = limitInit) => {
+  const payload = {
+    skip,
+    limit
+  };
+
   try {
-    recipes.value = await apiGetMyRecipes(store.user._id);
+    const response = await apiGetMyRecipes(store.user._id, payload);
+    recipes.value = response.recipes;
+    if (response.totalRecipes > limitInit) makePagination(skip, limit, response.totalRecipes);
   } catch (error) {
     console.log(error)
+  }
+};
+
+const makePagination = (skip: number, limit: number, totalRecipes: number) => {
+  pages.value = [];
+  hasPagination.value = true;
+  pagination.value = Math.ceil(totalRecipes / limit);
+  pageActive.value = Math.ceil(skip / limit) + 1;
+
+  if (pagination.value > 4) {
+    for (let i = pageActive.value; i < pageActive.value + 4; i++) {
+      if (i <= pagination.value) pages.value.push(i);
+    }
+  } else {
+    for (let i = 1; i <= pagination.value; i++) {
+      pages.value.push(i);
+    }
   }
 };
 
@@ -31,7 +60,7 @@ const likeRecipe = async (recipe: IRecipe) => {
 
   try {
     await apiDoLikeRecipe(payload);
-    getMyRecipes();
+    getMyRecipes(0, 10);
   } catch (error) {
     console.log(error)
   }
@@ -92,5 +121,12 @@ onMounted(() => {
         <button class="btn btn--xs btn--delete" @click.prevent="deleteRecipe(recipe)">{{ $t('eliminar') }}</button>
       </div>
     </article>
+  </section>
+  <section class="pagination" v-if="hasPagination">
+    <button class="btn btn--pagination" @click="getMyRecipes(0, limitInit)" v-if="pageActive > 1">Init</button>
+    <span v-if="pageActive > 3">...</span>
+    <button class="btn btn--pagination" :class="{'btn--pagination--active': pageActive === p }" v-for="p in pages" :key="p" @click="getMyRecipes((p - 1) * limitInit, limitInit)">{{ p }}</button>
+    <span v-if="pageActive < pagination - 3">...</span>
+    <button class="btn btn--pagination" @click="getMyRecipes((pagination - 1) * limitInit, limitInit)" v-if="pageActive < pagination">End</button>
   </section>
 </template>

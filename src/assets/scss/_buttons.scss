@@ -32,4 +32,19 @@
       background: $red-recipe-semi
     }
   }
+
+  &--pagination {
+    min-width: 30px;
+    padding: 0.2em;
+    margin: 0.5em;
+    background: $blue-extra-light;
+
+    &--active {
+      background: $yellow-recipe-semi;
+    }
+
+    &:hover {
+      background: $blue-extra-light
+    }
+  }
 }

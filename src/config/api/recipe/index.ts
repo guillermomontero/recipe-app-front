@@ -1,7 +1,14 @@
 import { apiCallPOST, apiCallGET, apiCallPUT, apiCallDELETE } from '../controller';
 
-export const apiGetAllRecipes = async () => {
-  return await apiCallGET('/recipes/getAllRecipes');
+interface IPagination {
+  skip: number;
+  limit: number;
+}
+
+export const apiGetAllRecipes = async (payload: IPagination) => {
+  const { skip, limit } = payload;
+
+  return await apiCallGET(`/recipes/getAllRecipes?skip=${skip}&limit=${limit}`);
 };
 
 export const apiCreateRecipe = async (payload: Object = {}) => {
@@ -20,20 +27,28 @@ export const apiEditRecipe = async (payload: Object = {}) => {
   return await apiCallPUT('/recipes/editRecipe', payload);
 };
 
-export const apiGetMyRecipes = async (id: string = '') => {
-  return await apiCallGET(`/recipes/getMyRecipes/${id}`);
+export const apiGetMyRecipes = async (id: string = '', payload: IPagination) => {
+  const { skip, limit } = payload;
+
+  return await apiCallGET(`/recipes/getMyRecipes/${id}?skip=${skip}&limit=${limit}`);
 };
 
-export const apiGetLatestRecipes = async () => {
-  return await apiCallGET('/recipes/getLatestRecipes');
+export const apiGetLatestRecipes = async (payload: IPagination) => {
+  const { skip, limit } = payload;
+
+  return await apiCallGET(`/recipes/getLatestRecipes?skip=${skip}&limit=${limit}`);
 };
 
-export const apiGetBestRecipes = async () => {
-  return await apiCallGET('/recipes/getBestRecipes');
+export const apiGetBestRecipes = async (payload: IPagination) => {
+  const { skip, limit } = payload;
+
+  return await apiCallGET(`/recipes/getBestRecipes?skip=${skip}&limit=${limit}`);
 };
 
-export const apiGetWorstRecipes = async () => {
-  return await apiCallGET('/recipes/getWorstRecipes');
+export const apiGetWorstRecipes = async (payload: IPagination) => {
+  const { skip, limit } = payload;
+
+  return await apiCallGET(`/recipes/getWorstRecipes?skip=${skip}&limit=${limit}`);
 };
 
 export const apiDoLikeRecipe = async (payload: Object = {}) => {
