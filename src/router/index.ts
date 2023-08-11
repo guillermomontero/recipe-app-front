@@ -1,85 +1,95 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router';
 import { useAuthStore } from '../store/auth';
 
-const requireAuth = (to, from, next) => {
-  const authStore = useAuthStore();
-  const isLogged = authStore.isLogged;
-
-  if (isLogged) next();
-  else next('/login')
-}
-
-const requireAuthAdmin = (to, from, next) => {
-  const authStore = useAuthStore();
-  const isAdmin = authStore.user.role === 1;
-
-  if (isAdmin) next();
-  else next('/')
-}
-
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'home',
     component: () => import('../views/HomeView.vue'),
-    beforeEnter: requireAuth,
+    meta: {
+      requireAuth: true,
+    }
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import('../views/auth/LoginView.vue')
+    component: () => import('../views/auth/LoginView.vue'),
+    meta: {
+      requireAuth: false,
+    }
   },
   {
     path: '/register',
     name: 'register',
-    component: () => import('../views/auth/RegisterView.vue')
+    component: () => import('../views/auth/RegisterView.vue'),
+    meta: {
+      requireAuth: false,
+    }
   },
   {
     path: '/forgot-password',
     name: 'forgot-password',
-    component: () => import('../views/auth/ForgotPasswordView.vue')
+    component: () => import('../views/auth/ForgotPasswordView.vue'),
+    meta: {
+      requireAuth: false,
+    }
   },
   {
     path: '/profile',
     name: 'profile',
     component: () => import('../views/user/ProfileView.vue'),
-    beforeEnter: requireAuth,
+    meta: {
+      requireAuth: true,
+    }
   },
   {
     path: '/recipes',
     name: 'recipes',
     component: () => import('../views/recipe/RecipesView.vue'),
-    beforeEnter: requireAuth,
+    meta: {
+      requireAuth: true,
+    }
   },
   {
     path: '/recipe',
     name: 'recipe',
     component: () => import('../views/recipe/RecipeView.vue'),
-    beforeEnter: requireAuth,
+    meta: {
+      requireAuth: true,
+    }
   },
   {
     path: '/my-recipes',
     name: 'my-recipes',
     component: () => import('../views/user/MyRecipesView.vue'),
-    beforeEnter: requireAuth,
+    meta: {
+      requireAuth: true,
+    }
   },
   {
     path: '/new-recipe',
     name: 'new-recipe',
     component: () => import('../views/recipe/CreateEditRecipeView.vue'),
-    beforeEnter: requireAuth,
+    meta: {
+      requireAuth: true,
+    }
   },
   {
     path: '/configuration',
     name: 'configuration',
     component: () => import('../views/configuration/ConfigurationView.vue'),
-    beforeEnter: requireAuth,
+    meta: {
+      requireAuth: true,
+    }
   },
   {
     path: '/admin',
     name: 'admin',
     component: () => import('../views/admin/AdminView.vue'),
-    beforeEnter: requireAuthAdmin,
+    meta: {
+      requireAuth: true,
+      role: true
+    }
   }
 ];
 
@@ -87,5 +97,17 @@ const router = createRouter({
   history: createWebHistory(),
   routes
 });
+
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore();
+  const isLogged = authStore.isLogged;
+  const needAuth = to.meta.requireAuth;
+  const needRoleAdmin = to.meta.role;
+  const isAdmin = authStore.user.role === 1;
+
+  if (needAuth && !isLogged) next('/login');
+  else if (needAuth && needRoleAdmin && !isAdmin) next('/');
+  else next();
+})
 
 export default router;

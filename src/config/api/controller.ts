@@ -1,7 +1,7 @@
 import { useAuthStore } from '../../store/auth';
 import { useSpinnerStore } from '../../store/spinner';
 
-const apiUrl: string = 'http://localhost:3000/api/v1';
+const apiUrl: string = import.meta.env.VITE_URL_DB_LOCAL;
 
 let spinnerCounter = 0;
 

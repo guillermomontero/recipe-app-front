@@ -44,7 +44,6 @@ export const useAuthStore = defineStore('auth', {
       this.token = token;
       this.tokenExpires = tokenExpires;
       this.user = JSON.parse(user);
-      router.push('/');
     },
 
     async login(payload: object = {}) {

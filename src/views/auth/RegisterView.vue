@@ -130,7 +130,7 @@ const hasEmailFormat = (searchString: string = '') => {
       <div class="form__row">
         <div class="form__col w-100">
           <input type="password" placeholder=" " id="form-password-repeat" v-model="user.passwordRepeat" class="form__input" autocomplete="new-password">
-          <label for="form-password-repeat" class="form__label">{{ $t('confirmPassword') }}</label>
+          <label for="form-password-repeat" class="form__label">{{ $t('confirmarContrasena') }}</label>
         </div>
       </div>
       <div class="form__row">
