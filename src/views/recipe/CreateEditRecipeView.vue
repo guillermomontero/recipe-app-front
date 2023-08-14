@@ -318,7 +318,7 @@ onMounted(async () => {
         <label for="temperatureCategoryRecipe" class="form__label">{{ $t('temperatura') }}</label>
       </div>
       <div class="form__col w-40 mr-2">
-        <BaseMultiSelect :BMSData="categories" :BMSLabel="'Categories'" @add-new-item="addNewCategory" @selected-values="updateSelectedCategories" />
+        <BaseMultiSelect :BMSData="categories" :BMSLabel="'Categories'" :BMSAllowAddItem="true" :BMSBoxHeight="200" @add-new-item="addNewCategory" @selected-values="updateSelectedCategories" />
       </div>
       <div class="form__col w-40">
         <select placeholder=" " id="countriesRecipe" v-model="recipe.origin" class="form__input">
@@ -343,7 +343,7 @@ onMounted(async () => {
     </div>
     <div class="form__row">
       <div class="form__col w-100" style="height: 250px;">
-        <textarea maxlength="1000" placeholder=" " id="stepsRecipe" cols="30" rows="10" v-model="recipe.steps" class="form__input"></textarea>
+        <textarea placeholder=" " id="stepsRecipe" cols="30" rows="10" v-model="recipe.steps" class="form__input"></textarea>
         <label for="stepsRecipe" class="form__label">{{ $t('pasos') }}</label>
       </div>
     </div>
@@ -353,7 +353,7 @@ onMounted(async () => {
     </div> -->
 
     <div>
-      <button class="btn btn--md btn--edit mr-2" @click.prevent="acceptHandler(1)">{{ mode === 'create' ? $t('crear') : $t('editar') }}</button>
+      <button class="btn btn--md btn--edit mr-2" @click.prevent="acceptHandler(1)">{{ mode === 'create' ? $t('crear') : recipe.draft ? $t('publicar') : $t('editar') }}</button>
       <button v-if="mode === 'create' || recipe.draft" class="btn btn--md btn--edit" @click.prevent="acceptHandler(2)">{{ $t('borrador') }}</button>
     </div>
 

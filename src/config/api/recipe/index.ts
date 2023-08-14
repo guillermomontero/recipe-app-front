@@ -11,6 +11,10 @@ export const apiGetAllRecipes = async (payload: IPagination) => {
   return await apiCallGET(`/recipes/getAllRecipes?skip=${skip}&limit=${limit}`);
 };
 
+export const getAllRecipesForSearch = async () => {
+  return await apiCallGET(`/recipes/getAllRecipesForSearch`);
+};
+
 export const apiCreateRecipe = async (payload: Object = {}) => {
   return await apiCallPOST('/recipes/createRecipe', payload);
 };
