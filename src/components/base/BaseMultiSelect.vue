@@ -9,7 +9,9 @@ interface IData {
 
 const props = defineProps<{
   BMSData: IData[],
-  BMSLabel: String
+  BMSLabel: String,
+  BMSAllowAddItem: Boolean,
+  BMSBoxHeight: Number
 }>();
 
 const emit = defineEmits(['selected-values', 'add-new-item']);
@@ -21,6 +23,8 @@ watch(() => props.BMSData, (first) => {
       selectedValues.value.push(item.value);
     }
   });
+
+  if (!first.find(i => i.selected)) selectedValues.value = [];
 }, { deep: true });
 
 const selectedValues = ref<number[]>([]);
@@ -83,8 +87,8 @@ onUnmounted(() => {
     <input v-if="showOptions" type="text" placeholder=" " id="baseInputText" v-model="textValue" class="multi-select__input" @input="filterOptions" autofocus="autofocus">
     <input v-else type="text" placeholder=" " id="textComputed" v-model="selectedValuesComp" class="multi-select__input">
     <label for="baseInputText" class="multi-select__label">{{ BMSLabel }}</label>
-    <div class="multi-select__items" :class="{ 'multi-select__items--show': showOptions }">
-      <div class="multi-select__items--add-new" @click.prevent="addNewItem(textValue)">+ {{ $t('anadir') }}</div>
+    <div class="multi-select__items" :class="{ 'multi-select__items--show': showOptions }" :style="`max-height: ${BMSBoxHeight}px`">
+      <div v-if="BMSAllowAddItem" class="multi-select__items--add-new" @click.prevent="addNewItem(textValue)">+ {{ $t('anadir') }}</div>
       <div v-for="(item, index) in filterList" :key="index" class="multi-select__items--options">
         <div class="form__checkbox">
           <input type="checkbox" :name="`baseInputCheckbox-${index}`" :id="`baseInputCheckbox-${index}`" @click="checkValue(item.value)" v-model="item.selected">

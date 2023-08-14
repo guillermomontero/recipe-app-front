@@ -72,4 +72,8 @@ export default {
   descargar: 'Download',
   cancelarPremium: 'Cancel premium',
   cambiarPassword: 'Change password',
+  buscar: 'Search',
+  publicar: 'Publish',
+  aplicar: 'Apply',
+  limpiar: 'Clear',
 };
