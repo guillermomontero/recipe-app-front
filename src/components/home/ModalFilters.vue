@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useFilterBarStore } from '../../store/filter-bar';
 import { apiGetAllTemperatureCategories } from "../../config/api/temperature-category";
 import { apiGetAllCategories } from '../../config/api/category';
@@ -37,11 +37,6 @@ const temperatureCategories = ref<IObject[]>([]);
 const countries = ref<IObjectCountry[]>([]);
 const categories = ref<ICategory[]>([]);
 const unitTimes = ref<IObject[]>([]);
-const cookingTimeSelected = ref<number>(0);
-const originSelected = ref<string>('');
-const temperatureCategorySelected = ref<number>(0);
-const unitTimeSelected = ref<number>(0);
-const categoriesSelected = ref<number[]>([]);
 
 const getAllTemperatureCategories = async() => {
   try {
@@ -83,13 +78,22 @@ const updateSelectedCategories = (categories: number[] = []) => {
   storeFilterBar.setCategories(categories);
 };
 
+const clearFilters = () => {
+  storeFilterBar.clearFilters();
+  categories.value.forEach((c: ICategory)  => { c.selected = false; });
+};
+
 const close = (apply: boolean = false) => {
   const payload = {
     cookingTime: storeFilterBar.cookingTime,
     origin: storeFilterBar.origin,
+    originLabel: countries.value.find((c: IObjectCountry) => c.value === storeFilterBar.origin)?.label,
     temperatureCategory: storeFilterBar.temperatureCategory,
+    temperatureCategoryLabel: temperatureCategories.value.find((tc: IObject) => tc.value === storeFilterBar.temperatureCategory)?.label,
     unitTime: storeFilterBar.unitTime,
-    categories: storeFilterBar.categories
+    unitTimeLabel: unitTimes.value.find((u: IObject) => u.value === storeFilterBar.unitTime)?.label,
+    categories: storeFilterBar.categories,
+    categoriesLabels: categories.value.filter((c: ICategory) => c.selected).map((c: ICategory) => c.label)
   };
 
   emit('close', apply,  payload);
@@ -154,8 +158,8 @@ onMounted(async () => {
           </div>
         </div>
         <div>
+          <button class="btn btn--md btn--edit mr-2" @click.prevent="clearFilters">{{ $t('limpiar') }}</button>
           <button class="btn btn--md btn--edit" @click.prevent="close(true)">{{ $t('aplicar') }}</button>
-          <button class="btn btn--md btn--edit" @click.prevent="storeFilterBar.clearFilters">{{ $t('limpiar') }}</button>
         </div>
       </form>
     </article>

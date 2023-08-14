@@ -23,6 +23,8 @@ watch(() => props.BMSData, (first) => {
       selectedValues.value.push(item.value);
     }
   });
+
+  if (!first.find(i => i.selected)) selectedValues.value = [];
 }, { deep: true });
 
 const selectedValues = ref<number[]>([]);
