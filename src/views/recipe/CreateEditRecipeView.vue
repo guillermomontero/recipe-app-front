@@ -51,6 +51,8 @@ interface ICategory {
 const route = useRoute();
 const store = useAuthStore();
 
+
+// TODO: Add portions field (CRUD)
 const mode = ref<string>('create');
 const newRecipeMessage = ref<string>('');
 const temperatureCategories = ref<IObject[]>([]);

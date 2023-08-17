@@ -1,5 +1,6 @@
 <script setup lang="ts">
   import { onMounted, ref, PropType } from 'vue';
+import router from '../../router';
 
   interface IRecipe {
     _id: number,
@@ -70,13 +71,17 @@
     return props.countries.find(country => country.countryCode === origin)?.alpha2;
   };
 
+  const goToRecipeView = () => {
+    router.push({ name: 'recipe', query: { id: props.recipe._id } });
+  };
+
   onMounted(() => {
     recipeCategories.value = props.categories.filter((c:ICategory) => props.recipe.categories.includes(c.value)).map((c:ICategory) => c.label);
   });
 </script>
 
 <template>
-  <article class="recipe-card">
+  <article class="recipe-card" @click="goToRecipeView">
     <div class="recipe-card__info">
       <div class="recipe-card__info--cooking">
         <div class="recipe-card__info--cooking--temperature" :class="getClassTemperature(recipe.temperatureCategory)"></div>
