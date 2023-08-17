@@ -22,12 +22,12 @@ onMounted(async () => {
     <h3>{{ recipe.title }}</h3>
     <!-- <button class="btn btn--xs btn--edit" @click="editProfile">{{ $t('editar') }}</button> -->
   </div>
-  <section class="recipe-view">
-    <div class="recipe-view__photo">
-      <img :src="recipe.photo" alt="recipe.title">
-    </div>
+  <section class="recipe-view mt-2">
     <div class="recipe-view__description">
-      <p>{{ recipe.description }}</p>
+      <h4>{{ recipe.description }}</h4>
+    </div>
+    <div class="recipe-view__photo my-2">
+      <img :src="recipe.photo" alt="recipe.title">
     </div>
     <div class="recipe-view__author">
       <p>{{ recipe.author }}</p>
