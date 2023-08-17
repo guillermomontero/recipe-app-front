@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue';
-import { useRoute,LocationQueryValue } from 'vue-router';
+import { useRoute, LocationQueryValue } from 'vue-router';
 import { apiCreateRecipe, apiGetRecipe, apiEditRecipe } from "../../config/api/recipe";
 import { apiGetAllTemperatureCategories } from "../../config/api/temperature-category";
 import { apiGetAllCategories, apiCreateCategory } from '../../config/api/category';
@@ -51,6 +51,8 @@ interface ICategory {
 const route = useRoute();
 const store = useAuthStore();
 
+
+// TODO: Add portions field (CRUD)
 const mode = ref<string>('create');
 const newRecipeMessage = ref<string>('');
 const temperatureCategories = ref<IObject[]>([]);

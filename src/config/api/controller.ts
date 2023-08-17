@@ -71,7 +71,7 @@ export const apiCallGET = async (url: string = '') => {
     if (!response.ok) throw new Error(`${response.status} - ${response.statusText}`);
     const data = await response.json();
 
-    return data
+    return data;
   } catch (error: any) {
     throw new Error(error.message);
   } finally {
