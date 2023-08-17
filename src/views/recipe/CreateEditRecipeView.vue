@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue';
-import { useRoute,LocationQueryValue } from 'vue-router';
+import { useRoute, LocationQueryValue } from 'vue-router';
 import { apiCreateRecipe, apiGetRecipe, apiEditRecipe } from "../../config/api/recipe";
 import { apiGetAllTemperatureCategories } from "../../config/api/temperature-category";
 import { apiGetAllCategories, apiCreateCategory } from '../../config/api/category';

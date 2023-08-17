@@ -2,7 +2,7 @@
 
 interface ImportMetaEnv {
   readonly BASE_URL: string,
-  readonly URL_DB_LOCAL: string,
+  readonly VITE_URL_DB_LOCAL: string,
   readonly JWT_SECRET: string,
   readonly JWT_REFRESH: string,
   readonly NODE_ENV: string,

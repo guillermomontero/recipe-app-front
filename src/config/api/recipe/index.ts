@@ -12,7 +12,7 @@ export const apiGetAllRecipes = async (payload: IPagination) => {
 };
 
 export const getAllRecipesForSearch = async () => {
-  return await apiCallGET(`/recipes/getAllRecipesForSearch`);
+  return await apiCallGET('/recipes/getAllRecipesForSearch');
 };
 
 export const apiCreateRecipe = async (payload: Object = {}) => {
