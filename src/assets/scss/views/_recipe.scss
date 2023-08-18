@@ -3,10 +3,10 @@
   display: flex;
   flex-flow: column wrap;
   align-items: center;
+  text-align: left;
 
   &__description {
     width: 100%;
-    text-align: left;
   }
 
   &__photo {
@@ -18,5 +18,21 @@
       width: 100%;
       height: auto;
     }
+  }
+
+  &__author {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  &__data {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: flex-start;
   }
 }

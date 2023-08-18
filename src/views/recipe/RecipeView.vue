@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useRoute, LocationQueryValue } from 'vue-router';
+import { formatDateFront } from '../../config/utils/dates';
 import { apiGetRecipe } from '../../config/api/recipe';
+import { apiGetUserName } from '../../config/api/user';
 
 const route = useRoute();
 const recipeId = route.query.id;
@@ -10,10 +12,16 @@ const recipe = ref({});
 const getRecipe = async (id: LocationQueryValue = '') => {
   const response = await apiGetRecipe(id);
   recipe.value = response;
-}
+};
+
+const getUserName = async (id: LocationQueryValue = '') => {
+  const response = await apiGetUserName(id);
+  recipe.value.authorName = response.name;
+};
 
 onMounted(async () => {
-  getRecipe(recipeId);
+  await getRecipe(recipeId);
+  await getUserName(recipe.value.author);
 }); 
 </script>
 
@@ -30,8 +38,8 @@ onMounted(async () => {
       <img :src="recipe.photo" alt="recipe.title">
     </div>
     <div class="recipe-view__author">
-      <p>{{ recipe.author }}</p>
-      <p>{{ recipe.createDate }}</p>
+      <p>{{ recipe.authorName }}</p>
+      <p>{{ formatDateFront(recipe.createDate) }}</p>
     </div>
     <div class="recipe-view__data">
       <p>{{ recipe.temperatureCategory }}</p>
