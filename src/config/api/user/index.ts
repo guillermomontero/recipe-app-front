@@ -12,6 +12,10 @@ export const apiGetUser = async (id: number = 0) => {
   return await apiCallGET(`/users/getUser/${id}`);
 };
 
+export const apiGetUserData = async (id: number = 0) => {
+  return await apiCallGET(`/users/getUserData/${id}`);
+};
+
 export const apiDeleteUser = async (payload: object = {}) => {
   return await apiCallPUT('/users/deleteUser', payload);
 };

@@ -3,6 +3,8 @@ import { ref, watch } from 'vue';
 import { apiCreateUser } from "../../config/api/user";
 import router from '../../router';
 
+// TODO: nickname (CRUD)
+
 interface User {
   name: string,
   lastName: string,
