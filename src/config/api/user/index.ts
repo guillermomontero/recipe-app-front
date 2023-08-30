@@ -12,8 +12,8 @@ export const apiGetUser = async (id: number = 0) => {
   return await apiCallGET(`/users/getUser/${id}`);
 };
 
-export const apiGetUserName = async (id: number = 0) => {
-  return await apiCallGET(`/users/getUserName/${id}`);
+export const apiGetUserData = async (id: number = 0) => {
+  return await apiCallGET(`/users/getUserData/${id}`);
 };
 
 export const apiDeleteUser = async (payload: object = {}) => {

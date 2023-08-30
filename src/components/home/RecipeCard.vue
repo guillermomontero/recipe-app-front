@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import { onMounted, ref, PropType } from 'vue';
-import router from '../../router';
+  import router from '../../router';
 
   interface IRecipe {
     _id: number,

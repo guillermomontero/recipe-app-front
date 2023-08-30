@@ -76,4 +76,6 @@ export default {
   publicar: 'Publish',
   aplicar: 'Apply',
   limpiar: 'Clear',
+  ingredientes: 'Ingredients',
+  receta: 'Recipe',
 };

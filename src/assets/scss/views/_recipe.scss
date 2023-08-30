@@ -5,34 +5,180 @@
   align-items: center;
   text-align: left;
 
-  &__description {
+  &__bar {
     width: 100%;
-  }
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: flex-start;
 
-  &__photo {
-    width: 100%;
-    border-radius: 5px;
-    overflow: hidden;
+    &--info {
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      justify-content: flex-start;
 
-    img {
-      width: 100%;
-      height: auto;
+      &--temperature {
+        border-radius: 10px 0 0 10px;
+        overflow: hidden;
+        width: 40px;
+        height: 20px;
+
+        &--hot {
+          background: $temperature-red;
+        }
+
+        &--cold {
+          background: $temperature-blue;
+        }
+
+        &--warm {
+          background: $temperature-orange;
+        }
+      }
+
+      &--timing {
+        width: 50px;
+        height: 20px;
+        background: $blue-extra-light;
+        color: $blue-dark;
+        font-size: 0.6rem;
+        text-align: center;
+        line-height: 22px;
+      }
+
+      &--origin {
+        width: 50px;
+        height: 20px;
+        background: $info;
+        border-radius: 0 10px 10px 0;
+        color: $blue-dark;
+        font-size: 0.6rem;
+        text-align: center;
+        line-height: 22px;
+      }
+    }
+
+    &--user-create {
+      margin: 0 1em 0 1em;
+      
+      span {
+        font-size: 0.8rem;
+      }
+    }
+
+    &--likes {
+      flex: 2 1 auto;
+      text-align: right;
     }
   }
 
-  &__author {
+  &__info {
     width: 100%;
     display: flex;
     flex-flow: row wrap;
-    align-items: center;
+    align-items: stretch;
     justify-content: flex-start;
+
+    &--img {
+      width: 50%;
+      border-radius: 10px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+    }
+
+    &--data {
+      width: 50%;
+      padding: 0 0 0 1em;
+      display: flex;
+      flex-flow: column wrap;
+      align-items: flex-start;
+
+      &--description {
+
+      }
+
+      &--categories {
+        width: 100%;
+        display: flex;
+        flex-flow: row wrap;
+        align-items: center;
+
+        &--category {
+          border-radius: 20px;
+          padding: 0 12px;
+          background: $orange-semi;
+          font-size: 0.6rem;
+
+          &:not(:last-child) {
+            margin: 0 0.6em 0 0;
+          }
+        }
+      }
+    }
   }
 
-  &__data {
+  &__content {
     width: 100%;
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: 20% auto;
+    grid-template-rows: auto;
+    gap: 1em;
+
+    &--ingredients {
+      grid-column: 1 / 2;
+      grid-row: 1 / 2;
+      display: flex;
+      flex-flow: column wrap;
+      align-items: flex-start;
+      border-radius: 10px;
+      padding: 1em;
+      background: $yellow-recipe-semi;
+
+      &--divider {
+        width: 100%;
+        height: 1px;
+        margin: 0.6em 0;
+        background: $blue-semi;
+      }
+
+      &--ingredient {
+        font-size: 0.8rem;
+      }
+    }
+
+    &--ad {
+      grid-column: 1 / 2;
+      grid-row: 2;
+      background: $orange-dark;
+      border-radius: 10px;
+      display: flex;
+      flex-flow: column wrap;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &--steps {
+      grid-column: 2 / 3;
+      grid-row: 1 / 3;
+      border-radius: 10px;
+      width: 100%;
+      background: $blue-extra-light;
+      padding: 1em;
+  
+      &--divider {
+        width: 100%;
+        height: 1px;
+        margin: 0.6em 0;
+        background: $blue-semi;
+      }
+    }
   }
+
+
 }
