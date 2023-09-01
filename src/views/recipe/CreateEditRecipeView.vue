@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue';
 import { useRoute, LocationQueryValue } from 'vue-router';
-import { apiCreateRecipe, apiGetRecipe, apiEditRecipe } from "../../config/api/recipe";
+import { apiCreateRecipe, apiGetRecipe, apiEditRecipe, apiUploadRecipe } from "../../config/api/recipe";
 import { apiGetAllTemperatureCategories } from "../../config/api/temperature-category";
 import { apiGetAllCategories, apiCreateCategory } from '../../config/api/category';
 import { apiGetAllCountries } from "../../config/api/country";
@@ -74,6 +74,9 @@ const recipe = ref<IRecipe>({
   photo: '',
   draft: false,
 });
+const fileToSave = ref(null);
+const fileBase64URL = ref(null);
+const fileBase64Name = ref(null);
 
 watch(newRecipeMessage, (newQuestion) => {
   if (newQuestion) {
@@ -183,7 +186,8 @@ const createRecipe = async () => {
   };
 
   try {
-    await apiCreateRecipe(payload);
+    const response = await apiCreateRecipe(payload);
+    if (fileToSave.value) await sendImage(response._id);
     router.push('/my-recipes');
   } catch (error) {
     console.log(error);
@@ -209,7 +213,8 @@ const editRecipe = async () => {
   };
 
   try {
-    await apiEditRecipe(payload);
+    const response = await apiEditRecipe(payload);
+    if (fileToSave.value) await sendImage(response._id);
     router.push('/my-recipes');
   } catch (error) {
     console.log(error);
@@ -235,7 +240,8 @@ const saveDraftRecipe = async () => {
   };
 
   try {
-    await apiCreateRecipe(payload);
+    const response = await apiCreateRecipe(payload);
+    if (fileToSave.value) await sendImage(response._id);
     router.push('/my-recipes');
   } catch (error) {
     console.log(error);
@@ -263,6 +269,42 @@ const addNewCategory = async (text: string = '') => {
     const response = await apiCreateCategory(payload);
     categories.value.push({ label: response.name, value: response.value, selected: true });
     recipe.value.categories.push(response.value);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const onSelect = () => {
+  fileToSave.value = document.getElementById('fileinput').files[0];
+  const reader = new FileReader();
+  reader.readAsDataURL(fileToSave.value);
+  reader.onload = () => {
+    fileBase64URL.value = reader.result;
+    fileBase64Name.value = fileToSave.value.name;
+  };
+  reader.onerror = (error) => {
+    console.log('Error: ', error);
+  };
+};
+
+const deleteImage = () => {
+  const input = document.getElementById('fileinput');
+  input.value = null;
+  input.type = 'text';
+  input.type = 'file';
+
+  fileToSave.value = null;
+  fileBase64URL.value = null;
+  fileBase64Name.value = null;
+}
+
+const sendImage = async (id: string) => {
+  const formData = new FormData();
+  formData.append('image', fileToSave.value);
+
+  try {
+    await apiUploadRecipe(id, formData);
+    // TODO: show success alert
   } catch (error) {
     console.log(error);
   }
@@ -349,10 +391,18 @@ onMounted(async () => {
         <label for="stepsRecipe" class="form__label">{{ $t('pasos') }}</label>
       </div>
     </div>
-    <!-- <div class="form__row">
-      <label for="photoOrigin">{{ $t('foto') }}</label>
-      <input type="file" placeholder="Photo" name="photoOrigin" id="photoOrigin" class="form__input">
-    </div> -->
+    <div class="form__row">
+      <form @submit.prevent="sendImage('file')" enctype="multipart/form-data" id="form">
+        <label for="image">{{ $t('foto') }}</label>
+        <input type="file" name="image" id="fileinput" accept="image/jpeg, image/png" placeholder="Photo" class="form__input" @change="onSelect">
+      </form>
+      <div v-if="fileBase64URL" class="col-md-4">
+        <div class="preview">
+          <img ref="img" :src="fileBase64URL" alt="">
+          <button class="preview__delete" @click="deleteImage">&times;</button>
+        </div>
+      </div>
+    </div>
 
     <div>
       <button class="btn btn--md btn--edit mr-2" @click.prevent="acceptHandler(1)">{{ mode === 'create' ? $t('crear') : recipe.draft ? $t('publicar') : $t('editar') }}</button>

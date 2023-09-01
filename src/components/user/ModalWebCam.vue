@@ -63,7 +63,7 @@ const makePicture = () => {
   const image = canvas?.toDataURL('image/jpg', 1).replace(/^data:image\/([^;]*)[^]/, 'data:application/octet-stream;');
   hasPicture.value = true;
 
-  webcamCapture.value = dataURLtoFile(image, `${props.userData._id}.png`);
+  webcamCapture.value = dataURLtoFile(image, `${self.crypto.randomUUID()}.png`);
 };
 
 const dataURLtoFile = (dataurl, filename) => {
@@ -114,14 +114,12 @@ const deleteImage = () => {
 }
 
 const sendImage = async (mode: string) => {
-  console.log(fileToSave.value);
-  console.log(webcamCapture.value);
   const formData = new FormData();
   if (mode === 'file') formData.append('image', fileToSave.value);
   if (mode === 'webcam') formData.append('image', webcamCapture.value);
 
   try {
-    await apiUploadAvatar(formData);
+    await apiUploadAvatar(props.userData._id, formData);
     // TODO: show success alert
   } catch (error) {
     console.log(error);

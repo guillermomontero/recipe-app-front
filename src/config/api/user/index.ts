@@ -44,6 +44,6 @@ export const apiChangePlan = async (payload: Object = {}) => {
   return await apiCallPUT('/users/changePlan', payload);
 };
 
-export const apiUploadAvatar = async (payload: File) => {
-  return await apiCallFormPOST('/files/uploadAvatar', payload);
+export const apiUploadAvatar = async (id: string = '', payload: File) => {
+  return await apiCallFormPOST(`/files/uploadAvatar/${id}`, payload);
 };
