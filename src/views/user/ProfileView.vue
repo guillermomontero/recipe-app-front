@@ -129,5 +129,5 @@ onMounted(() => {
   </section>
 
   <ModalEditProfile v-if="showModalEditProfile" :userData="user" @close="closeModalEditProfile" />
-  <ModalWebCam v-if="showModalWebCam" @close="closeModalWebCam" />
+  <ModalWebCam v-if="showModalWebCam" :userData="user" @close="closeModalWebCam" />
 </template>

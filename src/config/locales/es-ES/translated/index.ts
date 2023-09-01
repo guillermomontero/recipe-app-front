@@ -78,4 +78,5 @@ export default {
   limpiar: 'Limpiar',
   ingredientes: 'Ingredientes',
   receta: 'Receta',
+  aceptar: 'Aceptar',
 };
