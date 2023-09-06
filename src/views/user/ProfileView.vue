@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useAuthStore } from '../../store/auth';
-import { apiGetUser } from "../../config/api/user";
+import { apiGetUser, apiDeleteImageProfile } from "../../config/api/user";
 import { formatDateToInput, formatDateFront } from '../../config/utils/dates';
 import ModalEditProfile from '../../components/user/ModalEditProfile.vue';
 import ModalWebCam from '../../components/user/ModalWebCam.vue';
@@ -76,8 +76,24 @@ const openModalWebCam = () => {
   showModalWebCam.value = true;
 };
 
-const closeModalWebCam = () => {
+const closeModalWebCam = (refresh: boolean = false) => {
   showModalWebCam.value = false;
+  if (refresh) getUserData();
+};
+
+const deleteImageProfile = async() => {
+  const payload = {
+    _id: user.value._id,
+    imageProfile: ''
+  };
+
+  try {
+    await apiDeleteImageProfile(payload);
+    console.log('Se ha eliminado correctamente');
+    await getUserData();
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 onMounted(() => {
@@ -95,8 +111,9 @@ onMounted(() => {
       <div class="profile__principal--photo">
         <img :src="user.imageProfile" alt="">
         <div class="profile__principal--photo--buttons">
-          <button class="btn btn--xs btn--delete mr-1" @click.prevent="openModalWebCam">🗑️</button>
-          <button class="btn btn--xs btn--edit" @click.prevent="openModalWebCam">✏️ {{ $t('editar') }}</button>
+          <button v-if="!user.imageProfile" class="btn btn--xs btn--add" @click.prevent="openModalWebCam">➕ {{ $t('anadir') }}</button>
+          <button v-if="user.imageProfile" class="btn btn--xs btn--delete mr-1" @click.prevent="deleteImageProfile">🗑️</button>
+          <button v-if="user.imageProfile" class="btn btn--xs btn--edit" @click.prevent="openModalWebCam">✏️ {{ $t('editar') }}</button>
         </div>
       </div>
       <div class="profile__principal--data">
@@ -129,5 +146,5 @@ onMounted(() => {
   </section>
 
   <ModalEditProfile v-if="showModalEditProfile" :userData="user" @close="closeModalEditProfile" />
-  <ModalWebCam v-if="showModalWebCam" @close="closeModalWebCam" />
+  <ModalWebCam v-if="showModalWebCam" :userData="user" @close="closeModalWebCam" />
 </template>

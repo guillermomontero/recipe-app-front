@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue';
 import { useRoute, LocationQueryValue } from 'vue-router';
-import { apiCreateRecipe, apiGetRecipe, apiEditRecipe } from "../../config/api/recipe";
+import { apiCreateRecipe, apiGetRecipe, apiEditRecipe, apiUploadRecipe } from "../../config/api/recipe";
 import { apiGetAllTemperatureCategories } from "../../config/api/temperature-category";
 import { apiGetAllCategories, apiCreateCategory } from '../../config/api/category';
 import { apiGetAllCountries } from "../../config/api/country";
@@ -74,6 +74,9 @@ const recipe = ref<IRecipe>({
   photo: '',
   draft: false,
 });
+const fileToSave = ref(null);
+const fileBase64URL = ref(null);
+const fileBase64Name = ref(null);
 
 watch(newRecipeMessage, (newQuestion) => {
   if (newQuestion) {
@@ -126,7 +129,7 @@ const fillDataToEdit = async (id: LocationQueryValue = '') => {
     recipe.value.title = response.title;
     recipe.value.description = response.description;
     recipe.value.ingredients = response.ingredients;
-    recipe.value.steps = response.steps;
+    recipe.value.steps = response.steps.replaceAll('<br>', '\n');
     recipe.value.cookingTime = response.cookingTime;
     recipe.value.unitTime = response.unitTime;
     recipe.value.temperatureCategory = response.temperatureCategory;
@@ -179,11 +182,11 @@ const createRecipe = async () => {
     origin: recipe.value.origin,
     draft: recipe.value.draft,
     author: store.user._id,
-    photo: recipe.value.photo
   };
 
   try {
-    await apiCreateRecipe(payload);
+    const response = await apiCreateRecipe(payload);
+    if (fileToSave.value) await sendImage(response._id);
     router.push('/my-recipes');
   } catch (error) {
     console.log(error);
@@ -205,11 +208,11 @@ const editRecipe = async () => {
     categories: recipe.value.categories,
     origin: recipe.value.origin,
     draft: false,
-    photo: recipe.value.photo
   };
 
   try {
-    await apiEditRecipe(payload);
+    const response = await apiEditRecipe(payload);
+    if (fileToSave.value) await sendImage(response._id);
     router.push('/my-recipes');
   } catch (error) {
     console.log(error);
@@ -231,11 +234,11 @@ const saveDraftRecipe = async () => {
     origin: recipe.value.origin,
     draft: true,
     author: store.user._id,
-    photo: recipe.value.photo
   };
 
   try {
-    await apiCreateRecipe(payload);
+    const response = await apiCreateRecipe(payload);
+    if (fileToSave.value) await sendImage(response._id);
     router.push('/my-recipes');
   } catch (error) {
     console.log(error);
@@ -248,6 +251,8 @@ const validateForm = () => {
     newRecipeMessage.value = $t('introduzcaTituloCorrecto');
     return false;
   }
+
+  recipe.value.steps = recipe.value.steps.replaceAll('\n', '<br>');
 
   return true;
 };
@@ -263,6 +268,46 @@ const addNewCategory = async (text: string = '') => {
     const response = await apiCreateCategory(payload);
     categories.value.push({ label: response.name, value: response.value, selected: true });
     recipe.value.categories.push(response.value);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const selectFile = () => {
+  document.getElementById('fileinput').click();
+};
+
+const onSelect = () => {
+  fileToSave.value = document.getElementById('fileinput').files[0];
+  const reader = new FileReader();
+  reader.readAsDataURL(fileToSave.value);
+  reader.onload = () => {
+    fileBase64URL.value = reader.result;
+    fileBase64Name.value = fileToSave.value.name;
+  };
+  reader.onerror = (error) => {
+    console.log('Error: ', error);
+  };
+};
+
+const deleteImage = () => {
+  const input = document.getElementById('fileinput');
+  input.value = null;
+  input.type = 'text';
+  input.type = 'file';
+
+  fileToSave.value = null;
+  fileBase64URL.value = null;
+  fileBase64Name.value = null;
+}
+
+const sendImage = async (id: string) => {
+  const formData = new FormData();
+  formData.append('image', fileToSave.value);
+
+  try {
+    await apiUploadRecipe(id, new Date().getTime(), formData);
+    // TODO: show success alert
   } catch (error) {
     console.log(error);
   }
@@ -349,10 +394,15 @@ onMounted(async () => {
         <label for="stepsRecipe" class="form__label">{{ $t('pasos') }}</label>
       </div>
     </div>
-    <!-- <div class="form__row">
-      <label for="photoOrigin">{{ $t('foto') }}</label>
-      <input type="file" placeholder="Photo" name="photoOrigin" id="photoOrigin" class="form__input">
-    </div> -->
+    <div class="form__row">
+      <form @submit.prevent="sendImage('file')" enctype="multipart/form-data" id="form" class="form__col w-100 mb-0">
+        <input type="file" name="image" id="fileinput" accept="image/jpeg, image/png" placeholder="Photo" class="form__input" @change="onSelect">
+        <div class="form__input--div">
+          <div class="form__input--div--text" @click="selectFile">{{ fileToSave ? fileBase64Name : '📂 Seleccione una imagen' }}</div>
+          <div v-if="fileBase64Name" class="form__input--div--close" @click="deleteImage">&times;</div>
+        </div>
+      </form>
+    </div>
 
     <div>
       <button class="btn btn--md btn--edit mr-2" @click.prevent="acceptHandler(1)">{{ mode === 'create' ? $t('crear') : recipe.draft ? $t('publicar') : $t('editar') }}</button>

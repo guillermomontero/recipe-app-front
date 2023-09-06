@@ -190,7 +190,7 @@ onMounted(() => {
       <div class="recipe-view__content--steps">
         <h5>{{ $t('receta') }}</h5>
         <div class="recipe-view__content--steps--divider"></div>
-        <p>{{ recipe.steps }}</p>
+        <p v-html="recipe.steps"></p>
       </div>
     </div>
   </section>

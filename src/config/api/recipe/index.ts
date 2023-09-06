@@ -1,4 +1,4 @@
-import { apiCallPOST, apiCallGET, apiCallPUT, apiCallDELETE } from '../controller';
+import { apiCallPOST, apiCallFormPOST, apiCallGET, apiCallPUT, apiCallDELETE } from '../controller';
 
 interface IPagination {
   skip: number;
@@ -61,4 +61,8 @@ export const apiDoLikeRecipe = async (payload: Object = {}) => {
 
 export const apiDoUnlikeRecipe = async (payload: Object = {}) => {
   return await apiCallPUT('/recipes/doUnlikeRecipe', payload);
+};
+
+export const apiUploadRecipe = async (id: string = '', timestamp: number, payload: FormData) => {
+  return await apiCallFormPOST(`/files/uploadRecipe/${id}/${timestamp}`, payload);
 };

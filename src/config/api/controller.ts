@@ -53,6 +53,33 @@ export const apiCallPOST = async (url: string = '', data: Object = {}) => {
   }
 };
 
+export const apiCallFormPOST = async (url: string = '', payload: FormData) => {
+  setSpinner(true);
+
+  const params = getTokenRole();
+  
+  const options: Object = {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${params.token}`,
+      role: params.role
+    },
+    body: payload
+  };
+
+  try {
+    const response = await fetch(`${apiUrl}${url}`, options);
+    if (!response.ok) throw new Error(`${response.status} - ${response.statusText}`);
+    const data = await response.json();
+
+    return data
+  } catch (error: any) {
+    throw new Error(error.message);
+  } finally {
+    setSpinner(false);
+  }
+};
+
 export const apiCallGET = async (url: string = '') => {
   setSpinner(true);
 

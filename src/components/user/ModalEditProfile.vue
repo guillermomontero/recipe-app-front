@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { formatDateToClient } from '../../config/utils/dates';
+import { useAuthStore } from '../../store/auth';
 import { apiEditUser } from '../../config/api/user';
 
 interface Location {
@@ -25,6 +26,8 @@ const props = defineProps<{
   userData: IUser,
 }>();
 
+const store = useAuthStore();
+
 const user = ref<IUser>({
   _id: '',
   name: '',
@@ -44,7 +47,8 @@ const editProfile = async () => {
   const payload = { ...user.value, birthDate: formatDateToClient(user.value.birthDate) };
 
   try {
-    await apiEditUser(payload);
+    const response = await apiEditUser(payload);
+    store.updateUser(response.userDB, response.token.token, response.token.expiresIn);
     close(true);
   } catch (error) {
     console.log(error);

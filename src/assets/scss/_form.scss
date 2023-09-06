@@ -40,6 +40,37 @@
     top: 0;
     left: 0;
     z-index: 1;
+
+    &--div {
+      width: 100%;
+      border: solid 1px $blue-light;
+      background: $white;
+      border-radius: 5px;
+      padding: 0.8em 1em 0.8em 1em;
+      cursor: pointer;
+      position: relative;
+      display: flex;
+      flex-flow: row nowrap;
+      align-items: center;
+      justify-content: space-between;
+
+      &--text {
+        width: 90%;
+      }
+
+      &--close {
+        font-size: 2rem;
+        position: absolute;
+        right: 0.4em;
+        z-index: inherit;
+        color: $blue-dark;
+        transition: all ease 0.3s;
+
+        &:hover {
+          color: $blue-light;
+        }
+      }
+    }
   }
 
   &__textarea {
@@ -185,4 +216,12 @@
       }
     }
   }
+}
+
+input[type="file"] {
+  display: none;
+}
+
+select {
+  color: $blue-dark;
 }

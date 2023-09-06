@@ -1,4 +1,4 @@
-import { apiCallPOST, apiCallGET, apiCallPUT, apiCallDELETE } from '../controller';
+import { apiCallPOST, apiCallFormPOST, apiCallGET, apiCallPUT, apiCallDELETE } from '../controller';
 
 export const apiGetAllUsers = async () => {
   return await apiCallGET('/users/getAllUsers');
@@ -42,4 +42,12 @@ export const apiChangePreferences = async (payload: Object = {}) => {
 
 export const apiChangePlan = async (payload: Object = {}) => {
   return await apiCallPUT('/users/changePlan', payload);
+};
+
+export const apiUploadAvatar = async (id: string = '', timestamp: number, payload: FormData) => {
+  return await apiCallFormPOST(`/files/uploadAvatar/${id}/${timestamp}`, payload);
+};
+
+export const apiDeleteImageProfile = async (payload: Object = {}) => {
+  return await apiCallPUT('/users/deleteImageProfile', payload);
 };
