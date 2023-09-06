@@ -40,6 +40,11 @@ const editPassword = async () => {
 };
 
 const validateForm = () => {
+  if (pass.value.password.length >= 50 || pass.value.newPassword.length >= 50 || pass.value.newPasswordConfirm.length >= 50) {
+    validateMessage.value = $t('contrasenaIntroducidaSuperaLongitud');
+    return false;
+  }
+
   if (pass.value.password === '') {
     validateMessage.value = $t('contrasenaIntroducidaIncorrecta');
     return false;
@@ -83,19 +88,19 @@ watch(validateMessage, (newQuestion) => {
       <form class="form" autocomplete="off">
         <div class="form__row">
           <div class="form__col w-100">
-            <input type="password" placeholder=" " id="currentPassword" v-model="pass.password" class="form__input" autocomplete="new-password">
+            <input type="password" placeholder=" " id="currentPassword" v-model="pass.password" class="form__input" autocomplete="new-password" maxlength="50">
             <label for="currentPassword" class="form__label">{{ $t('contrasenaActual') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-100">
-            <input type="password" placeholder=" " id="newPassword" v-model="pass.newPassword" class="form__input" autocomplete="new-password">
+            <input type="password" placeholder=" " id="newPassword" v-model="pass.newPassword" class="form__input" autocomplete="new-password" maxlength="50">
             <label for="newPassword" class="form__label">{{ $t('nuevaContrasena') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-100">
-            <input type="password" placeholder=" " id="newPasswordConfirm" v-model="pass.newPasswordConfirm" class="form__input" autocomplete="new-password">
+            <input type="password" placeholder=" " id="newPasswordConfirm" v-model="pass.newPasswordConfirm" class="form__input" autocomplete="new-password" maxlength="50">
             <label for="newPasswordConfirm" class="form__label">{{ $t('confirmarNuevaContrasena') }}</label>
           </div>
         </div>

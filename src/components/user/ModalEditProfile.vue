@@ -16,7 +16,7 @@ interface IUser {
   _id: string,
   name: string,
   lastName: string,
-  birthDate: string,
+  birthday: string,
   location: Location,
   telephone: number,
 }
@@ -32,7 +32,7 @@ const user = ref<IUser>({
   _id: '',
   name: '',
   lastName: '',
-  birthDate: '',
+  birthday: '',
   location: {
     address: '',
     city: '',
@@ -44,7 +44,7 @@ const user = ref<IUser>({
 });
 
 const editProfile = async () => {
-  const payload = { ...user.value, birthDate: formatDateToClient(user.value.birthDate) };
+  const payload = { ...user.value, birthday: formatDateToClient(user.value.birthday) };
 
   try {
     const response = await apiEditUser(payload);
@@ -82,8 +82,8 @@ onMounted(() => {
         </div>
         <div class="form__row">
           <div class="form__col w-50 mr-1">
-            <input type="date" placeholder=" " id="userBirthdate" v-model="user.birthDate" class="form__input">
-            <label for="userBirthdate" class="form__label">{{ $t('cumpleanos') }}</label>
+            <input type="date" placeholder=" " id="userBirthday" v-model="user.birthday" class="form__input">
+            <label for="userBirthday" class="form__label">{{ $t('cumpleanos') }}</label>
           </div>
           <div class="form__col w-50">
             <input type="number" min="0" placeholder=" " id="userTelephone" v-model="user.telephone" class="form__input">

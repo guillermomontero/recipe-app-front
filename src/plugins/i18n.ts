@@ -13,7 +13,7 @@ type MessageSchema = typeof messageSchema;
 export const i18n = createI18n<[MessageSchema]>({
   legacy: false,
   globalInjection: true,
-  locale: window.navigator.language.substring(0,2) || 'es',
+  locale: localStorage.getItem('local') || 'es',
   fallbackLocale: 'en',
   availableLocales: ['en', 'es'],
   messages: messages

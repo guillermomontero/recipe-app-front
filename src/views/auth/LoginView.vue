@@ -11,7 +11,7 @@ const store = useAuthStore();
 const loginMessage = ref<string>('');
 const user = ref<User>({
   email: 'gumodev@gumodev.com',
-  password: '123456'
+  password: '-Guille1-'
 });
 
 
@@ -41,8 +41,18 @@ const validateForm = () => {
     return false;
   }
 
+  if (!user.value.email.length >= 150) {
+    loginMessage.value = $t('datrosIntroducidosIncorrectos');
+    return false;
+  }
+
   if (!hasEmailFormat(user.value.email)) {
     loginMessage.value = $t('emailIntroducidoIncorrecto');
+    return false;
+  }
+
+  if (!user.value.password.length >= 50) {
+    loginMessage.value = $t('datrosIntroducidosIncorrectos');
     return false;
   }
 
@@ -65,13 +75,13 @@ const hasEmailFormat = (searchString: string = '') => {
     <form class="form" @submit.prevent="login" autocomplete="off">
       <div class="form__row">
         <div class="form__col w-100">
-          <input type="email" placeholder=" " id="form-email" v-model="user.email" class="form__input" autocomplete="off">
+          <input type="email" placeholder=" " id="form-email" v-model="user.email" class="form__input" autocomplete="off" maxlength="150">
           <label for="form-email" class="form__label">{{ $t('email') }}</label>
         </div>
       </div>
       <div class="form__row">
         <div class="form__col w-100">
-          <input type="password" placeholder=" " id="form-password" v-model="user.password" class="form__input" autocomplete="new-password">
+          <input type="password" placeholder=" " id="form-password" v-model="user.password" class="form__input" autocomplete="new-password" maxlength="50">
           <label for="form-password" class="form__label">{{ $t('contrasena') }}</label>
         </div>
       </div>

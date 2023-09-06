@@ -14,6 +14,7 @@
     categories: number[],
     author: {
       _id: string,
+      nickname: string,
       name: string,
       lastName: string
     },
@@ -94,7 +95,7 @@
       <div class="recipe-card__info--categories">
         <span v-for="category in recipeCategories" :key="category">{{ category }}</span>
       </div>
-      <span>{{ recipe.author.name }} {{ recipe.author.lastName }}</span>
+      <span>@{{ recipe.author.nickname }}</span>
       <h4>{{ recipe.title }}</h4>
       <p>{{ recipe.description }}</p>
     </div>
