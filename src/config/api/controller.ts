@@ -53,7 +53,7 @@ export const apiCallPOST = async (url: string = '', data: Object = {}) => {
   }
 };
 
-export const apiCallFormPOST = async (url: string = '', payload: File) => {
+export const apiCallFormPOST = async (url: string = '', payload: FormData) => {
   setSpinner(true);
 
   const params = getTokenRole();

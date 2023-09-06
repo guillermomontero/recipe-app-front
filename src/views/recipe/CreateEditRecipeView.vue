@@ -129,7 +129,7 @@ const fillDataToEdit = async (id: LocationQueryValue = '') => {
     recipe.value.title = response.title;
     recipe.value.description = response.description;
     recipe.value.ingredients = response.ingredients;
-    recipe.value.steps = response.steps;
+    recipe.value.steps = response.steps.replaceAll('<br>', '\n');
     recipe.value.cookingTime = response.cookingTime;
     recipe.value.unitTime = response.unitTime;
     recipe.value.temperatureCategory = response.temperatureCategory;
@@ -182,7 +182,6 @@ const createRecipe = async () => {
     origin: recipe.value.origin,
     draft: recipe.value.draft,
     author: store.user._id,
-    photo: recipe.value.photo
   };
 
   try {
@@ -209,7 +208,6 @@ const editRecipe = async () => {
     categories: recipe.value.categories,
     origin: recipe.value.origin,
     draft: false,
-    photo: recipe.value.photo
   };
 
   try {
@@ -236,7 +234,6 @@ const saveDraftRecipe = async () => {
     origin: recipe.value.origin,
     draft: true,
     author: store.user._id,
-    photo: recipe.value.photo
   };
 
   try {
@@ -255,6 +252,8 @@ const validateForm = () => {
     return false;
   }
 
+  recipe.value.steps = recipe.value.steps.replaceAll('\n', '<br>');
+
   return true;
 };
 
@@ -272,6 +271,10 @@ const addNewCategory = async (text: string = '') => {
   } catch (error) {
     console.log(error);
   }
+};
+
+const selectFile = () => {
+  document.getElementById('fileinput').click();
 };
 
 const onSelect = () => {
@@ -303,7 +306,7 @@ const sendImage = async (id: string) => {
   formData.append('image', fileToSave.value);
 
   try {
-    await apiUploadRecipe(id, formData);
+    await apiUploadRecipe(id, new Date().getTime(), formData);
     // TODO: show success alert
   } catch (error) {
     console.log(error);
@@ -392,16 +395,13 @@ onMounted(async () => {
       </div>
     </div>
     <div class="form__row">
-      <form @submit.prevent="sendImage('file')" enctype="multipart/form-data" id="form">
-        <label for="image">{{ $t('foto') }}</label>
+      <form @submit.prevent="sendImage('file')" enctype="multipart/form-data" id="form" class="form__col w-100 mb-0">
         <input type="file" name="image" id="fileinput" accept="image/jpeg, image/png" placeholder="Photo" class="form__input" @change="onSelect">
-      </form>
-      <div v-if="fileBase64URL" class="col-md-4">
-        <div class="preview">
-          <img ref="img" :src="fileBase64URL" alt="">
-          <button class="preview__delete" @click="deleteImage">&times;</button>
+        <div class="form__input--div">
+          <div class="form__input--div--text" @click="selectFile">{{ fileToSave ? fileBase64Name : '📂 Seleccione una imagen' }}</div>
+          <div v-if="fileBase64Name" class="form__input--div--close" @click="deleteImage">&times;</div>
         </div>
-      </div>
+      </form>
     </div>
 
     <div>

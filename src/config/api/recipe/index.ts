@@ -63,6 +63,6 @@ export const apiDoUnlikeRecipe = async (payload: Object = {}) => {
   return await apiCallPUT('/recipes/doUnlikeRecipe', payload);
 };
 
-export const apiUploadRecipe = async (id: string = '', payload: File) => {
-  return await apiCallFormPOST(`/files/uploadRecipe/${id}`, payload);
+export const apiUploadRecipe = async (id: string = '', timestamp: number, payload: FormData) => {
+  return await apiCallFormPOST(`/files/uploadRecipe/${id}/${timestamp}`, payload);
 };

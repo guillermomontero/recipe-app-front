@@ -17,6 +17,14 @@
     padding: 1em 2em;
   }
 
+  &--accept {
+    background: $blue-extra-light;
+
+    &:hover {
+      background: $success
+    }
+  }
+
   &--edit {
     background: $blue-extra-light;
 
