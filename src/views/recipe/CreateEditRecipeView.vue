@@ -139,6 +139,7 @@ const fillDataToEdit = async (id: LocationQueryValue = '') => {
     recipe.value.origin = response.origin;
     recipe.value.photo = response.photo;
     recipe.value.draft = response.draft;
+    recipe.value.portions = response.portions;
 
     categories.value.forEach((c: ICategory)  => {
       if (recipe.value.categories.indexOf(c.value) !== -1) c.selected = true;

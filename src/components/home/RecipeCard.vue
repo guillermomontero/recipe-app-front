@@ -12,6 +12,7 @@
     temperatureCategory: number,
     origin: string,
     categories: number[],
+    photo: string,
     author: {
       _id: string,
       nickname: string,
@@ -83,6 +84,9 @@
 
 <template>
   <article class="recipe-card" @click="goToRecipeView">
+    <div class="recipe-card__image">
+      <img :src="recipe.photo" :alt="recipe.title">
+    </div>
     <div class="recipe-card__info">
       <div class="recipe-card__info--cooking">
         <div class="recipe-card__info--cooking--temperature" :class="getClassTemperature(recipe.temperatureCategory)"></div>
