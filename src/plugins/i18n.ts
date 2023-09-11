@@ -1,7 +1,7 @@
 import { createI18n } from 'vue-i18n';
 import messageSchema from '../config/locales/message-schema.json';
 import en from '../config/locales/en-GB';
-import es from '../config/locales/es-ES/translated';
+import es from '../config/locales/es-ES';
 
 const messages = {
   'es': es,

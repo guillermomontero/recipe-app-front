@@ -41,6 +41,10 @@
     }
   }
 
+  &--active {
+    background: $yellow-recipe-semi;
+  }
+
   &--pagination {
     min-width: 30px;
     padding: 0.2em;

@@ -218,7 +218,8 @@ const editRecipe = async () => {
   try {
     const response = await apiEditRecipe(payload);
     if (fileToSave.value) await sendImage(response._id);
-    router.push('/my-recipes');
+    if (route.query.v === 'general') router.push({ name: 'recipe', query: { id: route.query.id } });
+    if (route.query.v === 'user') router.push('/my-recipes');
   } catch (error) {
     console.log(error);
   }
