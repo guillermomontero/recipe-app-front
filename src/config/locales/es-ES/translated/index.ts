@@ -80,4 +80,5 @@ export default {
   aceptar: 'Aceptar',
   apodo: 'Apodo',
   porciones: 'Porciones',
+  favoritas: 'Favoritas',
 };

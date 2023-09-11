@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { apiGetMyRecipes, apiDoLikeRecipe, apiDoUnlikeRecipe,apiDeleteRecipe } from "../../config/api/recipe";
+import { apiGetMyFavorites } from '../../config/api/user';
 import { useAuthStore } from '../../store/auth';
 import router from "../../router";
 
@@ -19,6 +20,10 @@ const pagination = ref(0);
 const pageActive = ref(1);
 const pages = ref([]);
 const recipes = ref<IRecipe[]>([]);
+const active = ref({
+  myRecipes: true,
+  myFavorites: false,
+});
 
 const getMyRecipes = async (skip: number = 0, limit: number = limitInit) => {
   const payload = {
@@ -28,6 +33,21 @@ const getMyRecipes = async (skip: number = 0, limit: number = limitInit) => {
 
   try {
     const response = await apiGetMyRecipes(store.user._id, payload);
+    recipes.value = response.recipes;
+    if (response.totalRecipes > limitInit) makePagination(skip, limit, response.totalRecipes);
+  } catch (error) {
+    console.log(error)
+  }
+};
+
+const getMyFavorites = async (skip: number = 0, limit: number = limitInit) => {
+  const payload = {
+    skip,
+    limit
+  };
+
+  try {
+    const response = await apiGetMyFavorites(store.user._id, payload);
     recipes.value = response.recipes;
     if (response.totalRecipes > limitInit) makePagination(skip, limit, response.totalRecipes);
   } catch (error) {
@@ -81,7 +101,15 @@ const unlikeRecipe = async (recipe: IRecipe) => {
 };
 
 const editRecipe = (recipe: IRecipe) => {
-  router.push({ path: '/new-recipe', query: { m: 'edit', id: recipe._id } });
+  router.push({ path: '/new-recipe', query: { m: 'edit', v: 'user', id: recipe._id } });
+};
+
+const getList = (type: string = 'myRecipes') => {
+  active.value.myRecipes = type === 'myRecipes';
+  active.value.myFavorites = type === 'myFavorites';
+
+  if (type === 'myRecipes') getMyRecipes();
+  if (type === 'myFavorites') getMyFavorites();
 };
 
 const deleteRecipe = async (recipe: IRecipe) => {
@@ -103,7 +131,11 @@ onMounted(() => {
     <h3>{{ $t('misRecetas') }}</h3>
   </div>
   <section class="articles mt-2">
-    <article class="articles__article" v-for="recipe in recipes" :key="recipe._id">
+    <div class="articles__tabs">
+      <button class="btn btn--lg btn--edit mr-2" :class="{ 'btn--active': active.myRecipes }" @click="getList('myRecipes')">{{ $t('misRecetas') }}</button>
+      <button class="btn btn--lg btn--edit" :class="{ 'btn--active': active.myFavorites }" @click="getList('myFavorites')">{{ $t('favoritas') }}</button>
+    </div>
+    <article v-if="recipes.length" class="articles__article" v-for="recipe in recipes" :key="recipe._id">
       <div class="articles__article--title">
         {{ recipe.title }}
       </div>
@@ -120,6 +152,9 @@ onMounted(() => {
         <button class="btn btn--xs btn--edit mr-1" @click.prevent="editRecipe(recipe)">{{ $t('editar') }}</button>
         <button class="btn btn--xs btn--delete" @click.prevent="deleteRecipe(recipe)">{{ $t('eliminar') }}</button>
       </div>
+    </article>
+    <article v-else>
+      {{ $t('noSeHanEncontradoResultados') }}
     </article>
   </section>
   <section class="pagination" v-if="hasPagination">

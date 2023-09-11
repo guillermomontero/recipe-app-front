@@ -129,7 +129,7 @@ const allowEdit = computed(() => {
 
 const editRecipe = () => {
   // Save the flag with the source page so we can come back
-  router.push({ path: '/new-recipe', query: { m: 'edit', id: recipe.value._id } });
+  router.push({ path: '/new-recipe', query: { m: 'edit', v: 'general', id: recipe.value._id } });
 };
 
 onMounted(() => {

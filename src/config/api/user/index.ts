@@ -1,5 +1,10 @@
 import { apiCallPOST, apiCallFormPOST, apiCallGET, apiCallPUT, apiCallDELETE } from '../controller';
 
+interface IPagination {
+  skip: number;
+  limit: number;
+}
+
 export const apiGetAllUsers = async () => {
   return await apiCallGET('/users/getAllUsers');
 };
@@ -50,4 +55,10 @@ export const apiUploadAvatar = async (id: string = '', timestamp: number, payloa
 
 export const apiDeleteImageProfile = async (payload: Object = {}) => {
   return await apiCallPUT('/users/deleteImageProfile', payload);
+};
+
+export const apiGetMyFavorites = async (id: string = '', payload: IPagination) => {
+  const { skip, limit } = payload;
+
+  return await apiCallGET(`/users/getMyFavorites/${id}?skip=${skip}&limit=${limit}`);
 };
