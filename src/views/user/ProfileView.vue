@@ -19,7 +19,7 @@ interface IUser {
   name: string,
   lastName: string,
   email: string,
-  birthDate: string,
+  birthday: string,
   imageProfile: string,
   location: Location,
   telephone: number,
@@ -34,7 +34,7 @@ const user = ref<IUser>({
   name: '',
   lastName: '',
   email: '',
-  birthDate: '',
+  birthday: '',
   imageProfile: '',
   location: {
     address: '',
@@ -53,7 +53,7 @@ const getUserData = async () => {
     user.value.name = response.name;
     user.value.lastName = response.lastName;
     user.value.email = response.email;
-    user.value.birthDate = formatDateToInput(response.birthDate);
+    user.value.birthday = formatDateToInput(response.birthday);
     user.value.imageProfile = response.imageProfile;
     user.value.location = response.location;
     user.value.telephone = response.telephone;
@@ -127,7 +127,7 @@ onMounted(() => {
           📱 {{ user.telephone }}
         </div>
         <div class="profile__principal--data--row">
-          <p>🎂 {{ formatDateFront(user.birthDate) }}</p>
+          <p>🎂 {{ formatDateFront(user.birthday) }}</p>
         </div>
         <div class="profile__principal--data--row mt-2">
           📌 {{ $t('localizacion') }}

@@ -22,7 +22,8 @@ interface IRecipe {
   categories: number[],
   likes: number,
   authorName: string,
-  authorPremium: boolean
+  authorPremium: boolean,
+  authorNickname: string,
 }
 
 interface ICountry {
@@ -55,7 +56,8 @@ const recipe = ref<IRecipe>({
   categories: [],
   likes: 0,
   authorName: '',
-  authorPremium: false
+  authorPremium: false,
+  authorNickname: '',
 });
 const countries = ref<ICountry[]>([]);
 const categories = ref<ICategory[]>([]);
@@ -69,6 +71,7 @@ const getRecipe = async (id: LocationQueryValue = '') => {
 const getUserData = async (id: LocationQueryValue = '') => {
   const response = await apiGetUserData(id);
   recipe.value.authorName = response.name;
+  recipe.value.authorNickname = response.nickname;
   recipe.value.authorPremium = response.premium;
 };
 
@@ -155,7 +158,7 @@ onMounted(() => {
         <div class="recipe-view__bar--info--origin">{{ getOrigin(recipe.origin) }}</div>
       </div>
       <div class="recipe-view__bar--user-create">
-        <span>{{ recipe.authorName }} - {{ formatDateFront(recipe.createDate) }}</span>
+        <span>@{{ recipe.authorNickname }} - {{ formatDateFront(recipe.createDate) }}</span>
       </div>
       <div class="recipe-view__bar--likes">
         <p>❤️ {{ recipe.likes }}</p>
@@ -181,7 +184,7 @@ onMounted(() => {
         <div class="recipe-view__content--ingredients--ingredient" v-for="ingredient in recipe.ingredients" :key="ingredient.name">
           <span>{{ ingredient.name }}&nbsp;</span>
           <span>({{ ingredient.type }}&nbsp;</span>
-          <span>{{ ingredient.amount }})</span>
+          <span>{{ ingredient.quantity }})</span>
         </div>
       </div>
       <div v-if="recipe.authorPremium" class="recipe-view__content--ad">

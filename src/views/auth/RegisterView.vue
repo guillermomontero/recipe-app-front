@@ -7,6 +7,7 @@ import router from '../../router';
 
 interface User {
   name: string,
+  nickname: string,
   lastName: string,
   email: string,
   password: string,
@@ -17,6 +18,7 @@ interface User {
 const loginMessage = ref<string>('');
 const user = ref<User>({
   name: '',
+  nickname: '',
   lastName: '',
   email: '',
   password: '',
@@ -38,6 +40,7 @@ const register = async () => {
 
   const payload = {
     name: user.value.name,
+    nickname: user.value.nickname,
     lastName: user.value.lastName,
     email: user.value.email,
     password: user.value.password
@@ -58,6 +61,11 @@ const validateForm = () => {
     return false;
   }
 
+  if (!user.value.nickname || typeof user.value.nickname !== 'string') {
+    loginMessage.value = $t('nicknameIntroducidoIncorrecto');
+    return false;
+  }
+
   if (!user.value.lastName || typeof user.value.lastName !== 'string') {
     loginMessage.value = $t('datosIntroducidosIncorrectos');
     return false;
@@ -74,7 +82,12 @@ const validateForm = () => {
   }
 
   if (!user.value.password) {
-    loginMessage.value = $t('contrasenaIntroducidaIncorrecta');
+    loginMessage.value = $t('introduzcaContrasenia');
+    return false;
+  }
+
+  if (!hasPswdFormat(user.value.password)) {
+    loginMessage.value = $t('contraseniaIntroducida');
     return false;
   }
 
@@ -96,6 +109,13 @@ const hasEmailFormat = (searchString: string = '') => {
 
   return emailRegExp.email.test(searchString);
 };
+
+const hasPswdFormat = (searchString: string = '') => {
+  const pswdRegExp = { password: /(?=^.{8,16}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/ };
+
+  return pswdRegExp.password.test(searchString);
+};
+
 </script>
 
 <template>
@@ -105,6 +125,12 @@ const hasEmailFormat = (searchString: string = '') => {
       <h3>RecipeApp</h3>
     </div>
     <form class="form" @submit.prevent="register" autocomplete="off">
+      <div class="form__row">
+        <div class="form__col w-100">
+          <input type="text" placeholder=" " maxlength="50" id="form-nickname" v-model="user.nickname" class="form__input" autocomplete="off">
+          <label for="form-nickname" class="form__label">{{ $t('apodo') }}</label>
+        </div>
+      </div>
       <div class="form__row">
         <div class="form__col w-100">
           <input type="text" placeholder=" " maxlength="50" id="form-name" v-model="user.name" class="form__input" autocomplete="off">

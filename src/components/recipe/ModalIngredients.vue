@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { apiGetAllWeightTypes } from "../../config/api/weight-type";
 
 interface IIngredient {
   name: string,
-  amount: number,
+  quantity: number,
   type: string
 };
 
@@ -18,9 +18,10 @@ const emit = defineEmits(['close', 'add-ingredient']);
 const unitTypes = ref<IObject[]>([]);
 const ingredient = ref<IIngredient>({
   name: '',
-  amount: 0,
+  quantity: 0,
   type: 'Milliliters'
 });
+const validateMessage = ref<string>('');
 
 const getAllWeightTypes = async() => {
   try {
@@ -32,18 +33,52 @@ const getAllWeightTypes = async() => {
 }
 
 const addIngredient = () => {
+  if (!validateForm()) return;
+  
   emit('add-ingredient', ingredient.value);
   ingredient.value = {
     name: '',
-    amount: 0,
+    quantity: 0,
     type: 'Milliliters'
   }
+};
+
+const validateForm = () => {
+  if (!ingredient.value.name) {
+    validateMessage.value = $t('esNecesarioIntroducirUnNombre');
+    return false;
+  }
+
+  if (ingredient.value.name.length >= 100) {
+    validateMessage.value = $t('ingredienteIntroducidoSuperaLongitud');
+    return false;
+  }
+
+  if (!ingredient.value.quantity) {
+    validateMessage.value = $t('esNecesarioIntroducirUnaCantidad');
+    return false;
+  }
+
+  if (!ingredient.value.type) {
+    validateMessage.value = $t('esNecesarioIntroducirUnTipoDeMedida');
+    return false;
+  }
+
+  return true;
 };
 
 const close = () => { emit('close') };
 
 onMounted(() => {
   getAllWeightTypes();
+});
+
+watch(validateMessage, (newQuestion) => {
+  if (newQuestion) {
+    setTimeout(() => {
+      validateMessage.value = '';
+    }, 3000);
+  }
 });
 </script>
 
@@ -56,14 +91,14 @@ onMounted(() => {
       <form class="form" @submit.prevent="addIngredient" autocomplete="off">
         <div class="form__row">
           <div class="form__col w-100">
-            <input type="text" maxlength="50" placeholder=" " name="ingredientName" id="ingredientName" v-model="ingredient.name" class="form__input">
+            <input type="text" placeholder=" " name="ingredientName" id="ingredientName" v-model="ingredient.name" class="form__input" maxlength="100">
             <label for="ingredientName" class="form__label">{{ $t('nombre') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-100">
-            <input type="number" min="0" placeholder=" " name="ingredientAmount" id="ingredientAmount" v-model="ingredient.amount" class="form__input">
-            <label for="ingredientAmount" class="form__label">{{ $t('cantidad') }}</label>
+            <input type="number" min="0" placeholder=" " name="ingredientQuantity" id="ingredientQuantity" v-model="ingredient.quantity" class="form__input">
+            <label for="ingredientQuantity" class="form__label">{{ $t('cantidad') }}</label>
           </div>
         </div>
         <div class="form__col w-100">
@@ -72,6 +107,7 @@ onMounted(() => {
           </select>
           <label for="ingredientType" class="form__label">{{ $t('tipo') }}</label>
         </div>
+        <div v-if="validateMessage" class="form__message">{{ validateMessage }}</div>
         <button type="submit" class="btn btn--md mt-2">{{ $t('anadir') }}</button>
       </form>
     </article>

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useAuthStore } from '../../store/auth';
+import { useLocalStore } from '../../store/local';
 import { apiGetUser, apiDeleteUser, apiChangePreferences, apiChangePlan } from '../../config/api/user';
 import { formatDateToInput, formatDateFront } from '../../config/utils/dates';
 import ModalEditEmail from '../../components/configuration/ModalEditEmail.vue';
@@ -20,6 +21,7 @@ interface IUser {
 }
 
 const store = useAuthStore();
+const localStore = useLocalStore();
 
 const showModalEditEmail = ref<boolean>(false);
 const showModalEditPassword = ref<boolean>(false);
@@ -114,6 +116,10 @@ const deleteAccount = async () => {
   }
 };
 
+const changeLanguage = (cod: string = 'es') => {
+  localStore.setLanguage(cod);
+};
+
 onMounted(() => {
   getUserData();
 })
@@ -167,6 +173,15 @@ onMounted(() => {
       <div class="configuration__box--buttons">
         <button class="btn btn--xs btn--edit mr-2" @click.prevent="changePlan">{{ user.premium ? `🧢 ${$t('cancelarPremium')}` : `👑 ${$t('hacersePremium')}` }}</button>
         <button class="btn btn--xs btn--edit" @click.prevent="deleteAccount">🗑️ {{ $t('eliminarCuenta') }}</button>
+      </div>
+    </article>
+  </section>
+
+  <section class="configuration configuration__border-b mt-1">
+    <article class="configuration__box">
+      <div class="configuration__box--buttons">
+        <button :disabled="localStore.getLanguage === 'es'" class="btn btn--xs btn--edit mr-2" @click.prevent="changeLanguage('es')">ES</button>
+        <button :disabled="localStore.getLanguage === 'en'" class="btn btn--xs btn--edit" @click.prevent="changeLanguage('en')">EN</button>
       </div>
     </article>
   </section>

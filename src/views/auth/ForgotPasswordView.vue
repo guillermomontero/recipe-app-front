@@ -38,6 +38,11 @@ const validateForm = () => {
     return false;
   }
 
+  if (!user.value.email.length >= 150) {
+    loginMessage.value = $t('datrosIntroducidosIncorrectos');
+    return false;
+  }
+
   if (!hasEmailFormat(user.value.email)) {
     loginMessage.value = $t('emailIntroducidoIncorrecto');
     return false;
@@ -62,7 +67,7 @@ const hasEmailFormat = (searchString: string = '') => {
     <form class="form" @submit.prevent="sendMail">
       <div class="form__row">
         <div class="form__col w-100">
-          <input type="email" placeholder=" " id="form-email" v-model="user.email" class="form__input" autocomplete="off">
+          <input type="email" placeholder=" " id="form-email" v-model="user.email" class="form__input" autocomplete="off" maxlength="150">
           <label for="form-email" class="form__label">{{ $t('email') }}</label>
         </div>
       </div>

@@ -12,8 +12,10 @@
     temperatureCategory: number,
     origin: string,
     categories: number[],
+    photo: string,
     author: {
       _id: string,
+      nickname: string,
       name: string,
       lastName: string
     },
@@ -82,6 +84,9 @@
 
 <template>
   <article class="recipe-card" @click="goToRecipeView">
+    <div class="recipe-card__image">
+      <img :src="recipe.photo" :alt="recipe.title">
+    </div>
     <div class="recipe-card__info">
       <div class="recipe-card__info--cooking">
         <div class="recipe-card__info--cooking--temperature" :class="getClassTemperature(recipe.temperatureCategory)"></div>
@@ -94,7 +99,7 @@
       <div class="recipe-card__info--categories">
         <span v-for="category in recipeCategories" :key="category">{{ category }}</span>
       </div>
-      <span>{{ recipe.author.name }} {{ recipe.author.lastName }}</span>
+      <span>@{{ recipe.author.nickname }}</span>
       <h4>{{ recipe.title }}</h4>
       <p>{{ recipe.description }}</p>
     </div>

@@ -9,7 +9,7 @@ interface IUser {
   email: string,
   telephone: number,
   premium: boolean,
-  birthDate: Date,
+  birthday: Date,
   imageProfile: string,
   location: object,
   entryDate: Date,

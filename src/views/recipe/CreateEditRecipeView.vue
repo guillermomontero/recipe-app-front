@@ -23,7 +23,8 @@ interface IRecipe {
   categories: number[],
   origin: string,
   draft: boolean,
-  photo: string
+  photo: string,
+  portions: number
 };
 
 interface IObject {
@@ -73,6 +74,7 @@ const recipe = ref<IRecipe>({
   origin: '',
   photo: '',
   draft: false,
+  portions: 0
 });
 const fileToSave = ref(null);
 const fileBase64URL = ref(null);
@@ -137,6 +139,7 @@ const fillDataToEdit = async (id: LocationQueryValue = '') => {
     recipe.value.origin = response.origin;
     recipe.value.photo = response.photo;
     recipe.value.draft = response.draft;
+    recipe.value.portions = response.portions;
 
     categories.value.forEach((c: ICategory)  => {
       if (recipe.value.categories.indexOf(c.value) !== -1) c.selected = true;
@@ -182,6 +185,7 @@ const createRecipe = async () => {
     origin: recipe.value.origin,
     draft: recipe.value.draft,
     author: store.user._id,
+    portions: recipe.value.portions
   };
 
   try {
@@ -208,6 +212,7 @@ const editRecipe = async () => {
     categories: recipe.value.categories,
     origin: recipe.value.origin,
     draft: false,
+    portions: recipe.value.portions
   };
 
   try {
@@ -234,6 +239,7 @@ const saveDraftRecipe = async () => {
     origin: recipe.value.origin,
     draft: true,
     author: store.user._id,
+    portions: recipe.value.portions
   };
 
   try {
@@ -247,8 +253,48 @@ const saveDraftRecipe = async () => {
 
 // Validate form
 const validateForm = () => {
-  if (!recipe.value.title || typeof recipe.value.title !== 'string') {
+  if (!recipe.value.title || typeof recipe.value.title !== 'string' || recipe.value.title.length >= 50) {
     newRecipeMessage.value = $t('introduzcaTituloCorrecto');
+    return false;
+  }
+
+  if (!recipe.value.description || typeof recipe.value.description !== 'string' || recipe.value.description.length >= 100) {
+    newRecipeMessage.value = $t('introduzcadescripcionCorrecta');
+    return false;
+  }
+
+  if (!recipe.value.steps || typeof recipe.value.steps !== 'string' || recipe.value.steps.length >= 10000) {
+    newRecipeMessage.value = $t('introduzcaPasosASeguirCorrectos');
+    return false;
+  }
+
+  if (!recipe.value.ingredients) {
+    newRecipeMessage.value = $t('introduzcaIngredientesCorrectos');
+    return false;
+  }
+
+  if (!recipe.value.cookingTime) {
+    newRecipeMessage.value = $t('introduzcaTiempoDeCocinadoCorrectos');
+    return false;
+  }
+
+  if (!recipe.value.unitTime) {
+    newRecipeMessage.value = $t('introduzcaTiempoDeCocinadoCorrectos');
+    return false;
+  }
+
+  if (!recipe.value.temperatureCategory) {
+    newRecipeMessage.value = $t('introduzcaTemperaturaCorrecta');
+    return false;
+  }
+
+  if (!recipe.value.origin) {
+    newRecipeMessage.value = $t('introduzcaOrigenCorrecto');
+    return false;
+  }
+
+  if (!recipe.value.portions) {
+    newRecipeMessage.value = $t('introduzcaPorcionesCorrectas');
     return false;
   }
 
@@ -348,12 +394,16 @@ onMounted(async () => {
         <input type="number" min="0" placeholder=" " id="cookingTimeRecipe" v-model="recipe.cookingTime" class="form__input" autocomplete="new-password">
         <label for="cookingTimeRecipe" class="form__label">{{ $t('tiempoDeCocinado') }}</label>
       </div>
-      <div class="form__col w-20">
+      <div class="form__col w-20 mr-2">
         <select placeholder=" " name="unitTimeRecipe" id="unitTimeRecipe" v-model="recipe.unitTime" class="form__input">
           <option disabled value="0" hidden>{{ $t('selecciona') }}</option>
           <option v-for="u in unitTimes" :key="u.value" :value="u.value">{{ u.label }}</option>
         </select>
         <label for="unitTimeRecipe" class="form__label">{{ $t('unidadDeTiempo') }}</label>
+      </div>
+      <div class="form__col w-20">
+        <input type="number" min="0" placeholder=" " id="portionsRecipe" v-model="recipe.portions" class="form__input" autocomplete="new-password">
+        <label for="portionsRecipe" class="form__label">{{ $t('porciones') }}</label>
       </div>
     </div>
     <div class="form__row">
@@ -382,7 +432,7 @@ onMounted(async () => {
       <div class="form__col w-100 mb-0">
         <div class="form-extras__ingredients">
           <div v-for="(ingredient, index) in recipe.ingredients" :key="index" class="form-extras__ingredients--ingredient">
-            <span class="mr-1">{{ ingredient.name }} ({{ ingredient.amount }} {{ ingredient.type }})</span>
+            <span class="mr-1">{{ ingredient.name }} ({{ ingredient.quantity }} {{ ingredient.type }})</span>
             <svg @click="deleteIngredient(index)" clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m12.002 2.005c5.518 0 9.998 4.48 9.998 9.997 0 5.518-4.48 9.998-9.998 9.998-5.517 0-9.997-4.48-9.997-9.998 0-5.517 4.48-9.997 9.997-9.997zm0 8.933-2.721-2.722c-.146-.146-.339-.219-.531-.219-.404 0-.75.324-.75.749 0 .193.073.384.219.531l2.722 2.722-2.728 2.728c-.147.147-.22.34-.22.531 0 .427.35.75.751.75.192 0 .384-.073.53-.219l2.728-2.728 2.729 2.728c.146.146.338.219.53.219.401 0 .75-.323.75-.75 0-.191-.073-.384-.22-.531l-2.727-2.728 2.717-2.717c.146-.147.219-.338.219-.531 0-.425-.346-.75-.75-.75-.192 0-.385.073-.531.22z" fill-rule="nonzero"/></svg>
           </div>
         </div>
@@ -390,7 +440,7 @@ onMounted(async () => {
     </div>
     <div class="form__row">
       <div class="form__col w-100" style="height: 250px;">
-        <textarea placeholder=" " id="stepsRecipe" cols="30" rows="10" v-model="recipe.steps" class="form__input"></textarea>
+        <textarea placeholder=" " id="stepsRecipe" cols="30" rows="10" maxlength="10000" v-model="recipe.steps" class="form__input"></textarea>
         <label for="stepsRecipe" class="form__label">{{ $t('pasos') }}</label>
       </div>
     </div>

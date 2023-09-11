@@ -37,6 +37,11 @@ const editMail = async () => {
 };
 
 const validateForm = () => {
+  if (email.value.newEmail.length >= 150 || email.value.newEmailConfirm.length >= 150) {
+    validateMessage.value = $t('emailIntroducidoIncorrecto');
+    return false;
+  }
+
   if (email.value.newEmail === '') {
     validateMessage.value = $t('emailIntroducidoIncorrecto');
     return false;
@@ -75,13 +80,13 @@ watch(validateMessage, (newQuestion) => {
       <form class="form" autocomplete="off">
         <div class="form__row">
           <div class="form__col w-100">
-            <input type="email" placeholder=" " id="newEmail" v-model="email.newEmail" class="form__input" autocomplete="new-email">
+            <input type="email" placeholder=" " id="newEmail" v-model="email.newEmail" class="form__input" autocomplete="new-email" maxlength="150">
             <label for="newEmail" class="form__label">{{ $t('nuevaContrasena') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-100">
-            <input type="email" placeholder=" " id="newEmailConfirm" v-model="email.newEmailConfirm" class="form__input" autocomplete="new-email">
+            <input type="email" placeholder=" " id="newEmailConfirm" v-model="email.newEmailConfirm" class="form__input" autocomplete="new-email" maxlength="150">
             <label for="newEmailConfirm" class="form__label">{{ $t('confirmarNuevaContrasena') }}</label>
           </div>
         </div>

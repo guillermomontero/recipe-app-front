@@ -38,7 +38,6 @@ export default {
   entrar: 'Sign in',
   olvidoSuContrasena: 'Forgot your password?',
   registrarse: 'Sign up',
-  contrasenaIntroducidaIncorrecta: 'The password entered is incorrect',
   contrasenasNoCoinciden: 'Passwords do not match',
   debeAceptarLasCondiciones: 'You must accept the conditions',
   nombreintroducidoIncorrecto: 'The name entered is incorrect',
@@ -79,4 +78,6 @@ export default {
   ingredientes: 'Ingredients',
   receta: 'Recipe',
   aceptar: 'Accept',
+  apodo: 'Nickname',
+  porciones: 'Portions',
 };

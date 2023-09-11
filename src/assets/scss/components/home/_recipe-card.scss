@@ -1,5 +1,6 @@
 .recipe-card {
   @include borderRadiusTheme();
+  position: relative;
   width: 100%;
   display: flex;
   flex-flow: column wrap;
@@ -9,18 +10,25 @@
   padding: 1em;
   overflow: hidden;
   cursor: pointer;
-  background: linear-gradient(#27374db3, #415b80b3), url("/images/imagen-comida.jpg"); 
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: linear-gradient(#27374db3, #415b80b3); 
   transition: all ease 0.5s;
 
   &:hover {
-    background: linear-gradient(#e57e23b3, #E8AA42b3), url("/images/imagen-comida.jpg");
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background: linear-gradient(#e57e23b3, #E8AA42b3);
     transition: all ease 0.5s;
+  }
+
+  &__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block
+    }
   }
   
   &__info {
