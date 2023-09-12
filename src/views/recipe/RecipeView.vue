@@ -1,5 +1,6 @@
-<script setup lang="ts">
+<script setup lang='ts'>
 import { computed, onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRoute, LocationQueryValue } from 'vue-router';
 import { formatDateFront } from '../../config/utils/dates';
 import { useAuthStore } from '../../store/auth';
@@ -7,7 +8,7 @@ import { apiGetRecipe } from '../../config/api/recipe';
 import { apiGetUserData } from '../../config/api/user';
 import { apiGetAllCountries } from '../../config/api/country';
 import { apiGetAllCategories } from '../../config/api/category';
-import router from "../../router";
+import router from '../../router';
 
 interface IRecipe {
   _id: number,
@@ -39,8 +40,8 @@ interface ICategory {
   value: number
 };
 
+const { t } = useI18n();
 const storeAuth = useAuthStore();
-
 const route = useRoute();
 const recipeId = route.query.id;
 const recipe = ref<IRecipe>({
@@ -148,7 +149,7 @@ onMounted(() => {
 <template>
   <div class="page-title">
     <h3>{{ recipe.title }}</h3>
-    <button v-if="allowEdit" class="btn btn--xs btn--edit" @click="editRecipe">{{ $t('editar') }}</button>
+    <button v-if="allowEdit" class="btn btn--xs btn--edit" @click="editRecipe">{{ t('editar') }}</button>
   </div>
   <section class="recipe-view mt-1">
     <div class="recipe-view__bar">
@@ -179,7 +180,7 @@ onMounted(() => {
     </div>
     <div class="recipe-view__content mt-1">
       <div class="recipe-view__content--ingredients">
-        <h5>{{ $t('ingredientes') }}</h5>
+        <h5>{{ t('ingredientes') }}</h5>
         <div class="recipe-view__content--ingredients--divider"></div>
         <div class="recipe-view__content--ingredients--ingredient" v-for="ingredient in recipe.ingredients" :key="ingredient.name">
           <span>{{ ingredient.name }}&nbsp;</span>
@@ -191,7 +192,7 @@ onMounted(() => {
         <h3>Ad</h3>
       </div>
       <div class="recipe-view__content--steps">
-        <h5>{{ $t('receta') }}</h5>
+        <h5>{{ t('receta') }}</h5>
         <div class="recipe-view__content--steps--divider"></div>
         <p v-html="recipe.steps"></p>
       </div>

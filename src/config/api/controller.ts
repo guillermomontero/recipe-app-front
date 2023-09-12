@@ -25,8 +25,8 @@ const setSpinner = (value: boolean = false) => {
   }
 };
 
-export const apiCallPOST = async (url: string = '', data: Object = {}) => {
-  setSpinner(true);
+export const apiCallPOST = async (url: string = '', data: Object = {}, allowSpinner: boolean = true) => {
+  if (allowSpinner) setSpinner(true);
 
   const params = getTokenRole();
   
@@ -53,8 +53,8 @@ export const apiCallPOST = async (url: string = '', data: Object = {}) => {
   }
 };
 
-export const apiCallFormPOST = async (url: string = '', payload: FormData) => {
-  setSpinner(true);
+export const apiCallFormPOST = async (url: string = '', payload: FormData, allowSpinner: boolean = true) => {
+  if (allowSpinner) setSpinner(true);
 
   const params = getTokenRole();
   
@@ -80,8 +80,8 @@ export const apiCallFormPOST = async (url: string = '', payload: FormData) => {
   }
 };
 
-export const apiCallGET = async (url: string = '') => {
-  setSpinner(true);
+export const apiCallGET = async (url: string = '', allowSpinner: boolean = true) => {
+  if (allowSpinner) setSpinner(true);
 
   const params = getTokenRole();
 
@@ -106,8 +106,8 @@ export const apiCallGET = async (url: string = '') => {
   }
 };
 
-export const apiCallPUT = async (url: string = '', data: Object = {}) => {
-  setSpinner(true);
+export const apiCallPUT = async (url: string = '', data: Object = {}, allowSpinner: boolean = true) => {
+  if (allowSpinner) setSpinner(true);
 
   const params = getTokenRole();
 
@@ -134,8 +134,8 @@ export const apiCallPUT = async (url: string = '', data: Object = {}) => {
   }
 };
 
-export const apiCallDELETE = async (url: string = '') => {
-  setSpinner(true);
+export const apiCallDELETE = async (url: string = '', allowSpinner: boolean = true) => {
+  if (allowSpinner) setSpinner(true);
 
   const params = getTokenRole();
 

@@ -1,9 +1,8 @@
-<script lang="ts" setup>
+<script setup lang='ts'>
 import { ref, watch } from 'vue';
-import { apiCreateUser } from "../../config/api/user";
+import { useI18n } from 'vue-i18n';
+import { apiCreateUser } from '../../config/api/user';
 import router from '../../router';
-
-// TODO: nickname (CRUD)
 
 interface User {
   name: string,
@@ -15,6 +14,7 @@ interface User {
   acceptTerms: false,
 }
 
+const { t } = useI18n();
 const loginMessage = ref<string>('');
 const user = ref<User>({
   name: '',
@@ -57,47 +57,47 @@ const register = async () => {
 // Validate form
 const validateForm = () => {
   if (!user.value.name || typeof user.value.name !== 'string') {
-    loginMessage.value = $t('nombreIntroducidoIncorrecto');
+    loginMessage.value = t('nombreIntroducidoIncorrecto');
     return false;
   }
 
   if (!user.value.nickname || typeof user.value.nickname !== 'string') {
-    loginMessage.value = $t('nicknameIntroducidoIncorrecto');
+    loginMessage.value = t('nicknameIntroducidoIncorrecto');
     return false;
   }
 
   if (!user.value.lastName || typeof user.value.lastName !== 'string') {
-    loginMessage.value = $t('datosIntroducidosIncorrectos');
+    loginMessage.value = t('datosIntroducidosIncorrectos');
     return false;
   }
 
   if (!user.value.email || !user.value.password) {
-    loginMessage.value = $t('datosIntroducidosIncorrectos');
+    loginMessage.value = t('datosIntroducidosIncorrectos');
     return false;
   }
 
   if (!hasEmailFormat(user.value.email)) {
-    loginMessage.value = $t('emailIntroducidoIncorrecto');
+    loginMessage.value = t('emailIntroducidoIncorrecto');
     return false;
   }
 
   if (!user.value.password) {
-    loginMessage.value = $t('introduzcaContrasenia');
+    loginMessage.value = t('introduzcaContrasenia');
     return false;
   }
 
   if (!hasPswdFormat(user.value.password)) {
-    loginMessage.value = $t('contraseniaIntroducida');
+    loginMessage.value = t('contraseniaIntroducida');
     return false;
   }
 
   if (user.value.password !== user.value.passwordRepeat) {
-    loginMessage.value = $t('contrasenasNoCoinciden');
+    loginMessage.value = t('contrasenasNoCoinciden');
     return false;
   }
 
   if (!user.value.acceptTerms) {
-    loginMessage.value = $t('debeAceptarLasCondiciones');
+    loginMessage.value = t('debeAceptarLasCondiciones');
     return false;
   }
 
@@ -128,46 +128,46 @@ const hasPswdFormat = (searchString: string = '') => {
       <div class="form__row">
         <div class="form__col w-100">
           <input type="text" placeholder=" " maxlength="50" id="form-nickname" v-model="user.nickname" class="form__input" autocomplete="off">
-          <label for="form-nickname" class="form__label">{{ $t('apodo') }}</label>
+          <label for="form-nickname" class="form__label">{{ t('apodo') }}</label>
         </div>
       </div>
       <div class="form__row">
         <div class="form__col w-100">
           <input type="text" placeholder=" " maxlength="50" id="form-name" v-model="user.name" class="form__input" autocomplete="off">
-          <label for="form-name" class="form__label">{{ $t('nombre') }}</label>
+          <label for="form-name" class="form__label">{{ t('nombre') }}</label>
         </div>
       </div>
       <div class="form__row">
         <div class="form__col w-100">
           <input type="text" placeholder=" " maxlength="100" id="form-lastname" v-model="user.lastName" class="form__input" autocomplete="off">
-          <label for="form-lastname" class="form__label">{{ $t('apellido') }}</label>
+          <label for="form-lastname" class="form__label">{{ t('apellido') }}</label>
         </div>
       </div>
       <div class="form__row">
         <div class="form__col w-100">
           <input type="email" placeholder=" " id="form-email" v-model="user.email" class="form__input" autocomplete="off">
-          <label for="form-email" class="form__label">{{ $t('email') }}</label>
+          <label for="form-email" class="form__label">{{ t('email') }}</label>
         </div>
       </div>
       <div class="form__row">
         <div class="form__col w-100">
           <input type="password" placeholder=" " id="form-password" v-model="user.password" class="form__input" autocomplete="new-password">
-          <label for="form-password" class="form__label">{{ $t('contrasena') }}</label>
+          <label for="form-password" class="form__label">{{ t('contrasena') }}</label>
         </div>
       </div>
       <div class="form__row">
         <div class="form__col w-100">
           <input type="password" placeholder=" " id="form-password-repeat" v-model="user.passwordRepeat" class="form__input" autocomplete="new-password">
-          <label for="form-password-repeat" class="form__label">{{ $t('confirmarContrasena') }}</label>
+          <label for="form-password-repeat" class="form__label">{{ t('confirmarContrasena') }}</label>
         </div>
       </div>
       <div class="form__row">
         <div class="form__checkbox my-1">
           <input type="checkbox" id="acceptTerms" v-model="user.acceptTerms">
-          <label for="acceptTerms">{{ $t('aceptarTerminosCondiciones') }}</label>
+          <label for="acceptTerms">{{ t('aceptarTerminosCondiciones') }}</label>
         </div>
       </div>
-      <button type="submit" class="form__button">{{ $t('registrarse') }}</button>
+      <button type="submit" class="form__button">{{ t('registrarse') }}</button>
       <div v-if="loginMessage" class="form__message">
         {{ loginMessage }}
       </div>

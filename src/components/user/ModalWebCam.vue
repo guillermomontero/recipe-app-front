@@ -1,5 +1,6 @@
-<script setup lang="ts">
+<script setup lang='ts'>
 import { onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { apiUploadAvatar } from '../../config/api/user';
 import { useAuthStore } from '../../store/auth';
 
@@ -21,12 +22,10 @@ interface IUser {
 }
 
 const emits = defineEmits(['close']);
-const props = defineProps<{
-  userData: IUser,
-}>();
+const props = defineProps<{ userData: IUser }>();
 
+const { t } = useI18n();
 const store = useAuthStore();
-
 const constraints = ref<IConstraints>({
   audio: false,
   video: {
@@ -36,7 +35,7 @@ const constraints = ref<IConstraints>({
 });
 const hasPicture = ref<boolean>(false);
 const fileToSave = ref(null);
-const stream = ref(null);
+const stream = ref<MediaStream>();
 const fileBase64URL = ref(null);
 const fileBase64Name = ref(null);
 const webcamCapture = ref(null);
@@ -165,14 +164,14 @@ onMounted(() => {
       <div class="modal__container--wrap">
         <article class="modal__container--wrap--article">
           <video id="video" playsinline autoplay></video>
-          <button class="btn btn--xs btn--edit mt-1" ref="snap" @click="makePicture">📸 {{ $t('hacerFoto') }}</button>
+          <button class="btn btn--xs btn--edit mt-1" ref="snap" @click="makePicture">📸 {{ t('hacerFoto') }}</button>
         </article>
         <article class="modal__container--wrap--article">
           <canvas id="canvas" class="webcam-picture" width="300" height="300"></canvas>
         </article>
         <article class="modal__container--wrap--buttons mt-2">
-          <button class="btn btn--xs btn--delete mr-1" @click="close">{{ $t('cancelar') }}</button>
-          <button :disabled="!hasPicture" class="btn btn--xs btn--accept mr-1" @click="sendImage('webcam')">{{ $t('aceptar') }}</button>
+          <button class="btn btn--xs btn--delete mr-1" @click="close">{{ t('cancelar') }}</button>
+          <button :disabled="!hasPicture" class="btn btn--xs btn--accept mr-1" @click="sendImage('webcam')">{{ t('aceptar') }}</button>
         </article>
       </div>
     </article>

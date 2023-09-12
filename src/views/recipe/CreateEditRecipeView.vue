@@ -1,11 +1,12 @@
-<script lang="ts" setup>
+<script setup lang='ts'>
 import { onMounted, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRoute, LocationQueryValue } from 'vue-router';
-import { apiCreateRecipe, apiGetRecipe, apiEditRecipe, apiUploadRecipe } from "../../config/api/recipe";
-import { apiGetAllTemperatureCategories } from "../../config/api/temperature-category";
+import { apiCreateRecipe, apiGetRecipe, apiEditRecipe, apiUploadRecipe } from '../../config/api/recipe';
+import { apiGetAllTemperatureCategories } from '../../config/api/temperature-category';
 import { apiGetAllCategories, apiCreateCategory } from '../../config/api/category';
-import { apiGetAllCountries } from "../../config/api/country";
-import { apiGetAllUnitTimes } from "../../config/api/unit-time";
+import { apiGetAllCountries } from '../../config/api/country';
+import { apiGetAllUnitTimes } from '../../config/api/unit-time';
 import { useAuthStore } from '../../store/auth';
 import router from '../../router';
 import BaseMultiSelect from '../../components/base/BaseMultiSelect.vue';
@@ -49,11 +50,9 @@ interface ICategory {
   selected: boolean
 };
 
+const { t } = useI18n();
 const route = useRoute();
 const store = useAuthStore();
-
-
-// TODO: Add portions field (CRUD)
 const mode = ref<string>('create');
 const newRecipeMessage = ref<string>('');
 const temperatureCategories = ref<IObject[]>([]);
@@ -252,50 +251,55 @@ const saveDraftRecipe = async () => {
   }
 };
 
+const cancel = () => {
+  if (route.query.v === 'general') router.push({ name: 'recipe', query: { id: route.query.id } });
+  if (route.query.v === 'user') router.push('/my-recipes');
+};
+
 // Validate form
 const validateForm = () => {
   if (!recipe.value.title || typeof recipe.value.title !== 'string' || recipe.value.title.length >= 50) {
-    newRecipeMessage.value = $t('introduzcaTituloCorrecto');
+    newRecipeMessage.value = t('introduzcaTituloCorrecto');
     return false;
   }
 
   if (!recipe.value.description || typeof recipe.value.description !== 'string' || recipe.value.description.length >= 100) {
-    newRecipeMessage.value = $t('introduzcadescripcionCorrecta');
+    newRecipeMessage.value = t('introduzcadescripcionCorrecta');
     return false;
   }
 
   if (!recipe.value.steps || typeof recipe.value.steps !== 'string' || recipe.value.steps.length >= 10000) {
-    newRecipeMessage.value = $t('introduzcaPasosASeguirCorrectos');
+    newRecipeMessage.value = t('introduzcaPasosASeguirCorrectos');
     return false;
   }
 
   if (!recipe.value.ingredients) {
-    newRecipeMessage.value = $t('introduzcaIngredientesCorrectos');
+    newRecipeMessage.value = t('introduzcaIngredientesCorrectos');
     return false;
   }
 
   if (!recipe.value.cookingTime) {
-    newRecipeMessage.value = $t('introduzcaTiempoDeCocinadoCorrectos');
+    newRecipeMessage.value = t('introduzcaTiempoDeCocinadoCorrectos');
     return false;
   }
 
   if (!recipe.value.unitTime) {
-    newRecipeMessage.value = $t('introduzcaTiempoDeCocinadoCorrectos');
+    newRecipeMessage.value = t('introduzcaTiempoDeCocinadoCorrectos');
     return false;
   }
 
   if (!recipe.value.temperatureCategory) {
-    newRecipeMessage.value = $t('introduzcaTemperaturaCorrecta');
+    newRecipeMessage.value = t('introduzcaTemperaturaCorrecta');
     return false;
   }
 
   if (!recipe.value.origin) {
-    newRecipeMessage.value = $t('introduzcaOrigenCorrecto');
+    newRecipeMessage.value = t('introduzcaOrigenCorrecto');
     return false;
   }
 
   if (!recipe.value.portions) {
-    newRecipeMessage.value = $t('introduzcaPorcionesCorrectas');
+    newRecipeMessage.value = t('introduzcaPorcionesCorrectas');
     return false;
   }
 
@@ -381,53 +385,53 @@ onMounted(async () => {
     <div class="form__row">
       <div class="form__col w-100">
         <input type="text" maxlength="50" placeholder=" " id="titleRecipe" v-model="recipe.title" class="form__input">
-        <label for="titleRecipe" class="form__label">{{ $t('titulo') }}</label>
+        <label for="titleRecipe" class="form__label">{{ t('titulo') }}</label>
       </div>
     </div>
     <div class="form__row">
       <div class="form__col w-100">
         <input type="text" maxlength="100" placeholder=" " id="descriptionRecipe" v-model="recipe.description" class="form__input">
-        <label for="descriptionRecipe" class="form__label">{{ $t('descripcion') }}</label>
+        <label for="descriptionRecipe" class="form__label">{{ t('descripcion') }}</label>
       </div>
     </div>
     <div class="form__row">
       <div class="form__col w-20 mr-2">
         <input type="number" min="0" placeholder=" " id="cookingTimeRecipe" v-model="recipe.cookingTime" class="form__input" autocomplete="new-password">
-        <label for="cookingTimeRecipe" class="form__label">{{ $t('tiempoDeCocinado') }}</label>
+        <label for="cookingTimeRecipe" class="form__label">{{ t('tiempoDeCocinado') }}</label>
       </div>
       <div class="form__col w-20 mr-2">
         <select placeholder=" " name="unitTimeRecipe" id="unitTimeRecipe" v-model="recipe.unitTime" class="form__input">
-          <option disabled value="0" hidden>{{ $t('selecciona') }}</option>
+          <option disabled value="0" hidden>{{ t('selecciona') }}</option>
           <option v-for="u in unitTimes" :key="u.value" :value="u.value">{{ u.label }}</option>
         </select>
-        <label for="unitTimeRecipe" class="form__label">{{ $t('unidadDeTiempo') }}</label>
+        <label for="unitTimeRecipe" class="form__label">{{ t('unidadDeTiempo') }}</label>
       </div>
       <div class="form__col w-20">
         <input type="number" min="0" placeholder=" " id="portionsRecipe" v-model="recipe.portions" class="form__input" autocomplete="new-password">
-        <label for="portionsRecipe" class="form__label">{{ $t('porciones') }}</label>
+        <label for="portionsRecipe" class="form__label">{{ t('porciones') }}</label>
       </div>
     </div>
     <div class="form__row">
       <div class="form__col w-20 mr-2">
         <select placeholder=" " id="temperatureCategoryRecipe" v-model="recipe.temperatureCategory" class="form__input">
-          <option disabled value="0" hidden>{{ $t('selecciona') }}</option>
+          <option disabled value="0" hidden>{{ t('selecciona') }}</option>
           <option v-for="tc in temperatureCategories" :key="tc.value" :value="tc.value">{{ tc.label }}</option>
         </select>
-        <label for="temperatureCategoryRecipe" class="form__label">{{ $t('temperatura') }}</label>
+        <label for="temperatureCategoryRecipe" class="form__label">{{ t('temperatura') }}</label>
       </div>
       <div class="form__col w-40 mr-2">
         <BaseMultiSelect :BMSData="categories" :BMSLabel="'Categories'" :BMSAllowAddItem="true" :BMSBoxHeight="200" @add-new-item="addNewCategory" @selected-values="updateSelectedCategories" />
       </div>
       <div class="form__col w-40">
         <select placeholder=" " id="countriesRecipe" v-model="recipe.origin" class="form__input">
-          <option disabled value="" hidden>{{ $t('selecciona') }}</option>
+          <option disabled value="" hidden>{{ t('selecciona') }}</option>
           <option v-for="c in countries" :key="c.value" :value="c.value">{{ c.label }}</option>
         </select>
-        <label for="countriesRecipe" class="form__label">{{ $t('pais') }}</label>
+        <label for="countriesRecipe" class="form__label">{{ t('pais') }}</label>
       </div>
     </div>
     <div class="form__row">
-      <button class="btn btn--md btn--edit" @click.prevent="addIngredients">{{ $t('anadeIngredientes') }}</button>
+      <button class="btn btn--md btn--edit" @click.prevent="addIngredients">{{ t('anadeIngredientes') }}</button>
     </div>
     <div class="form__row" v-if="recipe.ingredients.length">
       <div class="form__col w-100 mb-0">
@@ -442,7 +446,7 @@ onMounted(async () => {
     <div class="form__row">
       <div class="form__col w-100" style="height: 250px;">
         <textarea placeholder=" " id="stepsRecipe" cols="30" rows="10" maxlength="10000" v-model="recipe.steps" class="form__input"></textarea>
-        <label for="stepsRecipe" class="form__label">{{ $t('pasos') }}</label>
+        <label for="stepsRecipe" class="form__label">{{ t('pasos') }}</label>
       </div>
     </div>
     <div class="form__row">
@@ -456,8 +460,9 @@ onMounted(async () => {
     </div>
 
     <div>
-      <button class="btn btn--md btn--edit mr-2" @click.prevent="acceptHandler(1)">{{ mode === 'create' ? $t('crear') : recipe.draft ? $t('publicar') : $t('editar') }}</button>
-      <button v-if="mode === 'create' || recipe.draft" class="btn btn--md btn--edit" @click.prevent="acceptHandler(2)">{{ $t('borrador') }}</button>
+      <button class="btn btn--md btn--delete mr-2" @click.prevent="cancel">{{ t('cancelar') }}</button>
+      <button class="btn btn--md btn--edit mr-2" @click.prevent="acceptHandler(1)">{{ mode === 'create' ? t('crear') : recipe.draft ? t('publicar') : t('editar') }}</button>
+      <button v-if="mode === 'create' || recipe.draft" class="btn btn--md btn--edit" @click.prevent="acceptHandler(2)">{{ t('borrador') }}</button>
     </div>
 
     <div v-if="newRecipeMessage" class="new-recipe__message">

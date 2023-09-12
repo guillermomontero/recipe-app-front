@@ -1,8 +1,10 @@
-<script setup lang="ts">
+<script setup lang='ts'>
+import { useI18n } from 'vue-i18n';
 import router from '../../router';
 import { useAuthStore } from '../../store/auth';
 import { useLayoutStore } from '../../store/layout';
 
+const { t } = useI18n();
 const storeAuth = useAuthStore();
 const storeLayout = useLayoutStore();
 
@@ -30,19 +32,19 @@ window.addEventListener('click', (e) => {
     </div>
     <div class="header__actions">
       <div v-if="$route.path !== '/new-recipe'" class="header__actions--button mr-1">
-        <button class="btn btn--md" @click="goToPage('/new-recipe?m=create&id=0')">+ {{ $t('nuevaReceta') }}</button>
+        <button class="btn btn--md" @click="goToPage('/new-recipe?m=create&id=0')">+ {{ t('nuevaReceta') }}</button>
       </div>
       <div class="header__actions--menu" id="menuTrigger">
         <div class="header__actions--menu--avatar" @click="storeLayout.triggerMenu(!storeLayout.isMenuActive)">
           <img :src="storeAuth.user.imageProfile" :alt="storeAuth.user.name">
         </div>
         <nav class="header__actions--menu--nav" v-if="storeLayout.isMenuActive">
-          <button @click="goToPage('/')" class="header__actions--menu--nav--link" :class="{ 'header__actions--menu--nav--link--active': $route.path === '/' }">{{ $t('inicio') }}</button>
-          <button @click="goToPage('/profile')" class="header__actions--menu--nav--link" :class="{ 'header__actions--menu--nav--link--active': $route.path === '/profile' }">{{ $t('miPerfil') }}</button>
-          <button @click="goToPage('/my-recipes')" class="header__actions--menu--nav--link" :class="{ 'header__actions--menu--nav--link--active': $route.path === '/my-recipes' }">{{ $t('misRecetas') }}</button>
-          <button @click="goToPage('/configuration')" class="header__actions--menu--nav--link" :class="{ 'header__actions--menu--nav--link--active': $route.path === '/configuration' }">{{ $t('configuracion') }}</button>
-          <button @click="goToPage('/admin')" class="header__actions--menu--nav--link" :class="{ 'header__actions--menu--nav--link--active': $route.path === '/admin' }">{{ $t('admin') }}</button>
-          <button @click="signOut" class="header__actions--menu--nav--link">{{ $t('cerrarSesion') }}</button>
+          <button @click="goToPage('/')" class="header__actions--menu--nav--link" :class="{ 'header__actions--menu--nav--link--active': $route.path === '/' }">{{ t('inicio') }}</button>
+          <button @click="goToPage('/profile')" class="header__actions--menu--nav--link" :class="{ 'header__actions--menu--nav--link--active': $route.path === '/profile' }">{{ t('miPerfil') }}</button>
+          <button @click="goToPage('/my-recipes')" class="header__actions--menu--nav--link" :class="{ 'header__actions--menu--nav--link--active': $route.path === '/my-recipes' }">{{ t('misRecetas') }}</button>
+          <button @click="goToPage('/configuration')" class="header__actions--menu--nav--link" :class="{ 'header__actions--menu--nav--link--active': $route.path === '/configuration' }">{{ t('configuracion') }}</button>
+          <button @click="goToPage('/admin')" class="header__actions--menu--nav--link" :class="{ 'header__actions--menu--nav--link--active': $route.path === '/admin' }">{{ t('admin') }}</button>
+          <button @click="signOut" class="header__actions--menu--nav--link">{{ t('cerrarSesion') }}</button>
         </nav>
       </div>
     </div>

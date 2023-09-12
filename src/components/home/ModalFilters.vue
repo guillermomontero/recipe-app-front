@@ -1,13 +1,12 @@
-<script setup lang="ts">
-import { onMounted, ref, watch } from 'vue';
+<script setup lang='ts'>
+import { onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useFilterBarStore } from '../../store/filter-bar';
 import { apiGetAllTemperatureCategories } from "../../config/api/temperature-category";
 import { apiGetAllCategories } from '../../config/api/category';
 import { apiGetAllCountries } from "../../config/api/country";
 import { apiGetAllUnitTimes } from "../../config/api/unit-time";
 import BaseMultiSelect from '../../components/base/BaseMultiSelect.vue';
-
-const storeFilterBar = useFilterBarStore();
 
 interface IObject {
   label: string,
@@ -32,7 +31,8 @@ interface ICategory {
 };
 
 const emit = defineEmits(['close']);
-
+const { t } = useI18n();
+const storeFilterBar = useFilterBarStore();
 const temperatureCategories = ref<IObject[]>([]);
 const countries = ref<IObjectCountry[]>([]);
 const categories = ref<ICategory[]>([]);
@@ -124,23 +124,23 @@ onMounted(async () => {
         <div class="form__row">
           <div class="form__col w-50 mr-2">
             <input type="number" min="0" placeholder=" " id="cookingTimeFilter" v-model="storeFilterBar.cookingTime" class="form__input" autocomplete="new-password">
-            <label for="cookingTimeFilter" class="form__label">{{ $t('tiempoDeCocinado') }}</label>
+            <label for="cookingTimeFilter" class="form__label">{{ t('tiempoDeCocinado') }}</label>
           </div>
           <div class="form__col w-50">
             <select placeholder=" " id="unitTimeFilter" v-model="storeFilterBar.unitTime" class="form__input">
-              <option disabled value="0" hidden>{{ $t('selecciona') }}</option>
+              <option disabled value="0" hidden>{{ t('selecciona') }}</option>
               <option v-for="u in unitTimes" :key="u.value" :value="u.value">{{ u.label }}</option>
             </select>
-            <label for="unitTimeFilter" class="form__label">{{ $t('unidadDeTiempo') }}</label>
+            <label for="unitTimeFilter" class="form__label">{{ t('unidadDeTiempo') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-100">
             <select placeholder=" " id="temperatureCategoryFilter" v-model="storeFilterBar.temperatureCategory" class="form__input">
-              <option disabled value="0" hidden>{{ $t('selecciona') }}</option>
+              <option disabled value="0" hidden>{{ t('selecciona') }}</option>
               <option v-for="tc in temperatureCategories" :key="tc.value" :value="tc.value">{{ tc.label }}</option>
             </select>
-            <label for="temperatureCategoryFilter" class="form__label">{{ $t('temperatura') }}</label>
+            <label for="temperatureCategoryFilter" class="form__label">{{ t('temperatura') }}</label>
           </div>
         </div>
         <div class="form__row">
@@ -151,15 +151,15 @@ onMounted(async () => {
         <div class="form__row">
           <div class="form__col w-100">
             <select placeholder=" " id="countriesFilter" v-model="storeFilterBar.origin" class="form__input">
-              <option disabled value="" hidden>{{ $t('selecciona') }}</option>
+              <option disabled value="" hidden>{{ t('selecciona') }}</option>
               <option v-for="c in countries" :key="c.value" :value="c.value">{{ c.label }}</option>
             </select>
-            <label for="countriesFilter" class="form__label">{{ $t('pais') }}</label>
+            <label for="countriesFilter" class="form__label">{{ t('pais') }}</label>
           </div>
         </div>
         <div>
-          <button class="btn btn--md btn--edit mr-2" @click.prevent="clearFilters">{{ $t('limpiar') }}</button>
-          <button class="btn btn--md btn--edit" @click.prevent="close(true)">{{ $t('aplicar') }}</button>
+          <button class="btn btn--md btn--edit mr-2" @click.prevent="clearFilters">{{ t('limpiar') }}</button>
+          <button class="btn btn--md btn--edit" @click.prevent="close(true)">{{ t('aplicar') }}</button>
         </div>
       </form>
     </article>

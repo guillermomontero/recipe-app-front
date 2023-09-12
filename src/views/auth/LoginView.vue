@@ -1,5 +1,6 @@
-<script lang="ts" setup>
+<script setup lang='ts'>
 import { ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../../store/auth';
 
 interface User {
@@ -7,6 +8,7 @@ interface User {
   password: string
 }
 
+const { t } = useI18n();
 const store = useAuthStore();
 const loginMessage = ref<string>('');
 const user = ref<User>({
@@ -37,22 +39,22 @@ const login = async () => {
 // Validate form
 const validateForm = () => {
   if (!user.value.email || !user.value.password) {
-    loginMessage.value = $t('datrosIntroducidosIncorrectos');
+    loginMessage.value = t('datrosIntroducidosIncorrectos');
     return false;
   }
 
-  if (!user.value.email.length >= 150) {
-    loginMessage.value = $t('datrosIntroducidosIncorrectos');
+  if (user.value.email.length >= 150) {
+    loginMessage.value = t('datrosIntroducidosIncorrectos');
     return false;
   }
 
   if (!hasEmailFormat(user.value.email)) {
-    loginMessage.value = $t('emailIntroducidoIncorrecto');
+    loginMessage.value = t('emailIntroducidoIncorrecto');
     return false;
   }
 
-  if (!user.value.password.length >= 50) {
-    loginMessage.value = $t('datrosIntroducidosIncorrectos');
+  if (user.value.password.length >= 50) {
+    loginMessage.value = t('datrosIntroducidosIncorrectos');
     return false;
   }
 
@@ -76,23 +78,23 @@ const hasEmailFormat = (searchString: string = '') => {
       <div class="form__row">
         <div class="form__col w-100">
           <input type="email" placeholder=" " id="form-email" v-model="user.email" class="form__input" autocomplete="off" maxlength="150">
-          <label for="form-email" class="form__label">{{ $t('email') }}</label>
+          <label for="form-email" class="form__label">{{ t('email') }}</label>
         </div>
       </div>
       <div class="form__row">
         <div class="form__col w-100">
           <input type="password" placeholder=" " id="form-password" v-model="user.password" class="form__input" autocomplete="new-password" maxlength="50">
-          <label for="form-password" class="form__label">{{ $t('contrasena') }}</label>
+          <label for="form-password" class="form__label">{{ t('contrasena') }}</label>
         </div>
       </div>
-      <button type="submit" class="form__button">{{ $t('entrar') }}</button>
+      <button type="submit" class="form__button">{{ t('entrar') }}</button>
       <div v-if="loginMessage" class="form__message">
         {{ loginMessage }}
       </div>
     </form>
     <div class="form__links">
-      <router-link to="/forgot-password">{{ $t('olvidoSuContrasena') }}</router-link>
-      <router-link to="/register">{{ $t('registrarse') }}</router-link>
+      <router-link to="/forgot-password">{{ t('olvidoSuContrasena') }}</router-link>
+      <router-link to="/register">{{ t('registrarse') }}</router-link>
     </div>
   </section>
 </template>
