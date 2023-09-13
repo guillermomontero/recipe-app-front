@@ -28,6 +28,7 @@ export const useAuthStore = defineStore('auth', {
 
   getters: {
     isLogged: (state) => state.logged,
+    userId: (state) => state.user._id,
   },
 
   actions: {

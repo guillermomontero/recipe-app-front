@@ -1,4 +1,4 @@
-<script setup lang='ts'>
+<script setup lang="ts">
 import { useI18n } from 'vue-i18n';
 import router from '../../router';
 import { useAuthStore } from '../../store/auth';
@@ -31,7 +31,7 @@ window.addEventListener('click', (e) => {
       <h3>RecipeApp</h3>
     </div>
     <div class="header__actions">
-      <div v-if="$route.path !== '/new-recipe'" class="header__actions--button mr-1">
+      <div v-if="$route.path !== '/new-recipe' && !$route.meta.hideButtonNewRecipe" class="header__actions--button mr-1">
         <button class="btn btn--md" @click="goToPage('/new-recipe?m=create&id=0')">+ {{ t('nuevaReceta') }}</button>
       </div>
       <div class="header__actions--menu" id="menuTrigger">

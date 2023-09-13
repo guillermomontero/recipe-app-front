@@ -5,6 +5,11 @@ interface IPagination {
   limit: number;
 }
 
+interface IDates {
+  from: string;
+  until: string;
+}
+
 export const apiGetAllUsers = async () => {
   return await apiCallGET('/users/getAllUsers');
 };
@@ -13,11 +18,11 @@ export const apiCreateUser = async (payload: Object = {}) => {
   return await apiCallPOST('/users/createUser', payload);
 };
 
-export const apiGetUser = async (id: number = 0) => {
+export const apiGetUser = async (id: string = '') => {
   return await apiCallGET(`/users/getUser/${id}`);
 };
 
-export const apiGetUserData = async (id: number = 0) => {
+export const apiGetUserData = async (id: string = '') => {
   return await apiCallGET(`/users/getUserData/${id}`);
 };
 
@@ -61,4 +66,8 @@ export const apiGetMyFavorites = async (id: string = '', payload: IPagination) =
   const { skip, limit } = payload;
 
   return await apiCallGET(`/users/getMyFavorites/${id}?skip=${skip}&limit=${limit}`);
+};
+
+export const apiGetUsersForPanel = async () => {
+  return await apiCallGET('/users/getUsersForPanel');
 };

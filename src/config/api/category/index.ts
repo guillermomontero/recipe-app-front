@@ -19,3 +19,7 @@ export const apiDeleteCategory = async (id: number = 0) => {
 export const apiEditCategory = async (payload: Object = {}) => {
   return await apiCallPUT('/categories/editCategory', payload);
 };
+
+export const apiGetCategoriesForPanel = async () => {
+  return await apiCallGET('/categories/getCategoriesForPanel');
+};

@@ -24,7 +24,7 @@
       height: 50px;
       border: solid 1px $blue-light;
       background: $white;
-      border-radius: 5px;
+      border-radius: 10px;
       padding: 1em 1em 0.4em 1em;
     }
 
@@ -48,7 +48,7 @@
       left: 0;
       z-index: 1;
       border: 1px solid $blue-dark;
-      border-radius: 5px;
+      border-radius: 10px;
       overflow: hidden;
       max-height: 320px;
       overflow-y: scroll;

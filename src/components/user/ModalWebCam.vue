@@ -1,4 +1,4 @@
-<script setup lang='ts'>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { apiUploadAvatar } from '../../config/api/user';
@@ -12,11 +12,21 @@ interface IConstraints {
   }
 };
 
+interface Location {
+  address: string,
+  city: string,
+  country: string,
+  postCode: number,
+  state: string,
+}
+
 interface IUser {
   _id: string,
   name: string,
   lastName: string,
+  email: string,
   birthday: string,
+  imageProfile: string,
   location: Location,
   telephone: number,
 }
@@ -56,11 +66,11 @@ const handleSuccess = (stream) => {
 };
 
 const makePicture = () => {
-  const canvas = document.getElementById('canvas');
-  const video = document.getElementById('video');
+  const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+  const video = document.getElementById('video') as HTMLVideoElement;
   const context = canvas?.getContext('2d');
 
-  context.drawImage(video, 0, 0, 300, 300);
+  context?.drawImage(video, 0, 0, 300, 300);
   const image = canvas?.toDataURL('image/jpg', 1).replace(/^data:image\/([^;]*)[^]/, 'data:application/octet-stream;');
   hasPicture.value = true;
 
@@ -86,15 +96,15 @@ const stopCam = async () => {
 
   stream.value.getTracks()[0].stop();
 
-  stream.value = null;
+  stream.value = undefined;
 };
 
 const selectFile = () => {
-  document.getElementById('fileinput').click();
+  document.getElementById('fileinput')?.click();
 };
 
 const onSelect = () => {
-  fileToSave.value = document.getElementById('fileinput').files[0];
+  fileToSave.value = document.getElementById('fileinput')?.files[0];
   const reader = new FileReader();
   reader.readAsDataURL(fileToSave.value);
   reader.onload = () => {

@@ -81,4 +81,10 @@ export default {
   apodo: 'Apodo',
   porciones: 'Porciones',
   favoritas: 'Favoritas',
+  usuarios: 'Usuarios',
+  recetas: 'Recetas',
+  categorias: 'Categorías',
+  panelDeAdministracion: 'Panel de administración',
+  del: 'Del',
+  al: 'al',
 };

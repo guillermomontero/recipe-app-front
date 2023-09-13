@@ -1,4 +1,4 @@
-<script setup lang='ts'>
+<script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, LocationQueryValue } from 'vue-router';
@@ -16,7 +16,7 @@ interface IRecipe {
   _id?: string,
   title: string,
   description: string,
-  ingredients: object[],
+  ingredients: IIngredient[],
   steps: string,
   cookingTime: number,
   unitTime: number,
@@ -50,6 +50,12 @@ interface ICategory {
   selected: boolean
 };
 
+interface IIngredient {
+  name: string,
+  quantity: number
+  type: string,
+};
+
 const { t } = useI18n();
 const route = useRoute();
 const store = useAuthStore();
@@ -75,8 +81,8 @@ const recipe = ref<IRecipe>({
   draft: false,
   portions: 0
 });
-const fileToSave = ref(null);
-const fileBase64URL = ref(null);
+const fileToSave = ref<any>(null);
+const fileBase64URL = ref<any>(null);
 const fileBase64Name = ref(null);
 
 watch(newRecipeMessage, (newQuestion) => {
@@ -150,7 +156,7 @@ const fillDataToEdit = async (id: LocationQueryValue = '') => {
 
 const addIngredients = (): void => { showModalIngredients.value = true; };
 
-const addIngredientsToRecipe = (ingredient: object = {}): void => {
+const addIngredientsToRecipe = (ingredient: IIngredient): void => {
   recipe.value.ingredients.push(ingredient)
 };
 
@@ -325,16 +331,16 @@ const addNewCategory = async (text: string = '') => {
 };
 
 const selectFile = () => {
-  document.getElementById('fileinput').click();
+  document.getElementById('fileinput')?.click();
 };
 
 const onSelect = () => {
-  fileToSave.value = document.getElementById('fileinput').files[0];
+  fileToSave.value = document.getElementById('fileInput')?.files[0];
   const reader = new FileReader();
   reader.readAsDataURL(fileToSave.value);
   reader.onload = () => {
     fileBase64URL.value = reader.result;
-    fileBase64Name.value = fileToSave.value.name;
+    fileBase64Name.value = fileToSave.value?.name;
   };
   reader.onerror = (error) => {
     console.log('Error: ', error);
@@ -342,8 +348,8 @@ const onSelect = () => {
 };
 
 const deleteImage = () => {
-  const input = document.getElementById('fileinput');
-  input.value = null;
+  const input = document.getElementById('fileinput') as HTMLInputElement;
+  input.value = '';
   input.type = 'text';
   input.type = 'file';
 
@@ -374,7 +380,7 @@ onMounted(async () => {
 
   if (route.query.m === 'edit' && route.query.id !== '0') {
     mode.value = 'edit';
-    fillDataToEdit(route.query.id);
+    fillDataToEdit(String(route.query.id));
   }
 });
 

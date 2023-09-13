@@ -1,4 +1,4 @@
-<script setup lang='ts'>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../../store/auth';
@@ -42,7 +42,7 @@ const user = ref<IUser>({
 
 const getUserData = async () => {
   try {
-    const response = await apiGetUser(store.user._id);
+    const response = await apiGetUser(store.userId);
     user.value._id = response._id;
     user.value.email = response.email;
     user.value.allowEmail = response.allowEmail;

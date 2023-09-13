@@ -1,4 +1,4 @@
-<script setup lang='ts'>
+<script setup lang="ts">
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, LocationQueryValue } from 'vue-router';
@@ -25,20 +25,30 @@ interface IRecipe {
   authorName: string,
   authorPremium: boolean,
   authorNickname: string,
-}
+  createDate: string,
+  ingredients: IIngredient[],
+  steps: string,
+  photo: string
+};
 
 interface ICountry {
   _id: number,
   name: string,
   alpha2: string,
   countryCode: string
-}
+};
 
 interface ICategory {
   name?: string,
   label: string,
   value: number
 };
+
+interface IIngredient {
+  name: string,
+  quantity: number,
+  type: string,
+}
 
 const { t } = useI18n();
 const storeAuth = useAuthStore();
@@ -59,21 +69,33 @@ const recipe = ref<IRecipe>({
   authorName: '',
   authorPremium: false,
   authorNickname: '',
+  createDate: new Date().toISOString(),
+  ingredients: [],
+  steps: '',
+  photo: ''
 });
 const countries = ref<ICountry[]>([]);
 const categories = ref<ICategory[]>([]);
 const recipeCategories = ref<string[]>([]);
 
 const getRecipe = async (id: LocationQueryValue = '') => {
-  const response = await apiGetRecipe(id);
-  recipe.value = response;
+  try {
+    const response = await apiGetRecipe(String(id));
+    recipe.value = response;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const getUserData = async (id: LocationQueryValue = '') => {
-  const response = await apiGetUserData(id);
-  recipe.value.authorName = response.name;
-  recipe.value.authorNickname = response.nickname;
-  recipe.value.authorPremium = response.premium;
+  try {
+    const response = await apiGetUserData(String(id));
+    recipe.value.authorName = response.name;
+    recipe.value.authorNickname = response.nickname;
+    recipe.value.authorPremium = response.premium;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const getAllCountries = async () => {
@@ -137,7 +159,7 @@ onMounted(() => {
   Promise.all([
     getAllCountries(),
     getAllCategories(),
-    getRecipe(recipeId),
+    getRecipe(String(recipeId)),
   ])
     .then(() => {
       getUserData(recipe.value.author);

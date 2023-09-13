@@ -34,7 +34,7 @@
     width: 100%;
     border: solid 1px $blue-light;
     background: $white;
-    border-radius: 5px;
+    border-radius: 10px;
     padding: 1em 1em 0.4em 1em;
     position: absolute;
     top: 0;
@@ -45,7 +45,7 @@
       width: 100%;
       border: solid 1px $blue-light;
       background: $white;
-      border-radius: 5px;
+      border-radius: 10px;
       padding: 0.8em 1em 0.8em 1em;
       cursor: pointer;
       position: relative;
@@ -83,7 +83,7 @@
     appearance: none;
     border: none;
     outline: none;
-    border-radius: 5px;
+    border-radius: 10px;
     background: $blue-dark;
     color: $white;
     padding: 1em 2em;
@@ -123,7 +123,7 @@
     margin: 1em 0 0 0;
     background: $error;
     color: $white;
-    border-radius: 5px;
+    border-radius: 10px;
   }
 
   &__checkbox {
@@ -193,7 +193,7 @@
       flex-flow: row nowrap;
       align-items: center;
       background: $yellow-recipe-semi;
-      border-radius: 5px;
+      border-radius: 10px;
       padding: 6px 10px;
       
       span {
