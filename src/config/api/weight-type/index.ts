@@ -15,3 +15,7 @@ export const apiDeleteWeightType = async (id: number = 0) => {
 export const apiEditWeightType = async (payload: Object = {}) => {
   return await apiCallPUT('/weightTypes/editWeightType', payload);
 };
+
+export const apiGetWeightTypesForPanel = async () => {
+  return await apiCallGET('/weightTypes/getWeightTypesForPanel');
+};

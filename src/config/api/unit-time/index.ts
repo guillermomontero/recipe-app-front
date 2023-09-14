@@ -15,3 +15,7 @@ export const apiDeleteUnitTime = async (id: number = 0) => {
 export const apiEditUnitTime = async (payload: Object = {}) => {
   return await apiCallPUT('/unitTimes/editUnitTime', payload);
 };
+
+export const apiGetUnitTimesForPanel = async () => {
+  return await apiCallGET('/unitTimes/getUnitTimesForPanel');
+};

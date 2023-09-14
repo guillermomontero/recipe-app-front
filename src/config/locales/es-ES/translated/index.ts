@@ -87,4 +87,8 @@ export default {
   panelDeAdministracion: 'Panel de administración',
   del: 'Del',
   al: 'al',
+  paises: 'Países',
+  categoriasDeTemperatura: 'Temperaturas',
+  unidadesDeTiempo: 'Unidades de tiempo',
+  tiposDePeso: 'Tipos de peso',
 };
