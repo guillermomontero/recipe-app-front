@@ -10,7 +10,7 @@ const messages = {
 
 type MessageSchema = typeof messageSchema;
 
-export const i18n = createI18n<[MessageSchema]>({
+export const i18n = createI18n<[MessageSchema], 'es' | 'en'>({
   legacy: false,
   globalInjection: true,
   locale: localStorage.getItem('local') || 'es',

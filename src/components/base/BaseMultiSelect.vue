@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref, computed, watch, onUnmounted } from "vue";
+import { ref, computed, watch, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 interface IData {
   label: string,
@@ -27,6 +28,7 @@ watch(() => props.BMSData, (first) => {
   if (!first.find(i => i.selected)) selectedValues.value = [];
 }, { deep: true });
 
+const { t } = useI18n();
 const selectedValues = ref<number[]>([]);
 const filterList = ref<object[]>([]);
 const textValue = ref<string>('');
@@ -88,7 +90,7 @@ onUnmounted(() => {
     <input v-else type="text" placeholder=" " id="textComputed" v-model="selectedValuesComp" class="multi-select__input">
     <label for="baseInputText" class="multi-select__label">{{ BMSLabel }}</label>
     <div class="multi-select__items" :class="{ 'multi-select__items--show': showOptions }" :style="`max-height: ${BMSBoxHeight}px`">
-      <div v-if="BMSAllowAddItem" class="multi-select__items--add-new" @click.prevent="addNewItem(textValue)">+ {{ $t('anadir') }}</div>
+      <div v-if="BMSAllowAddItem" class="multi-select__items--add-new" @click.prevent="addNewItem(textValue)">+ {{ t('anadir') }}</div>
       <div v-for="(item, index) in filterList" :key="index" class="multi-select__items--options">
         <div class="form__checkbox">
           <input type="checkbox" :name="`baseInputCheckbox-${index}`" :id="`baseInputCheckbox-${index}`" @click="checkValue(item.value)" v-model="item.selected">

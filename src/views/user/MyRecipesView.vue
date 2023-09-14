@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
-import { apiGetMyRecipes, apiDoLikeRecipe, apiDoUnlikeRecipe,apiDeleteRecipe } from "../../config/api/recipe";
+import { onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { apiGetMyRecipes, apiDoLikeRecipe, apiDoUnlikeRecipe,apiDeleteRecipe } from '../../config/api/recipe';
 import { apiGetMyFavorites } from '../../config/api/user';
 import { useAuthStore } from '../../store/auth';
-import router from "../../router";
+import router from '../../router';
 
 interface IRecipe {
   _id: string,
@@ -12,8 +13,8 @@ interface IRecipe {
   likes: number
 }
 
+const { t } = useI18n();
 const store = useAuthStore();
-
 const limitInit = 10;
 const hasPagination = ref<boolean>(false);
 const pagination = ref(0);
@@ -128,12 +129,12 @@ onMounted(() => {
 
 <template>
   <div class="page-title">
-    <h3>{{ $t('misRecetas') }}</h3>
+    <h3>{{ t('misRecetas') }}</h3>
   </div>
   <section class="articles mt-2">
     <div class="articles__tabs">
-      <button class="btn btn--lg btn--edit mr-2" :class="{ 'btn--active': active.myRecipes }" @click="getList('myRecipes')">{{ $t('misRecetas') }}</button>
-      <button class="btn btn--lg btn--edit" :class="{ 'btn--active': active.myFavorites }" @click="getList('myFavorites')">{{ $t('favoritas') }}</button>
+      <button class="btn btn--lg btn--edit mr-2" :class="{ 'btn--active': active.myRecipes }" @click="getList('myRecipes')">{{ t('misRecetas') }}</button>
+      <button class="btn btn--lg btn--edit" :class="{ 'btn--active': active.myFavorites }" @click="getList('myFavorites')">{{ t('favoritas') }}</button>
     </div>
     <article v-if="recipes.length" class="articles__article" v-for="recipe in recipes" :key="recipe._id">
       <div class="articles__article--title">
@@ -149,12 +150,12 @@ onMounted(() => {
         </div>
       </div>
       <div class="articles__article--actions">
-        <button class="btn btn--xs btn--edit mr-1" @click.prevent="editRecipe(recipe)">{{ $t('editar') }}</button>
-        <button class="btn btn--xs btn--delete" @click.prevent="deleteRecipe(recipe)">{{ $t('eliminar') }}</button>
+        <button class="btn btn--xs btn--edit mr-1" @click.prevent="editRecipe(recipe)">{{ t('editar') }}</button>
+        <button class="btn btn--xs btn--delete" @click.prevent="deleteRecipe(recipe)">{{ t('eliminar') }}</button>
       </div>
     </article>
     <article v-else>
-      {{ $t('noSeHanEncontradoResultados') }}
+      {{ t('noSeHanEncontradoResultados') }}
     </article>
   </section>
   <section class="pagination" v-if="hasPagination">

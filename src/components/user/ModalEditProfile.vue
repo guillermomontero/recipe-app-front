@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { formatDateToClient } from '../../config/utils/dates';
 import { useAuthStore } from '../../store/auth';
 import { apiEditUser } from '../../config/api/user';
@@ -22,12 +23,10 @@ interface IUser {
 }
 
 const emit = defineEmits(['close']);
-const props = defineProps<{
-  userData: IUser,
-}>();
+const props = defineProps<{ userData: IUser }>();
 
+const { t } = useI18n();
 const store = useAuthStore();
-
 const user = ref<IUser>({
   _id: '',
   name: '',
@@ -73,50 +72,50 @@ onMounted(() => {
         <div class="form__row">
           <div class="form__col w-50 mr-1">
             <input type="text" maxlength="50" placeholder=" " id="userName" v-model="user.name" class="form__input">
-            <label for="userName" class="form__label">{{ $t('nombre') }}</label>
+            <label for="userName" class="form__label">{{ t('nombre') }}</label>
           </div>
           <div class="form__col w-50">
             <input type="text" maxlength="50" placeholder=" " id="userLastname" v-model="user.lastName" class="form__input">
-            <label for="userLastname" class="form__label">{{ $t('apellido') }}</label>
+            <label for="userLastname" class="form__label">{{ t('apellido') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-50 mr-1">
             <input type="date" placeholder=" " id="userBirthday" v-model="user.birthday" class="form__input">
-            <label for="userBirthday" class="form__label">{{ $t('cumpleanos') }}</label>
+            <label for="userBirthday" class="form__label">{{ t('cumpleanos') }}</label>
           </div>
           <div class="form__col w-50">
             <input type="number" min="0" placeholder=" " id="userTelephone" v-model="user.telephone" class="form__input">
-            <label for="userTelephone" class="form__label">{{ $t('telefono') }}</label>
+            <label for="userTelephone" class="form__label">{{ t('telefono') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-100">
             <input type="text" placeholder=" " id="userAddress" v-model="user.location.address" class="form__input">
-            <label for="userAddress" class="form__label">{{ $t('direccion') }}</label>
+            <label for="userAddress" class="form__label">{{ t('direccion') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-50 mr-1">
             <input type="text" maxlength="50" placeholder=" " id="userCity" v-model="user.location.city" class="form__input">
-            <label for="userCity" class="form__label">{{ $t('ciudad') }}</label>
+            <label for="userCity" class="form__label">{{ t('ciudad') }}</label>
           </div>
           <div class="form__col w-50">
             <input type="text" maxlength="50" placeholder=" " id="userState" v-model="user.location.state" class="form__input">
-            <label for="userState" class="form__label">{{ $t('provincia') }}</label>
+            <label for="userState" class="form__label">{{ t('provincia') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-50 mr-1">
             <input type="number" min="0" placeholder=" " id="userPostCode" v-model="user.location.postCode" class="form__input">
-            <label for="userPostCode" class="form__label">{{ $t('codigoPostal') }}</label>
+            <label for="userPostCode" class="form__label">{{ t('codigoPostal') }}</label>
           </div>
           <div class="form__col w-50">
             <input type="text" maxlength="50" placeholder=" " id="userCountry" v-model="user.location.country" class="form__input">
-            <label for="userCountry" class="form__label">{{ $t('pais') }}</label>
+            <label for="userCountry" class="form__label">{{ t('pais') }}</label>
           </div>
         </div>
-        <button class="btn btn--md mt-1" @click.prevent="editProfile">{{ $t('guardar') }}</button>
+        <button class="btn btn--md mt-1" @click.prevent="editProfile">{{ t('guardar') }}</button>
       </form>
     </article>
   </section>

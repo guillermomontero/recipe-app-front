@@ -1,11 +1,13 @@
-<script lang="ts" setup>
+<script setup lang="ts">
 import { ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../../store/auth';
 
 interface User {
   email: string
 }
 
+const { t } = useI18n();
 const store = useAuthStore();
 const loginMessage = ref<string>('');
 const user = ref<User>({
@@ -24,9 +26,7 @@ watch(loginMessage, (newQuestion) => {
 const sendMail = async () => {
   if (!validateForm()) return;
 
-  const payload = {
-    email: user.value.email
-  };
+  const payload = { email: user.value.email };
 
   await store.login(payload);
 };
@@ -34,17 +34,17 @@ const sendMail = async () => {
 // Validate form
 const validateForm = () => {
   if (!user.value.email) {
-    loginMessage.value = $t('datosIntroducidosIncorrectos');
+    loginMessage.value = t('datosIntroducidosIncorrectos');
     return false;
   }
 
-  if (!user.value.email.length >= 150) {
-    loginMessage.value = $t('datrosIntroducidosIncorrectos');
+  if (user.value.email.length >= 150) {
+    loginMessage.value = t('datrosIntroducidosIncorrectos');
     return false;
   }
 
   if (!hasEmailFormat(user.value.email)) {
-    loginMessage.value = $t('emailIntroducidoIncorrecto');
+    loginMessage.value = t('emailIntroducidoIncorrecto');
     return false;
   }
 
@@ -68,10 +68,10 @@ const hasEmailFormat = (searchString: string = '') => {
       <div class="form__row">
         <div class="form__col w-100">
           <input type="email" placeholder=" " id="form-email" v-model="user.email" class="form__input" autocomplete="off" maxlength="150">
-          <label for="form-email" class="form__label">{{ $t('email') }}</label>
+          <label for="form-email" class="form__label">{{ t('email') }}</label>
         </div>
       </div>
-      <button type="submit" class="form__button">{{ $t('recuperar') }}</button>
+      <button type="submit" class="form__button">{{ t('recuperar') }}</button>
       <div v-if="loginMessage" class="form__message">
         {{ loginMessage }}
       </div>

@@ -16,9 +16,11 @@
 @import './components/base/base-multi-select';
 @import './components/home/filter-bar';
 @import './components/home/recipe-card';
+@import './components/admin/admin-card';
 
 // Views
 @import './views/login';
 @import './views/profile';
 @import './views/configuration';
 @import './views/recipe';
+@import './views/admin';

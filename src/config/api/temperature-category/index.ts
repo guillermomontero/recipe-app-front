@@ -19,3 +19,7 @@ export const apiDeleteTemperatureCategory = async (id: number = 0) => {
 export const apiEditTemperatureCategory = async (payload: Object = {}) => {
   return await apiCallPUT('/temperatureCategories/editTemperatureCategory', payload);
 };
+
+export const apiGetTemperatureCategoriesForPanel = async () => {
+  return await apiCallGET('/temperatureCategories/getTemperatureCategoriesForPanel');
+};

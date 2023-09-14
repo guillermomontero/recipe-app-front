@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import router from '../router';
 import { apiLogin } from '../config/api/auth';
+import { useSpinnerStore } from './spinner';
 
 interface IUser {
   _id: string,
@@ -27,6 +28,7 @@ export const useAuthStore = defineStore('auth', {
 
   getters: {
     isLogged: (state) => state.logged,
+    userId: (state) => state.user._id,
   },
 
   actions: {
@@ -47,6 +49,8 @@ export const useAuthStore = defineStore('auth', {
     },
 
     async login(payload: object = {}) {
+      const spinnerStore = useSpinnerStore();
+      spinnerStore.switchSpinner(true);
       try {
         const response = await apiLogin(payload);
         this.logged = true;
@@ -59,6 +63,8 @@ export const useAuthStore = defineStore('auth', {
         router.push('/');
       } catch (error) {
         console.log(error);
+      } finally {
+        spinnerStore.switchSpinner(false);
       }
     },
 

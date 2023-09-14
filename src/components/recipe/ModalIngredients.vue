@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { apiGetAllWeightTypes } from "../../config/api/weight-type";
 
 interface IIngredient {
@@ -15,6 +16,7 @@ interface IObject {
 
 const emit = defineEmits(['close', 'add-ingredient']);
 
+const { t } = useI18n();
 const unitTypes = ref<IObject[]>([]);
 const ingredient = ref<IIngredient>({
   name: '',
@@ -45,22 +47,22 @@ const addIngredient = () => {
 
 const validateForm = () => {
   if (!ingredient.value.name) {
-    validateMessage.value = $t('esNecesarioIntroducirUnNombre');
+    validateMessage.value = t('esNecesarioIntroducirUnNombre');
     return false;
   }
 
   if (ingredient.value.name.length >= 100) {
-    validateMessage.value = $t('ingredienteIntroducidoSuperaLongitud');
+    validateMessage.value = t('ingredienteIntroducidoSuperaLongitud');
     return false;
   }
 
   if (!ingredient.value.quantity) {
-    validateMessage.value = $t('esNecesarioIntroducirUnaCantidad');
+    validateMessage.value = t('esNecesarioIntroducirUnaCantidad');
     return false;
   }
 
   if (!ingredient.value.type) {
-    validateMessage.value = $t('esNecesarioIntroducirUnTipoDeMedida');
+    validateMessage.value = t('esNecesarioIntroducirUnTipoDeMedida');
     return false;
   }
 
@@ -92,23 +94,23 @@ watch(validateMessage, (newQuestion) => {
         <div class="form__row">
           <div class="form__col w-100">
             <input type="text" placeholder=" " name="ingredientName" id="ingredientName" v-model="ingredient.name" class="form__input" maxlength="100">
-            <label for="ingredientName" class="form__label">{{ $t('nombre') }}</label>
+            <label for="ingredientName" class="form__label">{{ t('nombre') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-100">
             <input type="number" min="0" placeholder=" " name="ingredientQuantity" id="ingredientQuantity" v-model="ingredient.quantity" class="form__input">
-            <label for="ingredientQuantity" class="form__label">{{ $t('cantidad') }}</label>
+            <label for="ingredientQuantity" class="form__label">{{ t('cantidad') }}</label>
           </div>
         </div>
         <div class="form__col w-100">
           <select placeholder=" " name="ingredientType" id="ingredientType" v-model="ingredient.type" class="form__input">
             <option v-for="u in unitTypes" :key="u.value" :value="u.label">{{ u.label }}</option>
           </select>
-          <label for="ingredientType" class="form__label">{{ $t('tipo') }}</label>
+          <label for="ingredientType" class="form__label">{{ t('tipo') }}</label>
         </div>
         <div v-if="validateMessage" class="form__message">{{ validateMessage }}</div>
-        <button type="submit" class="btn btn--md mt-2">{{ $t('anadir') }}</button>
+        <button type="submit" class="btn btn--md mt-2">{{ t('anadir') }}</button>
       </form>
     </article>
   </section>

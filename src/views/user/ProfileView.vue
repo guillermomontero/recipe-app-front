@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../../store/auth';
 import { apiGetUser, apiDeleteImageProfile } from "../../config/api/user";
 import { formatDateToInput, formatDateFront } from '../../config/utils/dates';
 import ModalEditProfile from '../../components/user/ModalEditProfile.vue';
-import ModalWebCam from '../../components/user/ModalWebCam.vue';
+import ModalWebcam from '../../components/user/ModalWebcam.vue';
 
 interface Location {
   address: string,
@@ -25,10 +26,10 @@ interface IUser {
   telephone: number,
 }
 
+const { t } = useI18n();
 const store = useAuthStore();
-
 const showModalEditProfile = ref<boolean>(false);
-const showModalWebCam = ref<boolean>(false);
+const showModalWebcam = ref<boolean>(false);
 const user = ref<IUser>({
   _id: '',
   name: '',
@@ -72,12 +73,12 @@ const closeModalEditProfile = (refresh: boolean = false) => {
   if (refresh) getUserData();
 };
 
-const openModalWebCam = () => {
-  showModalWebCam.value = true;
+const openModalWebcam = () => {
+  showModalWebcam.value = true;
 };
 
-const closeModalWebCam = (refresh: boolean = false) => {
-  showModalWebCam.value = false;
+const closeModalWebcam = (refresh: boolean = false) => {
+  showModalWebcam.value = false;
   if (refresh) getUserData();
 };
 
@@ -103,17 +104,17 @@ onMounted(() => {
 
 <template>
   <div class="page-title">
-    <h3>{{ $t('perfil') }}</h3>
-    <button class="btn btn--xs btn--edit" @click="editProfile">{{ $t('editar') }}</button>
+    <h3>{{ t('perfil') }}</h3>
+    <button class="btn btn--xs btn--edit" @click="editProfile">{{ t('editar') }}</button>
   </div>
   <section class="profile mt-2">
     <div class="profile__principal">
       <div class="profile__principal--photo">
         <img :src="user.imageProfile" alt="">
         <div class="profile__principal--photo--buttons">
-          <button v-if="!user.imageProfile" class="btn btn--xs btn--add" @click.prevent="openModalWebCam">➕ {{ $t('anadir') }}</button>
+          <button v-if="!user.imageProfile" class="btn btn--xs btn--add" @click.prevent="openModalWebcam">➕ {{ t('anadir') }}</button>
           <button v-if="user.imageProfile" class="btn btn--xs btn--delete mr-1" @click.prevent="deleteImageProfile">🗑️</button>
-          <button v-if="user.imageProfile" class="btn btn--xs btn--edit" @click.prevent="openModalWebCam">✏️ {{ $t('editar') }}</button>
+          <button v-if="user.imageProfile" class="btn btn--xs btn--edit" @click.prevent="openModalWebcam">✏️ {{ t('editar') }}</button>
         </div>
       </div>
       <div class="profile__principal--data">
@@ -130,7 +131,7 @@ onMounted(() => {
           <p>🎂 {{ formatDateFront(user.birthday) }}</p>
         </div>
         <div class="profile__principal--data--row mt-2">
-          📌 {{ $t('localizacion') }}
+          📌 {{ t('localizacion') }}
         </div>
         <div class="profile__principal--data--row">
           {{ user.location.address }}
@@ -146,5 +147,5 @@ onMounted(() => {
   </section>
 
   <ModalEditProfile v-if="showModalEditProfile" :userData="user" @close="closeModalEditProfile" />
-  <ModalWebCam v-if="showModalWebCam" :userData="user" @close="closeModalWebCam" />
+  <ModalWebcam v-if="showModalWebcam" :userData="user" @close="closeModalWebcam" />
 </template>

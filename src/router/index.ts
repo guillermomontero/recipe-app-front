@@ -88,7 +88,8 @@ const routes: Array<RouteRecordRaw> = [
     component: () => import('../views/admin/AdminView.vue'),
     meta: {
       requireAuth: true,
-      role: true
+      role: true,
+      hideButtonNewRecipe: true,
     }
   }
 ];

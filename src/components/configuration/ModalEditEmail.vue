@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../../store/auth';
 import { apiChangeEmail } from '../../config/api/user';
 
@@ -10,8 +11,8 @@ interface IMail {
   newEmailConfirm: string
 }
 
+const { t } = useI18n();
 const store = useAuthStore();
-
 const validateMessage = ref<string>('');
 const email = ref<IMail>({
   newEmail: '',
@@ -38,22 +39,22 @@ const editMail = async () => {
 
 const validateForm = () => {
   if (email.value.newEmail.length >= 150 || email.value.newEmailConfirm.length >= 150) {
-    validateMessage.value = $t('emailIntroducidoIncorrecto');
+    validateMessage.value = t('emailIntroducidoIncorrecto');
     return false;
   }
 
   if (email.value.newEmail === '') {
-    validateMessage.value = $t('emailIntroducidoIncorrecto');
+    validateMessage.value = t('emailIntroducidoIncorrecto');
     return false;
   }
 
   if (email.value.newEmailConfirm === '') {
-    validateMessage.value = $t('emailIntroducidoIncorrecto');
+    validateMessage.value = t('emailIntroducidoIncorrecto');
     return false;
   }
 
   if (email.value.newEmail !== email.value.newEmailConfirm) {
-    validateMessage.value = $t('emailsNoCoinciden');
+    validateMessage.value = t('emailsNoCoinciden');
     return false;
   }
 
@@ -81,17 +82,17 @@ watch(validateMessage, (newQuestion) => {
         <div class="form__row">
           <div class="form__col w-100">
             <input type="email" placeholder=" " id="newEmail" v-model="email.newEmail" class="form__input" autocomplete="new-email" maxlength="150">
-            <label for="newEmail" class="form__label">{{ $t('nuevaContrasena') }}</label>
+            <label for="newEmail" class="form__label">{{ t('nuevaContrasena') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-100">
             <input type="email" placeholder=" " id="newEmailConfirm" v-model="email.newEmailConfirm" class="form__input" autocomplete="new-email" maxlength="150">
-            <label for="newEmailConfirm" class="form__label">{{ $t('confirmarNuevaContrasena') }}</label>
+            <label for="newEmailConfirm" class="form__label">{{ t('confirmarNuevaContrasena') }}</label>
           </div>
         </div>
         <div v-if="validateMessage" class="form__message">{{ validateMessage }}</div>
-        <button class="btn btn--md mt-1" @click.prevent="editMail">{{ $t('guardar') }}</button>
+        <button class="btn btn--md mt-1" @click.prevent="editMail">{{ t('guardar') }}</button>
       </form>
     </article>
   </section>

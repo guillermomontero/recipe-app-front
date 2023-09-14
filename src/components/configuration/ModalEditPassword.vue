@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../../store/auth';
 import { apiChangePassword } from '../../config/api/user';
 
@@ -11,8 +12,8 @@ interface IPass {
   newPasswordConfirm: string
 }
 
+const { t } = useI18n();
 const store = useAuthStore();
-
 const validateMessage = ref<string>('');
 const pass = ref<IPass>({
   password: '',
@@ -41,27 +42,27 @@ const editPassword = async () => {
 
 const validateForm = () => {
   if (pass.value.password.length >= 50 || pass.value.newPassword.length >= 50 || pass.value.newPasswordConfirm.length >= 50) {
-    validateMessage.value = $t('contrasenaIntroducidaSuperaLongitud');
+    validateMessage.value = t('contrasenaIntroducidaSuperaLongitud');
     return false;
   }
 
   if (pass.value.password === '') {
-    validateMessage.value = $t('contrasenaIntroducidaIncorrecta');
+    validateMessage.value = t('contrasenaIntroducidaIncorrecta');
     return false;
   }
 
   if (pass.value.newPassword === '') {
-    validateMessage.value = $t('contrasenaIntroducidaIncorrecta');
+    validateMessage.value = t('contrasenaIntroducidaIncorrecta');
     return false;
   }
 
   if (pass.value.newPasswordConfirm === '') {
-    validateMessage.value = $t('contrasenaIntroducidaIncorrecta');
+    validateMessage.value = t('contrasenaIntroducidaIncorrecta');
     return false;
   }
 
   if (pass.value.newPassword !== pass.value.newPasswordConfirm) {
-    validateMessage.value = $t('contrasenasNoCoinciden');
+    validateMessage.value = t('contrasenasNoCoinciden');
     return false;
   }
 
@@ -89,23 +90,23 @@ watch(validateMessage, (newQuestion) => {
         <div class="form__row">
           <div class="form__col w-100">
             <input type="password" placeholder=" " id="currentPassword" v-model="pass.password" class="form__input" autocomplete="new-password" maxlength="50">
-            <label for="currentPassword" class="form__label">{{ $t('contrasenaActual') }}</label>
+            <label for="currentPassword" class="form__label">{{ t('contrasenaActual') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-100">
             <input type="password" placeholder=" " id="newPassword" v-model="pass.newPassword" class="form__input" autocomplete="new-password" maxlength="50">
-            <label for="newPassword" class="form__label">{{ $t('nuevaContrasena') }}</label>
+            <label for="newPassword" class="form__label">{{ t('nuevaContrasena') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-100">
             <input type="password" placeholder=" " id="newPasswordConfirm" v-model="pass.newPasswordConfirm" class="form__input" autocomplete="new-password" maxlength="50">
-            <label for="newPasswordConfirm" class="form__label">{{ $t('confirmarNuevaContrasena') }}</label>
+            <label for="newPasswordConfirm" class="form__label">{{ t('confirmarNuevaContrasena') }}</label>
           </div>
         </div>
         <div v-if="validateMessage" class="form__message">{{ validateMessage }}</div>
-        <button class="btn btn--md mt-1" @click.prevent="editPassword">{{ $t('guardar') }}</button>
+        <button class="btn btn--md mt-1" @click.prevent="editPassword">{{ t('guardar') }}</button>
       </form>
     </article>
   </section>

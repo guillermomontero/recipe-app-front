@@ -66,3 +66,7 @@ export const apiDoUnlikeRecipe = async (payload: Object = {}) => {
 export const apiUploadRecipe = async (id: string = '', timestamp: number, payload: FormData) => {
   return await apiCallFormPOST(`/files/uploadRecipe/${id}/${timestamp}`, payload);
 };
+
+export const apiGetRecipesForPanel = async () => {
+  return await apiCallGET('/recipes/getRecipesForPanel');
+};
