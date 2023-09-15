@@ -2,6 +2,7 @@
 import { onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { formatDateFront } from '../../config/utils/dates';
+import router from '../../router';
 import Chart from 'chart.js/auto';
 
 interface IDays {
@@ -11,12 +12,15 @@ interface IDays {
 
 interface ISection {
   id: number,
-  range: string[],
   title: string,
-  labelTooltip: string,
+  page: string,
   total: number,
-  totalLastWeek: number,
-  data: IDays[]
+  showChart: boolean,
+  order: number,
+  labelTooltip?: string,
+  range?: string[],
+  totalLastWeek?: number,
+  data?: IDays[]
 };
 
 const props = defineProps<{
@@ -35,7 +39,6 @@ const demo = async() => {
     {
       type: 'line',
       options: {
-        animation: true,
         plugins: {
           legend: {
             display: false
@@ -86,8 +89,12 @@ const demo = async() => {
   );
 };
 
+const goToAdminItem = (sectionName: string = 'admin-users') => {
+  router.push(`/admin/${sectionName}`);
+};
+
 onMounted(async() => {
-  await demo();
+  if (props.section.showChart) await demo();
 })
 </script>
 
@@ -102,14 +109,14 @@ onMounted(async() => {
       </div>
     </div>
     <div class="admin-card--divider"></div>
-    <div class="admin-card__chart">
+    <div v-if="props.section.showChart" class="admin-card__chart">
       <span class="admin-card__chart--text">Altas en la última semana: <span class="admin-card__chart--total">{{ props.section.totalLastWeek }}</span></span>
-      <div style="width: 100%; background: #DDE6ED; padding: 1em; margin: 1em 0 0 0; border-radius: 10px;"><canvas :id="props.section.id"></canvas></div>
+      <div style="width: 100%; background: #DDE6ED; padding: 1em; margin: 1em 0 0 0; border-radius: 10px;"><canvas :id="String(props.section.id)"></canvas></div>
       <span class="admin-card__chart--info">{{ t('del')}} {{ formatDateFront(props.section.range[0]) }} {{ t('al') }} {{ formatDateFront(props.section.range[1]) }}</span>
     </div>
-    <div class="admin-card--divider"></div>
+    <div v-if="props.section.showChart" class="admin-card--divider"></div>
     <div class="admin-card__actions mt-1">
-      <button class="btn btn--xs btn--edit mr-1">⚙️ Gestionar</button>
+      <button class="btn btn--xs btn--edit mr-1" @click="goToAdminItem(props.section.page)">⚙️ Gestionar</button>
       <button class="btn btn--xs btn--edit">➕ Añadir</button>
     </div> 
   </article>

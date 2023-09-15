@@ -84,13 +84,93 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/admin',
-    name: 'admin',
-    component: () => import('../views/admin/AdminView.vue'),
     meta: {
       requireAuth: true,
       role: true,
       hideButtonNewRecipe: true,
-    }
+    },
+    children: [
+      {
+        path: 'admin',
+        name: 'admin',
+        component: () => import('../views/admin/AdminView.vue'),
+        meta: {
+          requireAuth: true,
+          role: true,
+          hideButtonNewRecipe: true,
+        }
+      },
+      {
+        path: 'admin-users',
+        name: 'admin-users',
+        component: () => import('../views/admin/panels/AdminUsersView.vue'),
+        meta: {
+          requireAuth: true,
+          role: true,
+          hideButtonNewRecipe: true,
+        }
+      },
+      {
+        path: 'admin-recipes',
+        name: 'admin-recipes',
+        component: () => import('../views/admin/panels/AdminRecipesView.vue'),
+        meta: {
+          requireAuth: true,
+          role: true,
+          hideButtonNewRecipe: true,
+        }
+      },
+      {
+        path: 'admin-categories',
+        name: 'admin-categories',
+        component: () => import('../views/admin/panels/AdminCategoriesView.vue'),
+        meta: {
+          requireAuth: true,
+          role: true,
+          hideButtonNewRecipe: true,
+        }
+      },
+      {
+        path: 'admin-countries',
+        name: 'admin-countries',
+        component: () => import('../views/admin/panels/AdminCountriesView.vue'),
+        meta: {
+          requireAuth: true,
+          role: true,
+          hideButtonNewRecipe: true,
+        }
+      },
+      {
+        path: 'admin-temperature-categories',
+        name: 'admin-temperature-categories',
+        component: () => import('../views/admin/panels/AdminTemperatureCategoriesView.vue'),
+        meta: {
+          requireAuth: true,
+          role: true,
+          hideButtonNewRecipe: true,
+        }
+      },
+      {
+        path: 'admin-unit-times',
+        name: 'admin-unit-times',
+        component: () => import('../views/admin/panels/AdminUnitTimesView.vue'),
+        meta: {
+          requireAuth: true,
+          role: true,
+          hideButtonNewRecipe: true,
+        }
+      },
+      {
+        path: 'admin-weight-types',
+        name: 'admin-weight-types',
+        component: () => import('../views/admin/panels/AdminWeightTypesView.vue'),
+        meta: {
+          requireAuth: true,
+          role: true,
+          hideButtonNewRecipe: true,
+        }
+      }
+    ]
   }
 ];
 
