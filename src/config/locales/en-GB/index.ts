@@ -91,4 +91,11 @@ export default {
   categoriasDeTemperatura: 'Temperatures',
   unidadesDeTiempo: 'Unit times',
   tiposDePeso: 'Weight types',
+  administracionDeUsuarios: 'Users admin',
+  administracionDeRecetas: 'Recipes admin',
+  administracionDeCategorias: 'Categories admin',
+  administracionDePaises: 'Countries admin',
+  administracionDeTemperaturas: 'Temperatures admin',
+  administracionDeUnidadesDeTiempo: 'Unit times admin',
+  administracionDeTiposDePeso: 'Weight types admin',
 };

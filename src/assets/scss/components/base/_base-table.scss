@@ -1,0 +1,33 @@
+table {
+  max-width: 100%;
+  overflow-y: scroll;
+  border-collapse: collapse;
+
+  thead {
+    width: 100%;
+
+    tr {
+      width: 100%;
+
+      th {
+        text-align: left;
+        padding: 1em;
+        border-bottom: solid 2px $blue-dark;
+      }
+    }
+  }
+
+  tbody {
+    width: 100%;
+
+    tr {
+      width: 100%;
+
+      td {
+        text-align: left;
+        padding: 1em;
+        border-bottom: solid 1px $blue-light;
+      }
+    }
+  }
+}

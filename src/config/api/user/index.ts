@@ -5,11 +5,6 @@ interface IPagination {
   limit: number;
 }
 
-interface IDates {
-  from: string;
-  until: string;
-}
-
 export const apiGetAllUsers = async () => {
   return await apiCallGET('/users/getAllUsers');
 };
