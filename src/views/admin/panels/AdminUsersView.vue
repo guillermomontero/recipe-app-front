@@ -1,11 +1,67 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { apiGetAllUsers } from '../../../config/api/user';
+import { apiGetAllUsers, apiUnsuscribeUserAdmin, apiDeleteUserAdmin } from '../../../config/api/user';
+import AdminUserEdit from '../edit/AdminUserEdit.vue';
 import BaseTable from '../../../components/base/BaseTable.vue';
+import BaseDialog from '../../../components/base/BaseDialog.vue';
 import { useI18n } from 'vue-i18n';
+
+interface IUser {
+  _id: string,
+  name: string,
+  lastname: string,
+  nickname: string,
+  email: string,
+  telephone: number,
+  birthday: string,
+  location: boolean,
+  imageProfile: boolean,
+  premium: boolean,
+  premiumSince: string,
+  premiumUntil: string,
+  createDate: string,
+  createTime: string,
+  leavingDate: string,
+  lastSession: string,
+  role: number,
+  allowEmail: boolean,
+  allowTerms: boolean,
+  notifications: boolean,
+  active: boolean,
+}
 
 const { t } = useI18n();
 
+const emptyUser = {
+  _id: '',
+  name: '',
+  lastname: '',
+  nickname: '',
+  email: '',
+  telephone: 0,
+  birthday: '',
+  location: false,
+  imageProfile: false,
+  premium: false,
+  premiumSince: '',
+  premiumUntil: '',
+  createDate: '',
+  createTime: '',
+  leavingDate: '',
+  lastSession: '',
+  role: 0,
+  allowEmail: false,
+  allowTerms: false,
+  notifications: false,
+  active: false,
+};
+
+const selectedUser = ref<IUser>(emptyUser);
+const selectedItem = ref<string>('');
+const dialogText = ref<string>('');
+const selectedAction = ref<string>('');
+const showDialog = ref<boolean>(false);
+const showUserEdit = ref<boolean>(false);
 const data = ref({
   headers: [
     { name: 'name', text: t('nombre'), width: 50, sortable: true, type: 'string' },
@@ -46,16 +102,76 @@ const getAllUsers = async () => {
   }
 }
 
-const editItem = (e) => {
-  console.log(e, 'Edit');
+const editItem = (user: IUser) => {
+  selectedUser.value = user;
+  showUserEdit.value = true;
 }
 
-const unsuscribeItem = (e) => {
-  console.log(e, 'Unsuscribe');
+const unsuscribeItem = (user: IUser) => {
+  selectedItem.value = user._id;
+  dialogText.value = t('darDeBajaUsuario', { usuario: user.name });
+  selectedAction.value = 'unsuscribe';
+  showDialog.value = true;
 }
 
-const deleteItem = (e) => {
-  console.log(e, 'Delete');
+const deleteItem = (user: IUser) => {
+  selectedItem.value = user._id;
+  dialogText.value = t('eliminarUsuario', { usuario: user.name });
+  selectedAction.value = 'delete';
+  showDialog.value = true;
+}
+
+const closeBaseDialog = (value: boolean = false) => {
+  if (value) continueAction(selectedAction.value);
+  showDialog.value = false;
+  dialogText.value = '';
+  selectedAction.value = '';
+}
+
+const continueAction = (action: string = '') => {
+  switch (action) {
+    case 'unsuscribe':
+      doUnsuscribeItem();
+      break;
+
+    case 'delete':
+      doDeleteItem();
+      break;
+
+    default:
+      break;
+  }
+}
+
+const closeUserEdit = (refresh: boolean = false) => {
+  selectedUser.value = emptyUser;
+  showUserEdit.value = false;
+
+  if (refresh) getAllUsers();
+};
+
+const doUnsuscribeItem = async () => {
+  const payload = { _id: selectedItem.value, active: false };
+
+  try {
+    await apiUnsuscribeUserAdmin(payload);
+    selectedItem.value = '';
+    getAllUsers();
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+const doDeleteItem = async () => {
+  const payload = selectedItem.value;
+
+  try {
+    await apiDeleteUserAdmin(payload);
+    selectedItem.value = '';
+    getAllUsers();
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 onMounted(() => {
@@ -70,4 +186,7 @@ onMounted(() => {
   <section class="admin-view mt-2">
     <BaseTable :BTTable="data" />
   </section>
+
+  <BaseDialog v-if="showDialog" :BDText="dialogText" @close="closeBaseDialog" />
+  <AdminUserEdit v-if="showUserEdit" :userID="selectedUser._id" @close="closeUserEdit" />
 </template>

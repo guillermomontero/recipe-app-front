@@ -7,7 +7,7 @@ import router from '../../router';
 interface User {
   name: string,
   nickname: string,
-  lastName: string,
+  lastname: string,
   email: string,
   password: string,
   passwordRepeat: string,
@@ -19,7 +19,7 @@ const loginMessage = ref<string>('');
 const user = ref<User>({
   name: '',
   nickname: '',
-  lastName: '',
+  lastname: '',
   email: '',
   password: '',
   passwordRepeat: '',
@@ -41,7 +41,7 @@ const register = async () => {
   const payload = {
     name: user.value.name,
     nickname: user.value.nickname,
-    lastName: user.value.lastName,
+    lastname: user.value.lastname,
     email: user.value.email,
     password: user.value.password
   };
@@ -66,7 +66,7 @@ const validateForm = () => {
     return false;
   }
 
-  if (!user.value.lastName || typeof user.value.lastName !== 'string') {
+  if (!user.value.lastname || typeof user.value.lastname !== 'string') {
     loginMessage.value = t('datosIntroducidosIncorrectos');
     return false;
   }
@@ -139,7 +139,7 @@ const hasPswdFormat = (searchString: string = '') => {
       </div>
       <div class="form__row">
         <div class="form__col w-100">
-          <input type="text" placeholder=" " maxlength="100" id="form-lastname" v-model="user.lastName" class="form__input" autocomplete="off">
+          <input type="text" placeholder=" " maxlength="100" id="form-lastname" v-model="user.lastname" class="form__input" autocomplete="off">
           <label for="form-lastname" class="form__label">{{ t('apellido') }}</label>
         </div>
       </div>

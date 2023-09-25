@@ -23,7 +23,7 @@ interface Location {
 interface IUser {
   _id: string,
   name: string,
-  lastName: string,
+  lastname: string,
   email: string,
   birthday: string,
   imageProfile: string,

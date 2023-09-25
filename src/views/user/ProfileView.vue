@@ -18,7 +18,7 @@ interface Location {
 interface IUser {
   _id: string,
   name: string,
-  lastName: string,
+  lastname: string,
   email: string,
   birthday: string,
   imageProfile: string,
@@ -33,7 +33,7 @@ const showModalWebcam = ref<boolean>(false);
 const user = ref<IUser>({
   _id: '',
   name: '',
-  lastName: '',
+  lastname: '',
   email: '',
   birthday: '',
   imageProfile: '',
@@ -52,7 +52,7 @@ const getUserData = async () => {
     const response = await apiGetUser(store.user._id);
     user.value._id = response._id;
     user.value.name = response.name;
-    user.value.lastName = response.lastName;
+    user.value.lastname = response.lastname;
     user.value.email = response.email;
     user.value.birthday = formatDateToInput(response.birthday);
     user.value.imageProfile = response.imageProfile;
@@ -119,7 +119,7 @@ onMounted(() => {
       </div>
       <div class="profile__principal--data">
         <div class="profile__principal--data--row">
-          <h1>{{ user.name }}&nbsp;&nbsp;{{ user.lastName }}</h1>
+          <h1>{{ user.name }}&nbsp;&nbsp;{{ user.lastname }}</h1>
         </div>
         <div class="profile__principal--data--row">
           📮 {{ user.email }}

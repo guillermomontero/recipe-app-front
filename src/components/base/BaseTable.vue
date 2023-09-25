@@ -8,6 +8,7 @@ import BaseTooltipIcon from './BaseTooltipIcon.vue';
 interface ITable {
   headers: [],
   items: [],
+  actions: [],
 };
 
 const props = defineProps<{

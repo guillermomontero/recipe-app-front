@@ -21,4 +21,13 @@ export default {
   notificaciones: 'Notificaciones',
   activo: 'Activo',
   darDeBaja: 'Dar de baja',
+  darDeBajaUsuario: 'Va a dar de baja al usuario "{usuario}". ¿Seguro que desea realizar esta acción?',
+  eliminarUsuario: 'Va a eliminar al usuario "{usuario}". ¿Seguro que desea realizar esta acción?',
+  aceptaNotificaciones: 'Acepta notificaciones',
+  eliminarReceta: 'Va a eliminar la receta "{receta}". ¿Seguro que desea realizar esta acción?',
+  origen: 'Origen',
+  unidad: 'Unidad',
+  raciones: 'Raciones',
+  likes: 'Likes',
+  instrucciones: 'Instrucciones',
 };
