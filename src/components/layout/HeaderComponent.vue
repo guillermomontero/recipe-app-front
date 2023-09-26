@@ -43,7 +43,7 @@ window.addEventListener('click', (e) => {
           <button @click="goToPage('/profile')" class="header__actions--menu--nav--link" :class="{ 'header__actions--menu--nav--link--active': $route.path === '/profile' }">{{ t('miPerfil') }}</button>
           <button @click="goToPage('/my-recipes')" class="header__actions--menu--nav--link" :class="{ 'header__actions--menu--nav--link--active': $route.path === '/my-recipes' }">{{ t('misRecetas') }}</button>
           <button @click="goToPage('/configuration')" class="header__actions--menu--nav--link" :class="{ 'header__actions--menu--nav--link--active': $route.path === '/configuration' }">{{ t('configuracion') }}</button>
-          <button @click="goToPage('/admin/admin')" class="header__actions--menu--nav--link" :class="{ 'header__actions--menu--nav--link--active': $route.path === '/admin/admin' }">{{ t('admin') }}</button>
+          <button @click="goToPage('/admin/admin-panel')" class="header__actions--menu--nav--link" :class="{ 'header__actions--menu--nav--link--active': $route.path === '/admin/admin' }">{{ t('admin') }}</button>
           <button @click="signOut" class="header__actions--menu--nav--link">{{ t('cerrarSesion') }}</button>
         </nav>
       </div>

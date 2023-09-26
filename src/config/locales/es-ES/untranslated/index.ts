@@ -11,7 +11,7 @@ export default {
   residencia: 'Residencia',
   premiumDesde: 'Premium desde',
   premiumHasta: 'Premium hasta',
-  fechaCreacion: 'Fecha de cración',
+  fechaCreacion: 'Fecha de creación',
   horaCreacion: 'Hora de creación',
   fechaBaja: 'Fecha de baja',
   ultimaSesion: 'Última sesión',

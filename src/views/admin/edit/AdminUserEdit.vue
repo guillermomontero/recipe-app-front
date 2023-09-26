@@ -3,7 +3,6 @@ import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { formatDateToClient, formatDateToInput } from '../../../config/utils/dates';
 import { apiGetUser, apiEditUserAdmin } from '../../../config/api/user';
-import { LogarithmicScale } from 'chart.js';
 
 interface Location {
   address: string,

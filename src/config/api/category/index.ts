@@ -8,16 +8,16 @@ export const apiCreateCategory = async (payload: Object = {}) => {
   return await apiCallPOST('/categories/createCategory', payload);
 };
 
-export const apiGetCategory = async (id: number = 0) => {
+export const apiGetCategory = async (id: string = '') => {
   return await apiCallGET(`/categories/getCategory/${id}`);
 };
 
-export const apiDeleteCategory = async (id: number = 0) => {
-  return await apiCallDELETE(`/categories/deleteCategory/${id}`);
+export const apiDeleteCategoryAdmin = async (id: string = '') => {
+  return await apiCallDELETE(`/categories/deleteCategoryAdmin/${id}`);
 };
 
-export const apiEditCategory = async (payload: Object = {}) => {
-  return await apiCallPUT('/categories/editCategory', payload);
+export const apiEditCategoryAdmin = async (payload: Object = {}) => {
+  return await apiCallPUT('/categories/apiEditCategoryAdmin', payload);
 };
 
 export const apiGetCategoriesForPanel = async () => {

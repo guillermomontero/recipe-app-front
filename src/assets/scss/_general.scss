@@ -66,6 +66,11 @@ input, button, textarea, select {
   }
 }
 
+input:read-only {
+  background: $blue-extra-light;
+  cursor: auto;
+}
+
 select {
   width: 100%;
   padding: 0.5em 1em;

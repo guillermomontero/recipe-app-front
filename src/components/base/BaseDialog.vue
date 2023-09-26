@@ -29,7 +29,7 @@ onMounted(() => {
     <div class="base-dialog--divider"></div>
     <div>
       <button @click="cancel" class="btn btn--md btn--delete mr-2">{{ t('cancelar') }}</button>
-      <button @click="confirm" class="btn btn--md btn--accept">{{ t('confirmar') }}</button>
+      <button @click="confirm" class="btn btn--md btn--accept" autofocus>{{ t('confirmar') }}</button>
     </div>
   </dialog>
 </template>

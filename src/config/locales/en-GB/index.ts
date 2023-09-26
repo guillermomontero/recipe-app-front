@@ -100,4 +100,5 @@ export default {
   administracionDeTiposDePeso: 'Weight types admin',
   confirmar: 'Confirm',
   nickname: 'Nickname',
+  valor: 'Value',
 };

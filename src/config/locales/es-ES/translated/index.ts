@@ -100,4 +100,5 @@ export default {
   administracionDeTiposDePeso: 'Administración de tipos de peso',
   confirmar: 'Confirmar',
   nickname: 'Nickname',
+  valor: 'Valor',
 };
