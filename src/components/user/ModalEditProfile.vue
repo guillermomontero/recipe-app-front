@@ -16,7 +16,7 @@ interface Location {
 interface IUser {
   _id: string,
   name: string,
-  lastName: string,
+  lastname: string,
   birthday: string,
   location: Location,
   telephone: number,
@@ -30,7 +30,7 @@ const store = useAuthStore();
 const user = ref<IUser>({
   _id: '',
   name: '',
-  lastName: '',
+  lastname: '',
   birthday: '',
   location: {
     address: '',
@@ -75,7 +75,7 @@ onMounted(() => {
             <label for="userName" class="form__label">{{ t('nombre') }}</label>
           </div>
           <div class="form__col w-50">
-            <input type="text" maxlength="50" placeholder=" " id="userLastname" v-model="user.lastName" class="form__input">
+            <input type="text" maxlength="100" placeholder=" " id="userLastname" v-model="user.lastname" class="form__input">
             <label for="userLastname" class="form__label">{{ t('apellido') }}</label>
           </div>
         </div>

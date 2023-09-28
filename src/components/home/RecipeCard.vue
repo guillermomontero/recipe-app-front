@@ -17,7 +17,7 @@
       _id: string,
       nickname: string,
       name: string,
-      lastName: string
+      lastname: string
     },
     likes: number
   }

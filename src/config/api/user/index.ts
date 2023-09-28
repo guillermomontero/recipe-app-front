@@ -25,8 +25,8 @@ export const apiDeleteUser = async (payload: object = {}) => {
   return await apiCallPUT('/users/deleteUser', payload);
 };
 
-export const apiDeleteUserAdmin = async (id: number = 0) => {
-  return await apiCallDELETE(`/users/deleteUser/${id}`);
+export const apiDeleteUserAdmin = async (id: string = '') => {
+  return await apiCallDELETE(`/users/deleteUserAdmin/${id}`);
 };
 
 export const apiEditUser = async (payload: Object = {}) => {
@@ -65,4 +65,12 @@ export const apiGetMyFavorites = async (id: string = '', payload: IPagination) =
 
 export const apiGetUsersForPanel = async () => {
   return await apiCallGET('/users/getUsersForPanel');
+};
+
+export const apiUnsuscribeUserAdmin = async (payload: Object = {}) => {
+  return await apiCallPUT('/users/unsuscribeUserAdmin', payload);
+};
+
+export const apiEditUserAdmin = async (payload: Object = {}) => {
+  return await apiCallPUT('/users/editUserAdmin', payload);
 };

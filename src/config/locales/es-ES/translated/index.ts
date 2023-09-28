@@ -98,4 +98,7 @@ export default {
   administracionDeTemperaturas: 'Administración de temeperaturas',
   administracionDeUnidadesDeTiempo: 'Administración de unidades de tiempo',
   administracionDeTiposDePeso: 'Administración de tipos de peso',
+  confirmar: 'Confirmar',
+  nickname: 'Nickname',
+  valor: 'Valor',
 };

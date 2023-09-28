@@ -27,6 +27,10 @@ export const apiDeleteRecipe = async (id: string = '') => {
   return await apiCallDELETE(`/recipes/deleteRecipe/${id}`);
 };
 
+export const apiDeleteRecipeAdmin = async (id: string = '') => {
+  return await apiCallDELETE(`/recipes/deleteRecipeAdmin/${id}`);
+};
+
 export const apiEditRecipe = async (payload: Object = {}) => {
   return await apiCallPUT('/recipes/editRecipe', payload);
 };

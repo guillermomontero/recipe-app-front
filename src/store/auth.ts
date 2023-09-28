@@ -6,7 +6,7 @@ import { useSpinnerStore } from './spinner';
 interface IUser {
   _id: string,
   name: string,
-  lastName: string,
+  lastname: string,
   email: string,
   telephone: number,
   premium: boolean,

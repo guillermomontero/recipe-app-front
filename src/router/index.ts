@@ -84,6 +84,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: '/admin',
+    name: 'admin',
     meta: {
       requireAuth: true,
       role: true,
@@ -91,8 +92,8 @@ const routes: Array<RouteRecordRaw> = [
     },
     children: [
       {
-        path: 'admin',
-        name: 'admin',
+        path: 'admin-panel',
+        name: 'admin-panel',
         component: () => import('../views/admin/AdminView.vue'),
         meta: {
           requireAuth: true,
