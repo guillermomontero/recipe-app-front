@@ -17,7 +17,7 @@ export const apiDeleteCategoryAdmin = async (id: string = '') => {
 };
 
 export const apiEditCategoryAdmin = async (payload: Object = {}) => {
-  return await apiCallPUT('/categories/apiEditCategoryAdmin', payload);
+  return await apiCallPUT('/categories/editCategoryAdmin', payload);
 };
 
 export const apiGetCategoriesForPanel = async () => {
