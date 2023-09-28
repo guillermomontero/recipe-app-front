@@ -1,39 +1,36 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { apiGetAllCountries, apiDeleteCountryAdmin } from '../../../config/api/country';
-import AdminCountryEdit from '../edit/AdminCountryEdit.vue';
+import { apiGetAllUnitTimes, apiDeleteUnitTimeAdmin } from '../../../config/api/unit-time';
+import AdminUnitTimeEdit from '../edit/AdminUnitTimeEdit.vue';
 import BaseTable from '../../../components/base/BaseTable.vue';
 import BaseDialog from '../../../components/base/BaseDialog.vue';
 import BaseBreadcrumbs from '../../../components/base/BaseBreadcrumbs.vue';
 import { useI18n } from 'vue-i18n';
 
-interface ICountry {
+interface IUnitTime {
   _id: string,
   name: string,
-  alpha2: string,
-  countryCode: string
+  value: number,
 }
 
 const { t } = useI18n();
 
-const emptyCountry = {
+const emptyUnitTime = {
   _id: '',
   name: '',
-  alpha2: '',
-  countryCode: ''
+  value: 0,
 };
 
-const selectedCountry = ref<ICountry>(emptyCountry);
+const selectedUnitTime = ref<IUnitTime>(emptyUnitTime);
 const selectedItem = ref<string>('');
 const dialogText = ref<string>('');
 const selectedAction = ref<string>('');
 const showDialog = ref<boolean>(false);
-const showCountryEdit = ref<boolean>(false);
+const showUnitTimeEdit = ref<boolean>(false);
 const data = ref({
   headers: [
     { name: 'name', text: t('nombre'), width: 50, sortable: true, type: 'string' },
-    { name: 'alpha2', text: t('alpha2'), width: 50, sortable: true, type: 'number' },
-    { name: 'countryCode', text: t('codigoPais'), width: 50, sortable: true, type: 'date' },
+    { name: 'value', text: t('valor'), width: 50, sortable: true, type: 'string' },
   ],
   items: [],
   actions: [
@@ -42,23 +39,23 @@ const data = ref({
   ]
 });
 
-const getAllCountries = async () => {
+const getAllUnitTimes = async () => {
   try {
-    const response = await apiGetAllCountries();
+    const response = await apiGetAllUnitTimes();
     data.value.items = response;
   } catch (err) {
     console.log(err);
   }
 };
 
-const editItem = (country: ICountry) => {
-  selectedCountry.value = country;
-  showCountryEdit.value = true;
+const editItem = (unitTime: IUnitTime) => {
+  selectedUnitTime.value = unitTime;
+  showUnitTimeEdit.value = true;
 };
 
-const deleteItem = (country: ICountry) => {
-  selectedItem.value = country._id;
-  dialogText.value = t('eliminarPais', { categoria: country.name });
+const deleteItem = (unitTime: IUnitTime) => {
+  selectedItem.value = unitTime._id;
+  dialogText.value = t('eliminarUnidadDeTiempo', { categoria: unitTime.name });
   selectedAction.value = 'delete';
   showDialog.value = true;
 };
@@ -81,33 +78,33 @@ const continueAction = (action: string = '') => {
   }
 };
 
-const closeCountryEdit = (refresh: boolean = false) => {
-  selectedCountry.value = emptyCountry;
-  showCountryEdit.value = false;
+const closeUnitTimeEdit = (refresh: boolean = false) => {
+  selectedUnitTime.value = emptyUnitTime;
+  showUnitTimeEdit.value = false;
 
-  if (refresh) getAllCountries();
+  if (refresh) getAllUnitTimes();
 };
 
 const doDeleteItem = async () => {
   const payload = selectedItem.value;
 
   try {
-    await apiDeleteCountryAdmin(payload);
+    await apiDeleteUnitTimeAdmin(payload);
     selectedItem.value = '';
-    getAllCountries();
+    getAllUnitTimes();
   } catch (error) {
     console.log(error);
   }
 };
 
 onMounted(() => {
-  getAllCountries();
+  getAllUnitTimes();
 });
 </script>
 
 <template>
   <div class="page-title">
-    <h3>{{ t('administracionDePaises') }}</h3>
+    <h3>{{ t('administracionDeUnidadesDeTiempo') }}</h3>
   </div>
   <BaseBreadcrumbs />
   <section class="admin-view mt-2">
@@ -115,5 +112,5 @@ onMounted(() => {
   </section>
 
   <BaseDialog v-if="showDialog" :BDText="dialogText" @close="closeBaseDialog" />
-  <AdminCountryEdit v-if="showCountryEdit" :countryID="selectedCountry._id" @close="closeCountryEdit" />
+  <AdminUnitTimeEdit v-if="showUnitTimeEdit" :unitTimeID="selectedUnitTime._id" @close="closeUnitTimeEdit" />
 </template>

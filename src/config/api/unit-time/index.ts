@@ -4,16 +4,20 @@ export const apiGetAllUnitTimes = async () => {
   return await apiCallGET('/unitTimes/getAllUnitTimes');
 };
 
+export const apiGetUnitTime = async (id: string = '') => {
+  return await apiCallGET(`/unitTimes/getUnitTime/${id}`);
+};
+
 export const apiCreateUnitTime = async (payload: Object = {}) => {
   return await apiCallPOST('/unitTimes/createUnitTime', payload);
 };
 
-export const apiDeleteUnitTime = async (id: number = 0) => {
-  return await apiCallDELETE(`/unitTimes/deleteUnitTime/${id}`);
+export const apiDeleteUnitTimeAdmin = async (id: string = '') => {
+  return await apiCallDELETE(`/unitTimes/deleteUnitTimeAdmin/${id}`);
 };
 
-export const apiEditUnitTime = async (payload: Object = {}) => {
-  return await apiCallPUT('/unitTimes/editUnitTime', payload);
+export const apiEditUnitTimeAdmin = async (payload: Object = {}) => {
+  return await apiCallPUT('/unitTimes/editUnitTimeAdmin', payload);
 };
 
 export const apiGetUnitTimesForPanel = async () => {

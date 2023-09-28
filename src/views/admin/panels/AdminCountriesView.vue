@@ -32,8 +32,8 @@ const showCountryEdit = ref<boolean>(false);
 const data = ref({
   headers: [
     { name: 'name', text: t('nombre'), width: 50, sortable: true, type: 'string' },
-    { name: 'alpha2', text: t('alpha2'), width: 50, sortable: true, type: 'number' },
-    { name: 'countryCode', text: t('codigoPais'), width: 50, sortable: true, type: 'date' },
+    { name: 'alpha2', text: t('alpha2'), width: 50, sortable: true, type: 'string' },
+    { name: 'countryCode', text: t('codigoPais'), width: 50, sortable: true, type: 'string' },
   ],
   items: [],
   actions: [

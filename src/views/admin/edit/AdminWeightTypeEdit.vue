@@ -1,45 +1,43 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { apiGetCountry, apiEditCountryAdmin } from '../../../config/api/country';
+import { apiGetWeightType, apiEditWeightTypeAdmin } from '../../../config/api/weight-type';
 
-interface ICountry {
+interface IWeightType {
   _id: string,
   name: string,
-  alpha2: string,
-  countryCode: string
+  value: number,
 }
 
 const emit = defineEmits(['close']);
 const props = defineProps({
-  countryID: String,
+  weightTypeID: String,
 });
 
 const { t } = useI18n();
-const country = ref<ICountry>({
+const weightType = ref<IWeightType>({
   _id: '',
   name: '',
-  alpha2: '',
-  countryCode: ''
+  value: 0
 });
 
-const getCountry = async () => {
+const getWeightType = async () => {
   try {
-    const response = await apiGetCountry(props.countryID);
-    country.value = { ...response }
+    const response = await apiGetWeightType(props.weightTypeID);
+    weightType.value = { ...response }
   } catch (error) {
     console.log(error);
   }
 }
 
-const editCountryAdmin = async () => {
+const editWeightTypeAdmin = async () => {
   const payload = {
-    _id: country.value._id,
-    name: country.value.name
+    _id: weightType.value._id,
+    name: weightType.value.name
   };
 
   try {
-    await apiEditCountryAdmin(payload);
+    await apiEditWeightTypeAdmin(payload);
     close(true);
   } catch (error) {
     console.log(error);
@@ -49,7 +47,7 @@ const editCountryAdmin = async () => {
 const close = (refresh: boolean = false) => { emit('close', refresh) };
 
 onMounted(() => {
-  getCountry();
+  getWeightType();
 });
 
 </script>
@@ -63,26 +61,20 @@ onMounted(() => {
       <form class="form" autocomplete="off">
         <div class="form__row">
           <div class="form__col w-100">
-            <input type="text" maxlength="50" placeholder=" " id="countryName" v-model="country.name" class="form__input">
-            <label for="countryName" class="form__label">{{ t('nombre') }}</label>
+            <input type="text" maxlength="50" placeholder=" " id="weightTypeName" v-model="weightType.name" class="form__input">
+            <label for="weightTypeName" class="form__label">{{ t('nombre') }}</label>
           </div>
         </div>
         <div class="form__row">
           <div class="form__col w-100">
-            <input type="text" maxlength="50" placeholder=" " id="countryAlpha2" v-model="country.alpha2" class="form__input" readonly>
-            <label for="countryAlpha2" class="form__label">{{ t('alpha2') }}</label>
-          </div>
-        </div>
-        <div class="form__row">
-          <div class="form__col w-100">
-            <input type="text" maxlength="50" placeholder=" " id="countryCode" v-model="country.countryCode" class="form__input" readonly>
-            <label for="countryCode" class="form__label">{{ t('codigoPais') }}</label>
+            <input type="text" maxlength="50" placeholder=" " id="weightTypeValue" v-model="weightType.value" class="form__input" readonly>
+            <label for="weightTypeValue" class="form__label">{{ t('valor') }}</label>
           </div>
         </div>
         <div class="form__row--divider"></div>
         <div>
           <button class="btn btn--md  btn--delete mr-1" @click.prevent="close(false)">{{ t('cancelar') }}</button>
-          <button class="btn btn--md  btn--accept" @click.prevent="editCountryAdmin">{{ t('guardar') }}</button>
+          <button class="btn btn--md  btn--accept" @click.prevent="editWeightTypeAdmin">{{ t('guardar') }}</button>
         </div>
       </form>
     </article>

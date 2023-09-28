@@ -1,39 +1,36 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { apiGetAllCountries, apiDeleteCountryAdmin } from '../../../config/api/country';
-import AdminCountryEdit from '../edit/AdminCountryEdit.vue';
+import { apiGetAllWeightTypes, apiDeleteWeightTypeAdmin } from '../../../config/api/weight-type';
+import AdminWeightTypeEdit from '../edit/AdminWeightTypeEdit.vue';
 import BaseTable from '../../../components/base/BaseTable.vue';
 import BaseDialog from '../../../components/base/BaseDialog.vue';
 import BaseBreadcrumbs from '../../../components/base/BaseBreadcrumbs.vue';
 import { useI18n } from 'vue-i18n';
 
-interface ICountry {
+interface IWeightType {
   _id: string,
   name: string,
-  alpha2: string,
-  countryCode: string
+  value: number,
 }
 
 const { t } = useI18n();
 
-const emptyCountry = {
+const emptyWeightType = {
   _id: '',
   name: '',
-  alpha2: '',
-  countryCode: ''
+  value: 0,
 };
 
-const selectedCountry = ref<ICountry>(emptyCountry);
+const selectedWeightType = ref<IWeightType>(emptyWeightType);
 const selectedItem = ref<string>('');
 const dialogText = ref<string>('');
 const selectedAction = ref<string>('');
 const showDialog = ref<boolean>(false);
-const showCountryEdit = ref<boolean>(false);
+const showWeightTypeEdit = ref<boolean>(false);
 const data = ref({
   headers: [
     { name: 'name', text: t('nombre'), width: 50, sortable: true, type: 'string' },
-    { name: 'alpha2', text: t('alpha2'), width: 50, sortable: true, type: 'number' },
-    { name: 'countryCode', text: t('codigoPais'), width: 50, sortable: true, type: 'date' },
+    { name: 'value', text: t('valor'), width: 50, sortable: true, type: 'string' },
   ],
   items: [],
   actions: [
@@ -42,23 +39,23 @@ const data = ref({
   ]
 });
 
-const getAllCountries = async () => {
+const getAllWeightTypes = async () => {
   try {
-    const response = await apiGetAllCountries();
+    const response = await apiGetAllWeightTypes();
     data.value.items = response;
   } catch (err) {
     console.log(err);
   }
 };
 
-const editItem = (country: ICountry) => {
-  selectedCountry.value = country;
-  showCountryEdit.value = true;
+const editItem = (weightType: IWeightType) => {
+  selectedWeightType.value = weightType;
+  showWeightTypeEdit.value = true;
 };
 
-const deleteItem = (country: ICountry) => {
-  selectedItem.value = country._id;
-  dialogText.value = t('eliminarPais', { categoria: country.name });
+const deleteItem = (weightType: IWeightType) => {
+  selectedItem.value = weightType._id;
+  dialogText.value = t('eliminarTipoDePeso', { categoria: weightType.name });
   selectedAction.value = 'delete';
   showDialog.value = true;
 };
@@ -81,33 +78,33 @@ const continueAction = (action: string = '') => {
   }
 };
 
-const closeCountryEdit = (refresh: boolean = false) => {
-  selectedCountry.value = emptyCountry;
-  showCountryEdit.value = false;
+const closeWeightTypeEdit = (refresh: boolean = false) => {
+  selectedWeightType.value = emptyWeightType;
+  showWeightTypeEdit.value = false;
 
-  if (refresh) getAllCountries();
+  if (refresh) getAllWeightTypes();
 };
 
 const doDeleteItem = async () => {
   const payload = selectedItem.value;
 
   try {
-    await apiDeleteCountryAdmin(payload);
+    await apiDeleteWeightTypeAdmin(payload);
     selectedItem.value = '';
-    getAllCountries();
+    getAllWeightTypes();
   } catch (error) {
     console.log(error);
   }
 };
 
 onMounted(() => {
-  getAllCountries();
+  getAllWeightTypes();
 });
 </script>
 
 <template>
   <div class="page-title">
-    <h3>{{ t('administracionDePaises') }}</h3>
+    <h3>{{ t('administracionDeTiposDePesos') }}</h3>
   </div>
   <BaseBreadcrumbs />
   <section class="admin-view mt-2">
@@ -115,5 +112,5 @@ onMounted(() => {
   </section>
 
   <BaseDialog v-if="showDialog" :BDText="dialogText" @close="closeBaseDialog" />
-  <AdminCountryEdit v-if="showCountryEdit" :countryID="selectedCountry._id" @close="closeCountryEdit" />
+  <AdminWeightTypeEdit v-if="showWeightTypeEdit" :weightTypeID="selectedWeightType._id" @close="closeWeightTypeEdit" />
 </template>
