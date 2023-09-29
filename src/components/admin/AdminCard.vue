@@ -4,28 +4,9 @@ import { useI18n } from 'vue-i18n';
 import { formatDateFront } from '../../config/utils/dates';
 import router from '../../router';
 import Chart from 'chart.js/auto';
+import { ISection } from '../../../types';
 
-interface IDays {
-  _id: string,
-  total: number
-}
-
-interface ISection {
-  id: number,
-  title: string,
-  page: string,
-  total: number,
-  showChart: boolean,
-  order: number,
-  labelTooltip?: string,
-  range?: string[],
-  totalLastWeek?: number,
-  data?: IDays[]
-};
-
-const props = defineProps<{
-  section: ISection,
-}>();
+const props = defineProps<{ section: ISection }>();
 
 const { t } = useI18n();
 

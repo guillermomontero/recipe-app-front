@@ -2,21 +2,8 @@ import { defineStore } from 'pinia';
 import router from '../router';
 import { apiLogin } from '../config/api/auth';
 import { useSpinnerStore } from './spinner';
+import { IUser } from '../../types';
 
-interface IUser {
-  _id: string,
-  name: string,
-  lastname: string,
-  email: string,
-  telephone: number,
-  premium: boolean,
-  birthday: Date,
-  imageProfile: string,
-  location: object,
-  entryDate: Date,
-  lastSession: Date,
-  role: number,
-};
 
 export const useAuthStore = defineStore('auth', {
   state: () => ({

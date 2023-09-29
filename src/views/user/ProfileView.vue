@@ -6,25 +6,7 @@ import { apiGetUser, apiDeleteImageProfile } from "../../config/api/user";
 import { formatDateToInput, formatDateFront } from '../../config/utils/dates';
 import ModalEditProfile from '../../components/user/ModalEditProfile.vue';
 import ModalWebcam from '../../components/user/ModalWebcam.vue';
-
-interface Location {
-  address: string,
-  city: string,
-  country: string,
-  postCode: number,
-  state: string,
-}
-
-interface IUser {
-  _id: string,
-  name: string,
-  lastname: string,
-  email: string,
-  birthday: string,
-  imageProfile: string,
-  location: Location,
-  telephone: number,
-}
+import { IUser } from '../../../types';
 
 const { t } = useI18n();
 const store = useAuthStore();

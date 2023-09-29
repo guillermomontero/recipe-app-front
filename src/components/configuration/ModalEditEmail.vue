@@ -3,13 +3,9 @@ import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../../store/auth';
 import { apiChangeEmail } from '../../config/api/user';
+import { IMail } from '../../../types';
 
 const emit = defineEmits(['close']);
-
-interface IMail {
-  newEmail: string,
-  newEmailConfirm: string
-}
 
 const { t } = useI18n();
 const store = useAuthStore();

@@ -1,13 +1,7 @@
 <script setup lang="ts">
-interface ITooltipIcon {
-  icon: string,
-  tooltip: string,
-};
+import { ITooltipIcon } from '../../../types';
 
-
-const props = defineProps<{
-  BTTItem: ITooltipIcon,
-}>();
+const props = defineProps<{ BTTItem: ITooltipIcon }>();
 </script>
 
 <template>

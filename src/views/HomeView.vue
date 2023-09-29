@@ -5,19 +5,7 @@ import { apiGetAllCountries } from '../config/api/country';
 import { apiGetAllCategories } from '../config/api/category';
 import FilterBar from '../components/home/FilterBar.vue';
 import RecipeCard from '../components/home/RecipeCard.vue';
-
-interface ICountry {
-  _id: number,
-  name: string,
-  alpha2: string,
-  countryCode: string
-}
-
-interface ICategory {
-  name?: string,
-  label: string,
-  value: number
-};
+import { ICategory, ICountry } from '../../types';
 
 const limitInit = 9;
 const hasPagination = ref<boolean>(false);
