@@ -5,22 +5,7 @@ import { getAllRecipesForSearch } from '../../config/api/recipe';
 import { apiGetAllCategories } from '../../config/api/category';
 import { useFilterBarStore } from '../../store/filter-bar';
 import ModalFilters from './ModalFilters.vue';
-
-interface IRecipe {
-  _id: string,
-  title: string,
-  cookingTime: number,
-  origin: string,
-  temperatureCategory: number,
-  unitTime: number,
-  categories: number[]
-};
-
-interface ICategory {
-  label: string,
-  value: number,
-  selected?: boolean
-};
+import { IRecipe, ICategory } from '../../../types';
 
 const { t } = useI18n();
 const store = useFilterBarStore();

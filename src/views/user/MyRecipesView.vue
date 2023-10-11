@@ -5,13 +5,7 @@ import { apiGetMyRecipes, apiDoLikeRecipe, apiDoUnlikeRecipe,apiDeleteRecipe } f
 import { apiGetMyFavorites } from '../../config/api/user';
 import { useAuthStore } from '../../store/auth';
 import router from '../../router';
-
-interface IRecipe {
-  _id: string,
-  title: string,
-  description: string,
-  likes: number
-}
+import { IRecipe } from '../../../types';
 
 const { t } = useI18n();
 const store = useAuthStore();

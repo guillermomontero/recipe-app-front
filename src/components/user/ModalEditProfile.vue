@@ -4,23 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { formatDateToClient } from '../../config/utils/dates';
 import { useAuthStore } from '../../store/auth';
 import { apiEditUser } from '../../config/api/user';
-
-interface Location {
-  address: string,
-  city: string,
-  country: string,
-  postCode: number,
-  state: string,
-}
-
-interface IUser {
-  _id: string,
-  name: string,
-  lastname: string,
-  birthday: string,
-  location: Location,
-  telephone: number,
-}
+import { IUser } from '../../../types';
 
 const emit = defineEmits(['close']);
 const props = defineProps<{ userData: IUser }>();

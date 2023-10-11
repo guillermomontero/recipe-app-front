@@ -1,9 +1,5 @@
-import { apiCallPOST, apiCallFormPOST, apiCallGET, apiCallPUT, apiCallDELETE } from '../controller';
-
-interface IPagination {
-  skip: number;
-  limit: number;
-}
+import { apiCallGET, apiCallPOST, apiCallFormPOST, apiCallPUT, apiCallDELETE } from '../controller';
+import { IPagination } from '../../../../types';
 
 export const apiGetAllUsers = async () => {
   return await apiCallGET('/users/getAllUsers');

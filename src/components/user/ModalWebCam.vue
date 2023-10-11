@@ -3,33 +3,7 @@ import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { apiUploadAvatar } from '../../config/api/user';
 import { useAuthStore } from '../../store/auth';
-
-interface IConstraints {
-  audio: boolean,
-  video: {
-    width: object,
-    height: object
-  }
-};
-
-interface Location {
-  address: string,
-  city: string,
-  country: string,
-  postCode: number,
-  state: string,
-}
-
-interface IUser {
-  _id: string,
-  name: string,
-  lastname: string,
-  email: string,
-  birthday: string,
-  imageProfile: string,
-  location: Location,
-  telephone: number,
-}
+import { IConstraints, IUser } from '../../../types';
 
 const emits = defineEmits(['close']);
 const props = defineProps<{ userData: IUser }>();

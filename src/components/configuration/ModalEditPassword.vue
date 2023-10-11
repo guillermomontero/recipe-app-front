@@ -3,14 +3,9 @@ import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../../store/auth';
 import { apiChangePassword } from '../../config/api/user';
+import { IPass } from '../../../types';
 
 const emit = defineEmits(['close']);
-
-interface IPass {
-  password: string,
-  newPassword: string,
-  newPasswordConfirm: string
-}
 
 const { t } = useI18n();
 const store = useAuthStore();

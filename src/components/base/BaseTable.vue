@@ -4,16 +4,9 @@ import { useI18n } from 'vue-i18n';
 import { formatDateFront } from '../../config/utils/dates';
 import { formatHourFront } from '../../config/utils/hours';
 import BaseTooltipIcon from './BaseTooltipIcon.vue';
+import { ITable } from '../../../types';
 
-interface ITable {
-  headers: [],
-  items: [],
-  actions: [],
-};
-
-const props = defineProps<{
-  BTTable: ITable,
-}>();
+const props = defineProps<{ BTTable: ITable }>();
 
 const { t } = useI18n();
 </script>

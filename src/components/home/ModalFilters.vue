@@ -7,28 +7,7 @@ import { apiGetAllCategories } from '../../config/api/category';
 import { apiGetAllCountries } from "../../config/api/country";
 import { apiGetAllUnitTimes } from "../../config/api/unit-time";
 import BaseMultiSelect from '../../components/base/BaseMultiSelect.vue';
-
-interface IObject {
-  label: string,
-  value: number,
-};
-
-interface IObjectCountry {
-  label: string,
-  value: string,
-};
-
-interface IObjectAPI {
-  name: string,
-  value: string,
-  countryCode?: string
-};
-
-interface ICategory {
-  label: string,
-  value: number,
-  selected: boolean
-};
+import { IObject, IObjectCountry, ICategory, IObjectAPI } from '../../../types';
 
 const emit = defineEmits(['close']);
 const { t } = useI18n();

@@ -2,22 +2,12 @@
 import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { apiGetAllWeightTypes } from "../../config/api/weight-type";
-
-interface IIngredient {
-  name: string,
-  quantity: number,
-  type: string
-};
-
-interface IObject {
-  label: string,
-  value: string,
-}
+import { IObjectStr, IIngredient } from '../../../types';
 
 const emit = defineEmits(['close', 'add-ingredient']);
 
 const { t } = useI18n();
-const unitTypes = ref<IObject[]>([]);
+const unitTypes = ref<IObjectStr[]>([]);
 const ingredient = ref<IIngredient>({
   name: '',
   quantity: 0,

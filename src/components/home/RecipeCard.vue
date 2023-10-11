@@ -1,26 +1,7 @@
 <script setup lang="ts">
   import { onMounted, ref, PropType } from 'vue';
   import router from '../../router';
-
-  interface IRecipe {
-    _id: number,
-    title: string,
-    description: string,
-    cookingTime: number,
-    unitTime: number,
-    img: string,
-    temperatureCategory: number,
-    origin: string,
-    categories: number[],
-    photo: string,
-    author: {
-      _id: string,
-      nickname: string,
-      name: string,
-      lastname: string
-    },
-    likes: number
-  }
+  import { IRecipeData } from '../../../types';
 
   interface ICountry {
     _id: number,
@@ -38,7 +19,7 @@
   const props = defineProps({
     countries: { type: Array as PropType<ICountry[]>, required: true },
     categories: { type: Array as PropType<ICategory[]>, required: true },
-    recipe: { type: Object as PropType<IRecipe>, required: true }
+    recipe: { type: Object as PropType<IRecipeData>, required: true }
   });
 
   const recipeCategories = ref<string[]>([]);
