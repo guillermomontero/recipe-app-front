@@ -1,4 +1,4 @@
-import { apiCallPOST, apiCallFormPOST, apiCallGET, apiCallPUT, apiCallDELETE } from '../controller';
+import { apiCallGET, apiCallPOST, apiCallFormPOST, apiCallPUT, apiCallDELETE } from '../controller';
 import { IPagination } from '../../../../types';
 
 export const apiGetAllUsers = async () => {

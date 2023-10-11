@@ -1,4 +1,4 @@
-import { apiCallPOST, apiCallGET, apiCallPUT, apiCallDELETE } from '../controller';
+import { apiCallGET, apiCallPOST, apiCallPUT, apiCallDELETE } from '../controller';
 
 export const apiGetAllTemperatureCategories = async () => {
   return await apiCallGET('/temperatureCategories/getAllTemperatureCategories');
@@ -12,12 +12,12 @@ export const apiGetTemperatureCategory = async (id: string = '') => {
   return await apiCallGET(`/temperatureCategories/getTemperatureCategory/${id}`);
 };
 
-export const apiDeleteTemperatureCategoryAdmin = async (id: string = '') => {
-  return await apiCallDELETE(`/temperatureCategories/deleteTemperatureCategoryAdmin/${id}`);
-};
-
 export const apiEditTemperatureCategoryAdmin = async (payload: Object = {}) => {
   return await apiCallPUT('/temperatureCategories/editTemperatureCategoryAdmin', payload);
+};
+
+export const apiDeleteTemperatureCategoryAdmin = async (id: string = '') => {
+  return await apiCallDELETE(`/temperatureCategories/deleteTemperatureCategoryAdmin/${id}`);
 };
 
 export const apiGetTemperatureCategoriesForPanel = async () => {

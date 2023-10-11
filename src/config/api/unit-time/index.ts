@@ -1,4 +1,4 @@
-import { apiCallPOST, apiCallGET, apiCallPUT, apiCallDELETE } from '../controller';
+import { apiCallGET, apiCallPOST, apiCallPUT, apiCallDELETE } from '../controller';
 
 export const apiGetAllUnitTimes = async () => {
   return await apiCallGET('/unitTimes/getAllUnitTimes');
@@ -12,12 +12,12 @@ export const apiCreateUnitTime = async (payload: Object = {}) => {
   return await apiCallPOST('/unitTimes/createUnitTime', payload);
 };
 
-export const apiDeleteUnitTimeAdmin = async (id: string = '') => {
-  return await apiCallDELETE(`/unitTimes/deleteUnitTimeAdmin/${id}`);
-};
-
 export const apiEditUnitTimeAdmin = async (payload: Object = {}) => {
   return await apiCallPUT('/unitTimes/editUnitTimeAdmin', payload);
+};
+
+export const apiDeleteUnitTimeAdmin = async (id: string = '') => {
+  return await apiCallDELETE(`/unitTimes/deleteUnitTimeAdmin/${id}`);
 };
 
 export const apiGetUnitTimesForPanel = async () => {
