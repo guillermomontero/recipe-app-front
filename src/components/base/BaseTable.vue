@@ -1,17 +1,33 @@
 <script setup lang="ts">
-// import { ref, computed, watch, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { formatDateFront } from '../../config/utils/dates';
 import { formatHourFront } from '../../config/utils/hours';
 import BaseTooltipIcon from './BaseTooltipIcon.vue';
+import BaseTableSearch from './BaseTableSearch.vue';
 import { ITable } from '../../../types';
+import { ref, watch } from 'vue';
 
-const props = defineProps<{ BTTable: ITable }>();
+const props = defineProps<{
+  BTTable: ITable,
+}>();
 
 const { t } = useI18n();
+
+const itemsComp = ref(props.BTTable.items);
+
+const filterList = (value) => {
+  console.log(value)
+  itemsComp.value = value;
+};
+
+watch(props.BTTable.items, (value) => {
+  console.log(value);
+  itemsComp.value = value
+});
 </script>
 
 <template>
+  <BaseTableSearch :items="props.BTTable.items" @filter-list="filterList" />
   <table class="base-table">
     <thead>
       <tr>
@@ -20,7 +36,7 @@ const { t } = useI18n();
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(row, index) in props.BTTable.items" :key="index">
+      <tr v-for="(row, index) in itemsComp" :key="index">
         <td v-if="props.BTTable.actions.length">
           <div style="display: flex">
             <span v-for="(action, index) in props.BTTable.actions" :key="index" style="margin-right: 1em; cursor: pointer;" :alt="action.name" @click="action.fn(row)">
