@@ -109,9 +109,11 @@ onMounted(() => {
   <div class="page-title">
     <h3>{{ t('administracionDePaises') }}</h3>
   </div>
+  
   <BaseBreadcrumbs />
+  
   <section class="admin-view mt-2">
-    <BaseTable :BTTable="data" />
+    <BaseTable v-if="data.items.length" :BTTable="data" />
   </section>
 
   <BaseDialog v-if="showDialog" :BDText="dialogText" @close="closeBaseDialog" />

@@ -32,7 +32,7 @@ const showCategoryEdit = ref<boolean>(false);
 const data = ref({
   headers: [
     { name: 'name', text: t('nombre'), width: 50, sortable: true, type: 'string' },
-    { name: 'value', text: t('Valor'), width: 50, sortable: true, type: 'number' },
+    { name: 'value', text: t('valor'), width: 50, sortable: true, type: 'number' },
     { name: 'createDate', text: t('fechaCreacion'), width: 50, sortable: true, type: 'date' },
   ],
   items: [],
@@ -109,9 +109,11 @@ onMounted(() => {
   <div class="page-title">
     <h3>{{ t('administracionDeCategorias') }}</h3>
   </div>
+  
   <BaseBreadcrumbs />
+  
   <section class="admin-view mt-2">
-    <BaseTable :BTTable="data" />
+    <BaseTable v-if="data.items.length" :BTTable="data" />
   </section>
 
   <BaseDialog v-if="showDialog" :BDText="dialogText" @close="closeBaseDialog" />
