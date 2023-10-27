@@ -29,25 +29,13 @@ interface ISection {
 };
 
 const { t } = useI18n();
-const sections = ref<ISection[]>([
-  {
-    id: 0,
-    title: '',
-    page: '',
-    total: 0,
-    showChart: true,
-    order: 0,
-    range: [],
-    labelTooltip: '',
-    totalLastWeek: 0,
-    data: []
-  }
-]);
+const renderGrid = ref<Boolean>(false);
+const sections = ref<ISection[]>([]);
 
 const getUsers = async () => {
   try {
     const response = await apiGetUsersForPanel();
-    sections.value[response.order] = response;
+    sections.value[response.order - 1] = response;
   } catch (error) {
     console.log(error)
   }
@@ -56,7 +44,7 @@ const getUsers = async () => {
 const getRecipes = async () => {
   try {
     const response = await apiGetRecipesForPanel();
-    sections.value[response.order] = response;
+    sections.value[response.order - 1] = response;
   } catch (error) {
     console.log(error)
   }
@@ -65,7 +53,7 @@ const getRecipes = async () => {
 const getCategories = async () => {
   try {
     const response = await apiGetCategoriesForPanel();
-    sections.value[response.order] = response;
+    sections.value[response.order - 1] = response;
   } catch (error) {
     console.log(error)
   }
@@ -74,7 +62,7 @@ const getCategories = async () => {
 const getCountries = async () => {
   try {
     const response = await apiGetCountriesForPanel();
-    sections.value[response.order] = response;
+    sections.value[response.order - 1] = response;
   } catch (error) {
     console.log(error)
   }
@@ -83,7 +71,7 @@ const getCountries = async () => {
 const getTemperatureCategories = async () => {
   try {
     const response = await apiGetTemperatureCategoriesForPanel();
-    sections.value[response.order] = response;
+    sections.value[response.order - 1] = response;
   } catch (error) {
     console.log(error)
   }
@@ -92,7 +80,7 @@ const getTemperatureCategories = async () => {
 const getUnitTimes = async () => {
   try {
     const response = await apiGetUnitTimesForPanel();
-    sections.value[response.order] = response;
+    sections.value[response.order - 1] = response;
   } catch (error) {
     console.log(error)
   }
@@ -101,7 +89,7 @@ const getUnitTimes = async () => {
 const getWeightTypes = async () => {
   try {
     const response = await apiGetWeightTypesForPanel();
-    sections.value[response.order] = response;
+    sections.value[response.order - 1] = response;
   } catch (error) {
     console.log(error)
   }
@@ -117,6 +105,9 @@ onMounted(() => {
     getUnitTimes(),
     getWeightTypes()
   ])
+    .then(() => {
+      renderGrid.value = true;
+    })
 });
 </script>
 
@@ -125,8 +116,6 @@ onMounted(() => {
     <h3>{{ t('panelDeAdministracion') }}</h3>
   </div>
   <section class="admin mt-2">
-    <template v-if="sections.length === 7">
-      <AdminCard v-for="(section, index) in sections" :key="index" :section="section" :class="`admin__box-${String(section.order)}`" />
-    </template>
+    <AdminCard v-if="renderGrid" v-for="(section, index) in sections" :key="index" :section="section" :class="`admin__box-${String(section.order)}`" />
   </section>
 </template>

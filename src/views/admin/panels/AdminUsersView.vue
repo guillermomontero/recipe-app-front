@@ -4,6 +4,7 @@ import { apiGetAllUsers, apiUnsuscribeUserAdmin, apiDeleteUserAdmin } from '../.
 import AdminUserEdit from '../edit/AdminUserEdit.vue';
 import BaseTable from '../../../components/base/BaseTable.vue';
 import BaseDialog from '../../../components/base/BaseDialog.vue';
+import BaseBreadcrumbs from '../../../components/base/BaseBreadcrumbs.vue';
 import { useI18n } from 'vue-i18n';
 
 interface IUser {
@@ -183,6 +184,9 @@ onMounted(() => {
   <div class="page-title">
     <h3>{{ t('administracionDeUsuarios') }}</h3>
   </div>
+
+  <BaseBreadcrumbs />
+
   <section class="admin-view mt-2">
     <BaseTable v-if="data.items.length" :BTTable="data" />
   </section>

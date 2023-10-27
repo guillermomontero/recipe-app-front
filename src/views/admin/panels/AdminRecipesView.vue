@@ -4,6 +4,7 @@ import { apiGetAllRecipes, apiDeleteRecipeAdmin } from '../../../config/api/reci
 import AdminRecipeEdit from '../edit/AdminRecipeEdit.vue';
 import BaseTable from '../../../components/base/BaseTable.vue';
 import BaseDialog from '../../../components/base/BaseDialog.vue';
+import BaseBreadcrumbs from '../../../components/base/BaseBreadcrumbs.vue';
 import { useI18n } from 'vue-i18n';
 
 interface IRecipe {
@@ -136,8 +137,11 @@ onMounted(() => {
   <div class="page-title">
     <h3>{{ t('administracionDeRecetas') }}</h3>
   </div>
+
+  <BaseBreadcrumbs />
+
   <section class="admin-view mt-2">
-    <BaseTable :BTTable="data" />
+    <BaseTable v-if="data.items.length" :BTTable="data" />
   </section>
 
   <BaseDialog v-if="showDialog" :BDText="dialogText" @close="closeBaseDialog" />

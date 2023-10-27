@@ -89,6 +89,9 @@ const routes: Array<RouteRecordRaw> = [
       requireAuth: true,
       role: true,
       hideButtonNewRecipe: true,
+      breadcrumb: true,
+      parent: false,
+      children: true
     },
     children: [
       {
@@ -99,6 +102,9 @@ const routes: Array<RouteRecordRaw> = [
           requireAuth: true,
           role: true,
           hideButtonNewRecipe: true,
+          breadcrumb: true,
+          isParent: true,
+          isChildren: false
         }
       },
       {
@@ -109,6 +115,11 @@ const routes: Array<RouteRecordRaw> = [
           requireAuth: true,
           role: true,
           hideButtonNewRecipe: true,
+          breadcrumb: true,
+          isParent: false,
+          parentName: 'admin-panel',
+          parentRoute: '/admin/admin-panel',
+          isChildren: true
         }
       },
       {
@@ -119,6 +130,11 @@ const routes: Array<RouteRecordRaw> = [
           requireAuth: true,
           role: true,
           hideButtonNewRecipe: true,
+          breadcrumb: true,
+          isParent: false,
+          parentName: 'admin-panel',
+          parentRoute: '/admin/admin-panel',
+          isChildren: true
         }
       },
       {
@@ -129,6 +145,11 @@ const routes: Array<RouteRecordRaw> = [
           requireAuth: true,
           role: true,
           hideButtonNewRecipe: true,
+          breadcrumb: true,
+          isParent: false,
+          parentName: 'admin-panel',
+          parentRoute: '/admin/admin-panel',
+          isChildren: true
         }
       },
       {
@@ -139,6 +160,11 @@ const routes: Array<RouteRecordRaw> = [
           requireAuth: true,
           role: true,
           hideButtonNewRecipe: true,
+          breadcrumb: true,
+          isParent: false,
+          parentName: 'admin-panel',
+          parentRoute: '/admin/admin-panel',
+          isChildren: true
         }
       },
       {
@@ -149,6 +175,11 @@ const routes: Array<RouteRecordRaw> = [
           requireAuth: true,
           role: true,
           hideButtonNewRecipe: true,
+          breadcrumb: true,
+          isParent: false,
+          parentName: 'admin-panel',
+          parentRoute: '/admin/admin-panel',
+          isChildren: true
         }
       },
       {
@@ -159,6 +190,11 @@ const routes: Array<RouteRecordRaw> = [
           requireAuth: true,
           role: true,
           hideButtonNewRecipe: true,
+          breadcrumb: true,
+          isParent: false,
+          parentName: 'admin-panel',
+          parentRoute: '/admin/admin-panel',
+          isChildren: true
         }
       },
       {
@@ -169,6 +205,11 @@ const routes: Array<RouteRecordRaw> = [
           requireAuth: true,
           role: true,
           hideButtonNewRecipe: true,
+          breadcrumb: true,
+          isParent: false,
+          parentName: 'admin-panel',
+          parentRoute: '/admin/admin-panel',
+          isChildren: true
         }
       }
     ]
