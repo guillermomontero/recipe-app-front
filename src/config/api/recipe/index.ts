@@ -1,10 +1,14 @@
 import { apiCallGET, apiCallPOST, apiCallFormPOST, apiCallPUT, apiCallDELETE } from '../controller';
 import { IPagination } from '../../../../types';
 
-export const apiGetAllRecipes = async (payload: IPagination) => {
+export const apiGetAllRecipes = async () => {
+  return await apiCallGET('/recipes/getAllRecipes');
+};
+
+export const apiGetAllRecipesPagination = async (payload: IPagination) => {
   const { skip, limit } = payload;
 
-  return await apiCallGET(`/recipes/getAllRecipes?skip=${skip}&limit=${limit}`);
+  return await apiCallGET(`/recipes/getAllRecipesPagination?skip=${skip}&limit=${limit}`);
 };
 
 export const getAllRecipesForSearch = async () => {

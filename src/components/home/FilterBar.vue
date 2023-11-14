@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import router from '../../router';
 import { getAllRecipesForSearch } from '../../config/api/recipe';
 import { apiGetAllCategories } from '../../config/api/category';
 import { useFilterBarStore } from '../../store/filter-bar';
+import { useHomeStore } from '../../store/home';
 import ModalFilters from './ModalFilters.vue';
 import { IRecipe, ICategory } from '../../../types';
 
 const { t } = useI18n();
 const store = useFilterBarStore();
+const homeStore = useHomeStore();
 const search = ref<string>('');
 const recipes = ref<IRecipe[]>([]);
 const recipesFilter = ref<IRecipe[]>([]);
@@ -23,6 +26,7 @@ const categories = ref<number[]>([]);
 const categoriesBackUp = ref<ICategory[]>([]);
 const categoriesLabels = ref<string[]>([]);
 const showModalFilters = ref<boolean>(false);
+const selectedView = ref<string>('grid');
 
 const getAllRecipes = async () => {
   const response = await getAllRecipesForSearch();
@@ -110,6 +114,22 @@ const deleteLabel = (type: string, typeCategory: string) => {
   }
 };
 
+const changeView = (view: string = 'grid') => {
+  if (view === 'grid' && selectedView.value === 'list') {
+    selectedView.value = 'grid';
+    homeStore.setView('grid')
+  }
+
+  if (view === 'list' && selectedView.value === 'grid') {
+    selectedView.value = 'list';
+    homeStore.setView('list')
+  }
+};
+
+const goToAllRecipes = () => {
+  router.push({ name: 'recipes'});
+};
+
 const closeList = () => {
   setTimeout(() => {
     recipesFilter.value = [];
@@ -121,6 +141,7 @@ watch(search, () => {
 });
 
 onMounted(() => {
+  selectedView.value = homeStore.getView;
   Promise.all([
     getAllRecipes(),
     getAllCategories()
@@ -130,7 +151,12 @@ onMounted(() => {
 
 <template>
   <div class="filter-bar mb-1">
-    <div class="filter-bar__search">
+    <div class="filter-bar__recipe-view">
+      <svg @click="changeView('grid')" :class="{ 'active': selectedView === 'grid' }" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6 6h-6v-6h6v6zm9-6h-6v6h6v-6zm9 0h-6v6h6v-6zm-18 9h-6v6h6v-6zm9 0h-6v6h6v-6zm9 0h-6v6h6v-6zm-18 9h-6v6h6v-6zm9 0h-6v6h6v-6zm9 0h-6v6h6v-6z"/></svg>
+      <svg @click="changeView('list')" :class="{ 'active': selectedView === 'list' }" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6 24h-6v-24h6v24zm9-24h-6v24h6v-24zm9 0h-6v24h6v-24z"/></svg>
+      <button class="btn btn--xs btn--edit" @click="goToAllRecipes">{{ t('verTodas') }}</button>
+    </div>
+    <div class="filter-bar__search mr-1">
       <input type="text" placeholder=" " id="search" v-model="search" class="filter-bar__search--input" autocomplete="off" @blur="closeList">
       <label for="search" class="filter-bar__search--label">{{ t('buscar') }}</label>
       <div class="filter-bar__search--icon">

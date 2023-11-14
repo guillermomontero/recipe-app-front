@@ -83,7 +83,7 @@
     &--img {
       width: 50%;
       height: 330px;
-      border-radius: 10px;
+      border-radius: 5px;
       overflow: hidden;
 
       img {
@@ -136,7 +136,7 @@
       display: flex;
       flex-flow: column wrap;
       align-items: flex-start;
-      border-radius: 10px;
+      border-radius: 5px;
       padding: 1em;
       background: $yellow-recipe-semi;
 
@@ -156,7 +156,7 @@
       grid-column: 1 / 2;
       grid-row: 2;
       background: $orange-dark;
-      border-radius: 10px;
+      border-radius: 5px;
       display: flex;
       flex-flow: column wrap;
       align-items: center;
@@ -166,7 +166,7 @@
     &--steps {
       grid-column: 2 / 3;
       grid-row: 1 / 3;
-      border-radius: 10px;
+      border-radius: 5px;
       width: 100%;
       background: $blue-extra-light;
       padding: 1em;
@@ -179,6 +179,23 @@
       }
     }
   }
+}
 
+.recipes-all {
+  width: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
 
+  &__recipe {
+    width: 100%;
+    padding: 0.6em;
+    border-bottom: 1px solid $blue-light;
+    cursor: pointer;
+    transition: all ease 0.3s;
+
+    &:hover {
+      background: $blue-extra-light;
+    }
+  }
 }

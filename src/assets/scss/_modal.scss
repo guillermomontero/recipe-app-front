@@ -14,8 +14,8 @@
 
   &__container {
     background: $white;
-    border-radius: 10px;
-    padding: 2em;
+    border-radius: 5px;
+    padding: 1em;
     position: relative;
 
     &--close {
@@ -79,7 +79,7 @@
 
   & .video-wrap {
     width: 300px;
-    border-radius: 10px;
+    border-radius: 5px;
     overflow: hidden;
 
     & video {

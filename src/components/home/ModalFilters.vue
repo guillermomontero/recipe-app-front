@@ -90,7 +90,6 @@ onMounted(async () => {
     if (storeFilterBar.categories.indexOf(c.value) !== -1) c.selected = true;
   });
 });
-
 </script>
 
 <template>
