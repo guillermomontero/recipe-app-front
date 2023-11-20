@@ -1,28 +1,24 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { IList } from '../../../types';
-import { apiGetAllRecipes, apiGetLatestRecipes } from '../../config/api/recipe';
-import BaseSearch from '@/components/base/BaseSearch.vue';
-
-const props = defineProps<{
-  BSList: IList,
-}>();
+import router from '../../router';
+import { apiGetAllRecipesForSearch, apiGetLatestRecipes } from '../../config/api/recipe';
+import BaseSearch from '../../components/base/BaseSearch.vue';
 
 const { t } = useI18n();
 
 const recipes = ref([]);
+const allRecipes = ref([]);
 const limitInit = 10;
 const pagination = ref(0);
 const pageActive = ref(1);
 const pages = ref([]);
 const hasPagination = ref<boolean>(false);
-const itemsComp = ref();
 
-const getAllRecipes = async () => {
+const getAllRecipesForSearch = async () => {
   try {
-    const response = await apiGetAllRecipes();
-    recipes.value = response;
+    const response = await apiGetAllRecipesForSearch();
+    allRecipes.value = response.recipes;
   } catch (err) {
     console.log(err);
   }
@@ -60,11 +56,16 @@ const makePagination = (skip: number, limit: number, totalRecipes: number) => {
   }
 };
 
+const goToRecipeView = (recipe) => {
+  router.push({ name: 'recipe', query: { id: recipe._id } });
+};
+
 const filterList = (value) => {
-  itemsComp.value = value;
+  recipes.value = value;
 };
 
 onMounted(() => {
+  getAllRecipesForSearch();
   getLatestRecipes(0, limitInit);
 })
 </script>
@@ -73,9 +74,9 @@ onMounted(() => {
   <div class="page-title">
     <h3>{{ t('recetas') }}</h3>
   </div>
-  <base-search class="mt-2" :items="props.BSList" @filter-list="filterList" />
+  <base-search class="mt-2" :items="allRecipes" :filterValue="'title'" @filter-list="filterList" />
   <section class="recipes-all">
-    <div class="recipes-all__recipe" v-for="(recipe, index) in recipes" :key="index">{{ recipe.title }}</div>
+    <div class="recipes-all__recipe" v-for="(recipe, index) in recipes" :key="index" @click="goToRecipeView(recipe)">{{ recipe.title }}</div>
   </section>
   <section class="pagination" v-if="hasPagination">
     <button class="btn btn--pagination" @click="getLatestRecipes(0, limitInit)" v-if="pageActive > 1">Init</button>

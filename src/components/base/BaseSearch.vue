@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 const emits = defineEmits(['filter-list']);
 const props = defineProps<{
   items: any,
+  filterValue: string,
 }>();
 
 const { t } = useI18n();
@@ -12,7 +13,7 @@ const search = ref<string>('');
 const listComputed = ref<[]>([]);
 
 const filterList = (value) => {
-  listComputed.value = props.items.filter(item => item.name.toLowerCase().includes(value.toLowerCase()));
+  listComputed.value = props.items.filter(item => item[props.filterValue].toLowerCase().includes(value.toLowerCase()));
 
   emits('filter-list', listComputed.value);
 }

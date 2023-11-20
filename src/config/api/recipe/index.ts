@@ -11,7 +11,7 @@ export const apiGetAllRecipesPagination = async (payload: IPagination) => {
   return await apiCallGET(`/recipes/getAllRecipesPagination?skip=${skip}&limit=${limit}`);
 };
 
-export const getAllRecipesForSearch = async () => {
+export const apiGetAllRecipesForSearch = async () => {
   return await apiCallGET('/recipes/getAllRecipesForSearch');
 };
 

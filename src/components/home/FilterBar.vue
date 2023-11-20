@@ -2,12 +2,12 @@
 import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import router from '../../router';
-import { getAllRecipesForSearch } from '../../config/api/recipe';
+import { apiGetAllRecipesForSearch } from '../../config/api/recipe';
 import { apiGetAllCategories } from '../../config/api/category';
 import { useFilterBarStore } from '../../store/filter-bar';
 import { useHomeStore } from '../../store/home';
 import ModalFilters from './ModalFilters.vue';
-import { IRecipe, ICategory } from '../../../types';
+import { IRecipe, ICategory, IObjectAPI } from '../../../types';
 
 const { t } = useI18n();
 const store = useFilterBarStore();
@@ -29,7 +29,7 @@ const showModalFilters = ref<boolean>(false);
 const selectedView = ref<string>('grid');
 
 const getAllRecipes = async () => {
-  const response = await getAllRecipesForSearch();
+  const response = await apiGetAllRecipesForSearch();
   recipes.value = response.recipes;
 };
 
