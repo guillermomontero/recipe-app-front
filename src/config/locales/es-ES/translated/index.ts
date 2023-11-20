@@ -101,4 +101,5 @@ export default {
   confirmar: 'Confirmar',
   nickname: 'Nickname',
   valor: 'Valor',
+  verTodas: 'Ver todas',
 };

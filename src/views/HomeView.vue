@@ -1,11 +1,14 @@
-<script setup lang="ts">
-import { onMounted, ref } from "vue";
-import { apiGetLatestRecipes } from "../config/api/recipe";
+<script setup lang='ts'>
+import { onMounted, ref } from 'vue';
+import { useHomeStore } from '../store/home';
+import { apiGetLatestRecipes } from '../config/api/recipe';
 import { apiGetAllCountries } from '../config/api/country';
 import { apiGetAllCategories } from '../config/api/category';
-import FilterBar from '../components/home/FilterBar.vue';
-import RecipeCard from '../components/home/RecipeCard.vue';
+import FilterBar from '@/components/home/FilterBar.vue';
+import RecipeCard from '@/components/home/RecipeCard.vue';
 import { ICategory, ICountry } from '../../types';
+
+const homeStore = useHomeStore();
 
 const limitInit = 9;
 const hasPagination = ref<boolean>(false);
@@ -77,9 +80,9 @@ onMounted(() => {
 
 <template>
   <FilterBar />
-  <section class="grid-home">
+  <section :class="[ homeStore.getView === 'grid' ? 'grid-home' : 'list-home']">
     <template v-for="(r, index) in recipes" :key="r.id">
-      <RecipeCard :countries="countries" :categories="categories" :recipe="r" :class="`grid-home__box-${index}`" />
+      <RecipeCard :countries="countries" :categories="categories" :recipe="r" :class="`${homeStore.getView}-home__box-${index}`" />
     </template>
   </section>
   <section class="pagination" v-if="hasPagination">

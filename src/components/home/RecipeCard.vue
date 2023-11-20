@@ -2,6 +2,7 @@
   import { onMounted, ref, PropType } from 'vue';
   import router from '../../router';
   import { IRecipeData } from '../../../types';
+  import { useHomeStore } from '../../store/home';
 
   interface ICountry {
     _id: number,
@@ -22,16 +23,17 @@
     recipe: { type: Object as PropType<IRecipeData>, required: true }
   });
 
+  const homeStore = useHomeStore();
   const recipeCategories = ref<string[]>([]);
 
   const getClassTemperature = (temperature: number) => {
     switch (temperature) {
       case 1:
-        return 'recipe-card__info--cooking--temperature--hot';
+        return `recipe-${homeStore.getView}-card__info--cooking--temperature--hot`;
       case 2:
-        return 'recipe-card__info--cooking--temperature--warm';
+        return `recipe-${homeStore.getView}-card__info--cooking--temperature--warm`;
       case 3:
-        return 'recipe-card__info--cooking--temperature--cold';
+        return `recipe-${homeStore.getView}-card__info--cooking--temperature--cold`;
       default:
         return '';
     }
@@ -64,25 +66,27 @@
 </script>
 
 <template>
-  <article class="recipe-card" @click="goToRecipeView">
-    <div class="recipe-card__image">
+  <article :class="`recipe-${homeStore.getView}-card`" @click="goToRecipeView">
+    <div :class="`recipe-${homeStore.getView}-card__image`">
       <img :src="recipe.photo" :alt="recipe.title">
     </div>
-    <div class="recipe-card__info">
-      <div class="recipe-card__info--cooking">
-        <div class="recipe-card__info--cooking--temperature" :class="getClassTemperature(recipe.temperatureCategory)"></div>
-        <div class="recipe-card__info--cooking--timing">{{ recipe.cookingTime }} {{ getUnitTimes(recipe.unitTime) }}</div>
-        <div class="recipe-card__info--cooking--origin">{{ getOrigin(recipe.origin) }}</div>
+    <div :class="`recipe-${homeStore.getView}-card__info`">
+      <div :class="`recipe-${homeStore.getView}-card__info--cooking`">
+        <div :class="[`recipe-${homeStore.getView}-card__info--cooking--temperature`, getClassTemperature(recipe.temperatureCategory)]"></div>
+        <div :class="`recipe-${homeStore.getView}-card__info--cooking--timing`">{{ recipe.cookingTime }} {{ getUnitTimes(recipe.unitTime) }}</div>
+        <div :class="`recipe-${homeStore.getView}-card__info--cooking--origin`">{{ getOrigin(recipe.origin) }}</div>
       </div>
-      <div class="recipe-card__info--likes">
+      <div :class="`recipe-${homeStore.getView}-card__info--likes`">
         <span>❤️ {{ recipe.likes }}</span>
       </div>
-      <div class="recipe-card__info--categories">
+      <div :class="`recipe-${homeStore.getView}-card__info--categories`">
         <span v-for="category in recipeCategories" :key="category">{{ category }}</span>
       </div>
-      <span>@{{ recipe.author.nickname }}</span>
-      <h4>{{ recipe.title }}</h4>
-      <p>{{ recipe.description }}</p>
+      <div :class="`recipe-${homeStore.getView}-card__info--data`">
+        <span>@{{ recipe.author.nickname }}</span>
+        <h4>{{ recipe.title }}</h4>
+        <p>{{ recipe.description }}</p>
+      </div>
     </div>
   </article>
 </template>

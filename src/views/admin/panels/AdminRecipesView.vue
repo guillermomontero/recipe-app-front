@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import { apiGetAllRecipes, apiDeleteRecipeAdmin } from '../../../config/api/recipe';
+import { apiGetAllRecipesPagination, apiDeleteRecipeAdmin } from '../../../config/api/recipe';
 import AdminRecipeEdit from '../edit/AdminRecipeEdit.vue';
 import BaseTable from '../../../components/base/BaseTable.vue';
 import BaseDialog from '../../../components/base/BaseDialog.vue';
@@ -77,15 +77,15 @@ const data = ref({
   ]
 });
 
-const getAllRecipes = async () => {
+const getAllRecipesPagination = async () => {
   const payload = {
     skip: 0,
     limit: 9
   };
 
   try {
-    const response = await apiGetAllRecipes(payload);
-    data.value.items = response;
+    const response = await apiGetAllRecipesPagination(payload);
+    data.value.items = response.recipes;
   } catch (err) {
     console.log(err);
   }
@@ -122,14 +122,14 @@ const doDeleteItem = async () => {
   try {
     await apiDeleteRecipeAdmin(payload);
     selectedItem.value = '';
-    getAllRecipes();
+    getAllRecipesPagination();
   } catch (error) {
     console.log(error);
   }
 }
 
 onMounted(() => {
-  getAllRecipes();
+  getAllRecipesPagination();
 })
 </script>
 

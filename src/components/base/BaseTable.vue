@@ -16,7 +16,6 @@ const { t } = useI18n();
 const itemsComp = ref(props.BTTable.items);
 
 const filterList = (value) => {
-  console.log(value)
   itemsComp.value = value;
 };
 

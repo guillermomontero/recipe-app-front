@@ -1,4 +1,4 @@
-.recipe-card {
+.recipe-grid-card {
   @include borderRadiusTheme();
   position: relative;
   width: 100%;
@@ -103,7 +103,7 @@
       align-items: center;
       justify-content: center;
       background: $white;
-      border-radius: 10px;
+      border-radius: 5px;
       min-width: 50px;
       height: 20px;
       color: $blue-dark;
@@ -120,13 +120,149 @@
         font-size: 0.8rem;
         min-width: 60px;
         height: 20px;
-        border-radius: 10px;
+        border-radius: 5px;
         margin: 0.2em;
         text-align: center;
         padding: 0 0.5em;
         line-height: 22px;
         font-size: 0.6rem
       };
+    }
+  }
+}
+
+.recipe-list-card {
+  @include borderRadiusTheme();
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  align-items: flex-start;
+  justify-content: flex-end;
+  background: $blue-extra-light;
+  padding: 1em;
+  overflow: hidden;
+  cursor: pointer;
+  background: linear-gradient(#27374db3, #415b80b3); 
+  transition: all ease 0.5s;
+
+  &:hover {
+    background: linear-gradient(#e57e23b3, #E8AA42b3);
+    transition: all ease 0.5s;
+  }
+
+  &__image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+
+    img {
+      width: 100%;
+      height: auto;
+      display: block
+    }
+  }
+  
+  &__info {
+    width: 100%;
+    color: $white;
+    height: 100%;
+    position: relative;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+
+    &--cooking {
+      align-self: end;
+      order: 2;
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+      justify-content: flex-start;
+      margin: 0.2em;
+
+      &--temperature {
+        border-radius: 10px 0 0 10px;
+        overflow: hidden;
+        width: 40px;
+        height: 20px;
+
+        &--hot {
+          background: $temperature-red;
+        }
+
+        &--cold {
+          background: $temperature-blue;
+        }
+
+        &--warm {
+          background: $temperature-orange;
+        }
+      }
+
+      &--timing {
+        width: 50px;
+        height: 20px;
+        background: $blue-extra-light;
+        color: $blue-dark;
+        font-size: 0.6rem;
+        text-align: center;
+        line-height: 22px;
+      }
+
+      &--origin {
+        width: 50px;
+        height: 20px;
+        background: $info;
+        border-radius: 0 10px 10px 0;
+        color: $blue-dark;
+        font-size: 0.6rem;
+        text-align: center;
+        line-height: 22px;
+      }
+    }
+
+    &--likes {
+      align-self: end;
+      order: 3;
+      display: flex;
+      flex-flow: row wrap;
+      align-items: center;
+      justify-content: center;
+      background: $white;
+      border-radius: 5px;
+      min-width: 50px;
+      height: 20px;
+      color: $blue-dark;
+      font-size: 0.6rem;
+      text-align: center;
+      line-height: 20px;
+      margin: 0.2em;
+    }
+
+    &--categories {
+      align-self: end;
+      order: 4;
+      span {
+        display: inline-block;
+        background: $blue-extra-light;
+        color: $blue-dark;
+        min-width: 60px;
+        height: 20px;
+        border-radius: 5px;
+        margin: 0.2em;
+        text-align: center;
+        padding: 0 0.5em;
+        font-size: 0.6rem;
+        line-height: 22px;
+      };
+    }
+
+    &--data {
+      align-self: start;
+      order: 1;
+      width: 100%;
     }
   }
 }

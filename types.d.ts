@@ -144,4 +144,9 @@ export interface ICountry {
   countryCode: string
 }
 
-
+export interface IList {
+  _id: number,
+  name: string,
+  alpha2: string,
+  countryCode: string
+}

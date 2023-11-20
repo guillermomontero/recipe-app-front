@@ -92,7 +92,7 @@ onMounted(async() => {
     <div class="admin-card--divider"></div>
     <div v-if="props.section.showChart" class="admin-card__chart">
       <span class="admin-card__chart--text">Altas en la última semana: <span class="admin-card__chart--total">{{ props.section.totalLastWeek }}</span></span>
-      <div style="width: 100%; background: #DDE6ED; padding: 1em; margin: 1em 0 0 0; border-radius: 10px;"><canvas :id="String(props.section.id)"></canvas></div>
+      <div style="width: 100%; background: #DDE6ED; padding: 1em; margin: 1em 0 0 0; border-radius: 5px;"><canvas :id="String(props.section.id)"></canvas></div>
       <span class="admin-card__chart--info">{{ t('del')}} {{ formatDateFront(props.section.range[0]) }} {{ t('al') }} {{ formatDateFront(props.section.range[1]) }}</span>
     </div>
     <div v-if="props.section.showChart" class="admin-card--divider"></div>

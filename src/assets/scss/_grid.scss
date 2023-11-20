@@ -46,3 +46,11 @@
     }
   }
 }
+
+.list-home {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 20px;
+  grid-auto-rows: minmax(100px, auto);
+}
