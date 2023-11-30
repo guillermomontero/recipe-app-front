@@ -1,5 +1,7 @@
 <script setup lang='ts'>
 import { onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import router from '../router';
 import { useHomeStore } from '../store/home';
 import { apiGetLatestRecipes } from '../config/api/recipe';
 import { apiGetAllCountries } from '../config/api/country';
@@ -8,8 +10,9 @@ import FilterBar from '@/components/home/FilterBar.vue';
 import RecipeCard from '@/components/home/RecipeCard.vue';
 import { ICategory, ICountry } from '../../types';
 
+const { t } = useI18n();
 const homeStore = useHomeStore();
-
+let screenWidth: number = 0;
 const limitInit = 9;
 const hasPagination = ref<boolean>(false);
 const pagination = ref(0);
@@ -69,12 +72,18 @@ const makePagination = (skip: number, limit: number, totalRecipes: number) => {
   }
 };
 
+const goToAllRecipes = () => {
+  router.push({ name: 'recipes'});
+};
+
 onMounted(() => {
   Promise.all([
     getAllCountries(),
     getAllCategories(),
     getLatestRecipes(0, limitInit)
   ]);
+
+  screenWidth = window.screen.width;
 });
 </script>
 
@@ -85,11 +94,14 @@ onMounted(() => {
       <RecipeCard :countries="countries" :categories="categories" :recipe="r" :class="`${homeStore.getView}-home__box-${index}`" />
     </template>
   </section>
-  <section class="pagination" v-if="hasPagination">
+  <section class="pagination" v-if="hasPagination && screenWidth > 476">
     <button class="btn btn--pagination" @click="getLatestRecipes(0, limitInit)" v-if="pageActive > 1">Init</button>
     <span v-if="pageActive > 3">...</span>
     <button class="btn btn--pagination" :class="{'btn--pagination--active': pageActive === p }" v-for="p in pages" :key="p" @click="getLatestRecipes((p - 1) * limitInit, limitInit)">{{ p }}</button>
     <span v-if="pageActive < pagination - 3">...</span>
     <button class="btn btn--pagination" @click="getLatestRecipes((pagination - 1) * limitInit, limitInit)" v-if="pageActive < pagination">End</button>
+  </section>
+  <section v-if="screenWidth < 476" class="my-2">
+    <button class="btn btn--xs btn--edit" @click="goToAllRecipes">{{ t('verTodas') }}</button>
   </section>
 </template>

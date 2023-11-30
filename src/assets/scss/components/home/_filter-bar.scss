@@ -5,6 +5,10 @@
   align-items: center;
   justify-content: space-between;
 
+  @media (min-width: 476px) {
+    margin: 0 0 1em 0;
+  }
+
   &__recipe-view {
     flex: 1 1 50%;
     display: flex;
