@@ -4,6 +4,10 @@
   flex-flow: column wrap;
   align-items: center;
   padding: 1em;
+  
+  @media (min-width: 476px) {
+    padding: 1em;
+  }
 
   &__row {
     width: 100%;
@@ -105,6 +109,7 @@
   &__links {
     width: 100%;
     padding: 0 1em;
+    margin: 1em 0 0 0;
     display: flex;
     flex-flow: row wrap;
     align-items: center;
@@ -121,6 +126,10 @@
       &:hover {
         color: $orange-semi;
       }
+    }
+
+    @media (min-width: 476px) {
+      margin: 0;
     }
   }
 
@@ -174,6 +183,13 @@
       }
     }
   }
+
+  &__buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .form__input:focus ~ .form__label,
@@ -186,7 +202,6 @@
 .form__input:focus ~ .form__label {
   color: $orange-dark;
 }
-
 
 .form-extras {
   &__ingredients {

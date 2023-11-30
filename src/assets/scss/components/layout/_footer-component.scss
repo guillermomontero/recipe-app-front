@@ -1,9 +1,13 @@
 .footer {
   margin: 0 auto;
-  padding: 1em 2em;
+  padding: 0.5em;
   max-width: 1440px;
   background: $blue-dark;
-  @include borderRadiusTopTheme();
+  height: 100px;
+
+  @media (min-width: 476px) {
+    padding: 1em 2em;
+  }
 
   @media (min-width: 1440px) {
     padding: 1em 0;

@@ -10,7 +10,16 @@
   }
 
   &--md {
-    padding: 0.8em 1.6em;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    padding: 0.2em 1em;
+    font-size: 0.8rem;
+
+    @media (min-width: 476px) {
+      padding: 0.8em 1.6em;
+    }
   }
 
   &--lg {
@@ -57,6 +66,15 @@
 
     &:hover {
       background: $blue-extra-light
+    }
+  }
+
+  svg {
+    width: 10px;
+    fill: $blue-dark;
+
+    @media (min-width: 476px) {
+      width: 16px;
     }
   }
 }

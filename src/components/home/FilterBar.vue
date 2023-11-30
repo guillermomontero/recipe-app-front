@@ -10,6 +10,7 @@ import ModalFilters from './ModalFilters.vue';
 import { IRecipe, ICategory, IObjectAPI } from '../../../types';
 
 const { t } = useI18n();
+let screenWidth: number = 0;
 const store = useFilterBarStore();
 const homeStore = useHomeStore();
 const search = ref<string>('');
@@ -146,12 +147,14 @@ onMounted(() => {
     getAllRecipes(),
     getAllCategories()
   ]);
+  screenWidth = window.screen.width;
+  if (screenWidth < 476) changeView('list');
 });
 </script>
 
 <template>
-  <div class="filter-bar mb-1">
-    <div class="filter-bar__recipe-view">
+  <div class="filter-bar">
+    <div class="filter-bar__recipe-view" v-if="screenWidth > 476">
       <svg @click="changeView('grid')" :class="{ 'active': selectedView === 'grid' }" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6 6h-6v-6h6v6zm9-6h-6v6h6v-6zm9 0h-6v6h6v-6zm-18 9h-6v6h6v-6zm9 0h-6v6h6v-6zm9 0h-6v6h6v-6zm-18 9h-6v6h6v-6zm9 0h-6v6h6v-6zm9 0h-6v6h6v-6z"/></svg>
       <svg @click="changeView('list')" :class="{ 'active': selectedView === 'list' }" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M6 24h-6v-24h6v24zm9-24h-6v24h6v-24zm9 0h-6v24h6v-24z"/></svg>
       <button class="btn btn--xs btn--edit" @click="goToAllRecipes">{{ t('verTodas') }}</button>

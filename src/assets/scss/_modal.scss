@@ -11,21 +11,36 @@
   align-items: center;
   justify-content: center;
   background: $blue-dark-op;
+  padding: 0.5em;
+
+  @media (min-width: 476px) {
+    padding: 1em 2em;
+  }
 
   &__container {
     background: $white;
     border-radius: 5px;
-    padding: 1em;
-    position: relative;
+    width: 100%;
+    overflow: hidden;
+
+    @media (min-width: 476px) {
+      width: 80%;
+    }
+
+    @media (min-width: 960px) {
+      width: 50%;
+    }
 
     &--close {
-      cursor: pointer;
-      position: absolute;
-      top: 1em;
-      right: 1em;
-      z-index: inherit;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 1em;
+      background: $blue-extra-light;
 
       svg {
+        cursor: pointer;
         width: 20px;
         fill: $blue-dark;
 

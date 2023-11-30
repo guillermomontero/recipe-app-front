@@ -3,7 +3,7 @@
 }
 
 @mixin borderRadiusTopTheme() {
-  border-radius: 10px 5px 0 0;
+  border-radius: 5px 5px 0 0;
 }
 
 @mixin buttonTheme($bcColor: $orange-dark, $bcColorHover: $orange-semi, $btnColor: $blue-dark) {
@@ -12,11 +12,15 @@
   color: $btnColor;
   border: none;
   cursor: pointer;
-  font: inherit;
+  font-family: inherit;
   transition: all ease 0.3s;
   min-width: 120px;
 
   &:hover {
     background: $bcColorHover;
+  }
+
+  &:not(:last-child) {
+    margin: 0 1em 0 0;
   }
 }
