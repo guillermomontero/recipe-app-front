@@ -35,6 +35,22 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
+    path: '/verify-account',
+    name: 'verify-account',
+    component: () => import('../views/auth/VerifyAccountView.vue'),
+    meta: {
+      requireAuth: false,
+    }
+  },
+  {
+    path: '/verify-account-error',
+    name: 'verify-account-error',
+    component: () => import('../views/auth/VerifyAccountErrorView.vue'),
+    meta: {
+      requireAuth: false,
+    }
+  },
+  {
     path: '/profile',
     name: 'profile',
     component: () => import('../views/user/ProfileView.vue'),

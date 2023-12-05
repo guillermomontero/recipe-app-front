@@ -11,19 +11,19 @@ interface User {
   email: string,
   password: string,
   passwordRepeat: string,
-  acceptTerms: false,
+  acceptTerms: boolean,
 }
 
 const { t } = useI18n();
 const loginMessage = ref<string>('');
 const user = ref<User>({
-  name: '',
-  nickname: '',
-  lastname: '',
-  email: '',
-  password: '',
-  passwordRepeat: '',
-  acceptTerms: false
+  name: 'Guillermo',
+  nickname: 'guilletest',
+  lastname: 'Montero Martín',
+  email: 'gmontero@imaster.golf',
+  password: '-Prueba1-',
+  passwordRepeat: '-Prueba1-',
+  acceptTerms: true,
 });
 
 
